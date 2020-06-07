@@ -3,6 +3,7 @@ import 'dualSlideButton.dart';
 import 'vendorSelectionPanel.dart';
 import 'package:mapbox_search_flutter/mapbox_search_flutter.dart' as map;
 import 'package:infinite_listview/infinite_listview.dart';
+import 'draggableStackList.dart';
 
 void main() => runApp(MyApp());
 
@@ -32,18 +33,22 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   AnimationController _upperPanelController;
   String placeName = '22-1b baker street, London';
+  List<int> testNums = [];
 
   @override
   void initState() {
     super.initState();
 
+    for (int i = 0; i < 10; i++) testNums.add(i + 1);
     _upperPanelController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300))
-      ..addListener(() {
-        setState(() {});
-      });
-
+        vsync: this, duration: const Duration(milliseconds: 300));
     _upperPanelController.value = 0.0;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _upperPanelController
+        ..addListener(() {
+          setState(() {});
+        });
+    });
   }
 
   _showModelLocationSearch() {
@@ -174,7 +179,7 @@ class _HomePageState extends State<HomePage>
           ),
           Column(
             children: <Widget>[
-              Expanded(
+              /*Expanded(
                 flex: 20,
                 child: Align(
                   alignment: Alignment.topCenter,
@@ -201,6 +206,19 @@ class _HomePageState extends State<HomePage>
                       ),
                     ),
                   ),
+                ),
+              ),*/
+              Expanded(
+                flex: 20,
+                child: DraggableStackList(
+                  itemCount: testNums.length,
+                  itemBuilder: (context, index) {
+                    return VendorSelectionPanel(
+                      showModalSearchLocation: _showModelLocationSearch,
+                      placeName: placeName,
+                      upperFadeVal: 1 - _upperPanelController.value,
+                    );
+                  },
                 ),
               ),
               Expanded(

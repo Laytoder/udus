@@ -17,27 +17,29 @@ class _DualSlideButtonState extends State<DualSlideButton>
   @override
   void initState() {
     super.initState();
-
     _rightController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300))
-      ..addListener(() {
-        setState(() {});
-
-        if (widget.onDrag != null) widget.onDrag(_rightController.value);
-        if (widget.onDragEnd != null) widget.onDragEnd();
-      });
-
+        vsync: this, duration: const Duration(milliseconds: 300));
     _leftController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300))
-      ..addListener(() {
-        setState(() {});
-
-        if (widget.onDrag != null) widget.onDrag(_leftController.value);
-        if (widget.onDragEnd != null) widget.onDragEnd();
-      });
-
+        vsync: this, duration: const Duration(milliseconds: 300));
     _rightController.value = 0.2;
     _leftController.value = 0.2;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _rightController
+        ..addListener(() {
+          setState(() {});
+
+          if (widget.onDrag != null) widget.onDrag(_rightController.value);
+          if (widget.onDragEnd != null) widget.onDragEnd();
+        });
+
+      _leftController
+        ..addListener(() {
+          setState(() {});
+
+          if (widget.onDrag != null) widget.onDrag(_leftController.value);
+          if (widget.onDragEnd != null) widget.onDragEnd();
+        });
+    });
   }
 
   onRightDragEnd() {
