@@ -78,7 +78,7 @@ class _DraggableStackListState extends State<DraggableStackList>
   }*/
 
   onSwipeUp(int index) {
-    if(index == 0) return;
+    if (index == 0) return;
     AnimationController controller = _dragControllers[index];
     _currentIndex = index - 1;
     controller.animateTo(0.0,
@@ -86,9 +86,8 @@ class _DraggableStackListState extends State<DraggableStackList>
   }
 
   onSwipeDown(int index) {
-    if(index == widget.itemCount - 1) return;
-    AnimationController controller =
-        _dragControllers[index + 1];
+    if (index == widget.itemCount - 1) return;
+    AnimationController controller = _dragControllers[index + 1];
     _currentIndex = index + 1;
     controller.fling(velocity: 1.0);
   }
@@ -140,7 +139,7 @@ class _DraggableStackListState extends State<DraggableStackList>
     }
     List<Widget> cachedItems = [];
     if (_currentIndex > 0) cachedItems.add(items[_currentIndex - 1]);
-    cachedItems.add(items[_currentIndex]);
+    if (_currentIndex >= 0) cachedItems.add(items[_currentIndex]);
     if (_currentIndex < (widget.itemCount - 1))
       cachedItems.add(items[_currentIndex + 1]);
     return cachedItems;
