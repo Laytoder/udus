@@ -40,17 +40,15 @@ class MessagingHelper {
     print('message sent');
   }
 
-  Future<bool> getReply() async {
-    final Completer<bool> completer =
-        Completer<bool>();
+  Future<dynamic> getReply() async {
+    final Completer<dynamic> completer = Completer<dynamic>();
 
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print(message['data']['message']);
-        completer.complete(message['data']['message']);
+        print('message occured');
+        completer.complete(jsonDecode(message['data']['message']));
       },
     );
-
     return completer.future;
   }
 }

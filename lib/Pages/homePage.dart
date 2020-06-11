@@ -6,6 +6,9 @@ import 'package:infinite_listview/infinite_listview.dart';
 import 'package:frute/draggableStackList.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/helpers/messagingHelper.dart';
+import 'package:frute/helpers/directionApiHelper.dart';
+import 'package:google_directions_api/google_directions_api.dart';
+import 'map.dart';
 
 class HomePage extends StatefulWidget {
   AppState appState;
@@ -20,6 +23,8 @@ class _HomePageState extends State<HomePage>
   String placeName = '22-1b baker street, London';
   List<int> testNums = [];
   MessagingHelper messagingHelper = MessagingHelper();
+  DirectionApiHelper directionApiHelper = DirectionApiHelper();
+  bool loading = false;
 
   @override
   void initState() {
@@ -101,71 +106,75 @@ class _HomePageState extends State<HomePage>
         ],
         elevation: 0.0,
       ),
-      body: Stack(
-        children: <Widget>[
-          Opacity(
-            opacity: _upperPanelController.value,
-            child: InfiniteListView.builder(
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://media.istockphoto.com/photos/tomato-isolated-on-white-background-picture-id466175630?k=6&m=466175630&s=612x612&w=0&h=fu_mQBjGJZIliOWwCR0Vf2myRvKWyQDsymxEIi8tZ38='),
+      body: loading
+          ? Center(
+              child: CircularProgressIndicator(backgroundColor: Colors.black,),
+            )
+          : Stack(
+              children: <Widget>[
+                Opacity(
+                  opacity: _upperPanelController.value,
+                  child: InfiniteListView.builder(
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              'https://media.istockphoto.com/photos/tomato-isolated-on-white-background-picture-id466175630?k=6&m=466175630&s=612x612&w=0&h=fu_mQBjGJZIliOWwCR0Vf2myRvKWyQDsymxEIi8tZ38='),
+                        ),
+                        title: Text('Tomato'),
+                        subtitle: Text('Available Quantity: 10 grams'),
+                        trailing: Text('\u20B9 10/kg'),
+                      );
+                    },
                   ),
-                  title: Text('Tomato'),
-                  subtitle: Text('Available Quantity: 10 grams'),
-                  trailing: Text('\u20B9 10/kg'),
-                );
-              },
-            ),
-          ),
-          Column(
-            children: <Widget>[
-              Expanded(
-                flex: 25,
-                child: Container(),
-              ),
-              Expanded(
-                flex: 5,
-                child: Column(
+                ),
+                Column(
                   children: <Widget>[
                     Expanded(
-                      flex: 1,
+                      flex: 25,
                       child: Container(),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: DualSlideButton(
-                        width: MediaQuery.of(context).size.width - 40,
-                        onDrag: (value) {
-                          value = value;
-                          _upperPanelController.value = value;
-                        },
-                        onDragEnd: () {
-                          if (_upperPanelController.isAnimating) return;
-
-                          if (_upperPanelController.value > 0.5) {
-                            _upperPanelController.fling(velocity: 1.0);
-                          } else {
-                            _upperPanelController.animateTo(0.0,
-                                duration: Duration(milliseconds: 300),
-                                curve: Curves.linear);
-                          }
-                        },
-                      ),
                     ),
                     Expanded(
-                      flex: 2,
-                      child: Container(),
-                    )
+                      flex: 5,
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 1,
+                            child: Container(),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: DualSlideButton(
+                              width: MediaQuery.of(context).size.width - 40,
+                              onDrag: (value) {
+                                value = value;
+                                _upperPanelController.value = value;
+                              },
+                              onDragEnd: () {
+                                if (_upperPanelController.isAnimating) return;
+
+                                if (_upperPanelController.value > 0.5) {
+                                  _upperPanelController.fling(velocity: 1.0);
+                                } else {
+                                  _upperPanelController.animateTo(0.0,
+                                      duration: Duration(milliseconds: 300),
+                                      curve: Curves.linear);
+                                }
+                              },
+                            ),
+                          ),
+                          Expanded(
+                            flex: 2,
+                            child: Container(),
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
-          ),
-          Column(
-            children: <Widget>[
-              /*Expanded(
+                Column(
+                  children: <Widget>[
+                    /*Expanded(
                 flex: 20,
                 child: Align(
                   alignment: Alignment.topCenter,
@@ -194,50 +203,70 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
               ),*/
-              Expanded(
-                flex: 20,
-                child: DraggableStackList(
-                  itemCount: widget.appState.userId.length,
-                  itemBuilder: (context, index) {
-                    /*return VendorSelectionPanel(
+                    Expanded(
+                      flex: 20,
+                      child: DraggableStackList(
+                        itemCount: widget.appState.userId.length,
+                        itemBuilder: (innercontext, index) {
+                          /*return VendorSelectionPanel(
                       showModalSearchLocation: _showModelLocationSearch,
                       placeName: placeName,
                       upperFadeVal: 1 - _upperPanelController.value,
                     );*/
-                    String key = widget.appState.userId[index];
-                    String name = widget.appState.verdors[key].name;
-                    String token = widget.appState.verdors[key].token;
-                    return Center(
-                      child: Wrap(
-                        children: <Widget>[
-                          Text(name),
-                          RaisedButton(
-                            child: Text('Call Vendor'),
-                            onPressed: () async {
-                              //send message to vendor
-                              await messagingHelper.sendMessage(
-                                  token, widget.appState.messagingToken);
-                              bool reply = await messagingHelper.getReply();
-                              if(reply)
-                                print('vendor accepted the call');
-                              else
-                                print('vendor denied the call');
-                            },
-                          ),
-                        ],
+                          String userId = widget.appState.userId[index];
+                          String name = widget.appState.verdors[userId].name;
+                          String token = widget.appState.verdors[userId].token;
+                          return Center(
+                            child: Wrap(
+                              children: <Widget>[
+                                Text(name),
+                                RaisedButton(
+                                  child: Text('Call Vendor'),
+                                  onPressed: () async {
+                                    setState(() => loading = true);
+                                    //send message to vendor
+                                    await messagingHelper.sendMessage(
+                                        token, widget.appState.messagingToken);
+                                    dynamic reply =
+                                        await messagingHelper.getReply();
+                                    if (reply == '') {
+                                      print('vendor denied call');
+                                      setState(() => loading = false);
+                                    } else {
+                                      print(reply);
+                                      print(reply['lon']);
+                                      print(reply['lat']);
+                                      //get the path using google maps api
+                                      GeoCoord origin =
+                                          widget.appState.userLocation;
+                                      GeoCoord destination =
+                                          GeoCoord(reply['lat'], reply['lon']);
+                                      await directionApiHelper.populateData(
+                                          origin, destination);
+                                      setState(() => loading = false);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Map(directionApiHelper)),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: Container(),
+                    ),
+                  ],
                 ),
-              ),
-              Expanded(
-                flex: 5,
-                child: Container(),
-              ),
-            ],
-          ),
-        ],
-      ),
+              ],
+            ),
     );
   }
 }

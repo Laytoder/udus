@@ -5,8 +5,14 @@ import 'AppState.dart';
 import 'package:frute/Pages/homePage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_directions_api/google_directions_api.dart';
+import 'tokens/googleMapsApiKey.dart';
 
-void main() => runApp(MyApp());
+void main() {
+
+  DirectionsService.init(gmapsApiKey);
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.

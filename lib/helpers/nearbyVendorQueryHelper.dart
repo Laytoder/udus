@@ -5,6 +5,7 @@ import 'package:location/location.dart';
 import 'locationHelper.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/models/vendorInfo.dart';
+import 'package:google_directions_api/google_directions_api.dart';
 
 class NearbyVendorQueryHelper {
   final firestoreInstance = Firestore.instance;
@@ -27,6 +28,7 @@ class NearbyVendorQueryHelper {
     if (await locationHelper.requestLocationPermission() ==
         LocationHelper.PERMISSION_GRANTED) {
       location = await locationHelper.getLocation();
+      appState.userLocation = GeoCoord(location.latitude, location.longitude);
       GeoFirePoint center =
           geo.point(latitude: location.latitude, longitude: location.longitude);
       var fireRef = firestoreInstance.collection('vendor_live_data');
