@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'helpers/nearbyVendorQueryHelper.dart';
 import 'AppState.dart';
-import 'package:frute/Pages/homePage.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'tokens/googleMapsApiKey.dart';
+import 'helpers/authService.dart';
 
 void main() {
 
@@ -24,7 +24,6 @@ class _MyAppState extends State<MyApp> {
   AppState appState = AppState(
       verdors: Map<String, VendorInfo>(), userId: [], messagingToken: '');
 
-  NearbyVendorQueryHelper nearbyVendorQueryHelper;
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
   SharedPreferences preferences;
   static const String MESSAGING_TOKEN = 'firbase_messaging_token';
@@ -34,11 +33,10 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    initializeMessagingToken();
-    nearbyVendorQueryHelper = NearbyVendorQueryHelper(appState);
+    initializeMessagingTokenAndClientName();
   }
 
-  initializeMessagingToken() async {
+  initializeMessagingTokenAndClientName() async {
     preferences = await SharedPreferences.getInstance();
     if (preferences.getString(MESSAGING_TOKEN) != null) {
       messagingToken = preferences.getString(MESSAGING_TOKEN);
@@ -49,6 +47,13 @@ class _MyAppState extends State<MyApp> {
       preferences.setString(MESSAGING_TOKEN, genToken);
     }
     appState.messagingToken = messagingToken;
+    initializeClientName();
+  }
+
+  initializeClientName() {
+
+    if(preferences.getString('clientName') != null)
+      appState.clientName = preferences.getString('clientName');
   }
 
   @override
@@ -61,7 +66,7 @@ class _MyAppState extends State<MyApp> {
         accentColor: Color(0xffffb300),
         canvasColor: Colors.transparent,
       ),
-      home: FutureBuilder(
+      /*home: FutureBuilder(
         future: nearbyVendorQueryHelper.getNearbyVendors(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -88,6 +93,7 @@ class _MyAppState extends State<MyApp> {
               );
             } else {
               return HomePage(snapshot.data);
+              //return PhoneNumPage();
             }
           } else {
             return Center(
@@ -95,7 +101,8 @@ class _MyAppState extends State<MyApp> {
             );
           }
         },
-      ),
+      ),*/
+      home: AuthService().handleAuth(appState),
     );
   }
 }

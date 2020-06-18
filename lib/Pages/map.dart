@@ -1,16 +1,23 @@
 import 'dart:async';
 import 'dart:typed_data';
-
+import 'package:frute/AppState.dart';
+import 'package:frute/helpers/messagingHelper.dart';
+import 'package:frute/helpers/nearbyVendorQueryHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:math' as Math;
 import 'package:angles/angles.dart';
+import 'package:frute/helpers/pidHelper.dart';
 
 class Map extends StatefulWidget {
   DirectionApiHelper directionApiHelper;
-  Map(this.directionApiHelper);
+  String vendorId;
+  MessagingHelper messagingHelper;
+  AppState appState;
+  Map(this.directionApiHelper, this.vendorId, this.messagingHelper,
+      this.appState);
   @override
   _MapState createState() => _MapState();
 }
@@ -20,8 +27,12 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   Uint8List markerImg;
   Marker marker;
   LatLng currentPos;
-  AnimationController carController;
+  static AnimationController carController;
   List<LatLng> polyLineList;
+  static Duration interval;
+  StreamSubscription locationSubscription;
+  NearbyVendorQueryHelper vendorQueryHelper = NearbyVendorQueryHelper();
+  PIDHelper pidHelper;
 
   intitMarkerImg() async {
     ByteData byteData =
@@ -59,10 +70,9 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
     return -1;
   }
 
-  startCarAnimation(Animation<double> anim) async {
-
+  /*startCarAnimation(Animation<double> anim) async {
     await intitMarkerImg();
-    int index = 0, next;
+    int index = -1, next;
     Timer.periodic(Duration(milliseconds: 3000), (timer) {
       LatLng startPosition, endPosition;
       if (index < polyLineList.length - 1) {
@@ -75,9 +85,65 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
       }
       anim..removeListener(() {});
       carController.reset();
-      if(index == polyLineList.length - 2) timer.cancel();
-      anim..addListener(() {
+      if (index == polyLineList.length - 2) timer.cancel();
+      anim
+        ..addListener(() {
+          double v = anim.value;
+          double lng =
+              v * endPosition.longitude + (1 - v) * startPosition.longitude;
+          double lat =
+              v * endPosition.latitude + (1 - v) * startPosition.latitude;
+          LatLng newPos = new LatLng(lat, lng);
+          updateMarkerImg(newPos);
+        });
+      carController.forward();
+    });
+  }*/
+
+  /*carAnimListener(Animation<double> anim) {
+    double v = anim.value;
+    if (v > 1) {
+      if (index < polyLineList.length - 1) {
+        index++;
+        next = index + 1;
+      }
+      if (index < polyLineList.length - 1) {
+        startPosition = polyLineList[index];
+        endPosition = polyLineList[next];
+      }
+    }
+  }*/
+
+  startCarAnim() async {
+    await intitMarkerImg();
+    int index = 0, next = 1;
+    LatLng startPosition = polyLineList[index],
+        endPosition = polyLineList[next];
+    Animation<double> anim = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(carController);
+    anim
+      ..addListener(() {
         double v = anim.value;
+
+        if (v == 1) {
+          if (index < polyLineList.length - 1) {
+            index++;
+            next = index + 1;
+          }
+          if (index < polyLineList.length - 1) {
+            startPosition = polyLineList[index];
+            endPosition = polyLineList[next];
+          }
+          if (index == polyLineList.length - 1) {
+            carController.stop();
+            return;
+          }
+          carController.reset();
+          carController.forward();
+          return;
+        }
         double lng =
             v * endPosition.longitude + (1 - v) * startPosition.longitude;
         double lat =
@@ -85,29 +151,53 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
         LatLng newPos = new LatLng(lat, lng);
         updateMarkerImg(newPos);
       });
-      carController.forward();
+    carController.forward();
+  }
+
+  startListeningToLiveData() {
+    locationSubscription = vendorQueryHelper
+        .getVendorLocationStream(widget.vendorId)
+        .listen((newPos) {
+      updateInterval(newPos);
     });
+  }
+
+  updateInterval(LatLng pos) {
+    double intervalmilli = pidHelper.getUpdatedDuration(
+        pos, currentPos, interval.inMilliseconds.toDouble());
+    interval = Duration(milliseconds: intervalmilli.toInt());
+    carController.duration = interval;
   }
 
   @override
   void initState() {
     super.initState();
 
+    polyLineList = widget.directionApiHelper.points;
+    pidHelper = PIDHelper(polyLineList, widget.directionApiHelper.steps);
+    currentPos = polyLineList[0];
+    interval = Duration(milliseconds: 3000);
     carController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 3000),
+      duration: interval,
     );
-
-    Animation<double> anim = Tween<double>(
+    /*Animation<double> anim = Tween<double>(
       begin: 0.0,
       end: 1.0,
-    ).animate(carController);
-    polyLineList = widget.directionApiHelper.points;
-    currentPos = polyLineList[0];
-    anim.addListener(() {});
+    ).animate(carController);*/
+    startListeningToLiveData();
+    startCarAnim();
+    widget.messagingHelper
+        .startMessagingService(context, widget.vendorId, widget.appState);
+    //startCarAnimation(anim);
+  }
 
-    startCarAnimation(anim);
-    
+  @override
+  void dispose() {
+    super.dispose();
+
+    carController.dispose();
+    locationSubscription.cancel();
   }
 
   @override

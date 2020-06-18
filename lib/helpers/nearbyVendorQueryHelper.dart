@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:frute/AppState.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'locationHelper.dart';
 import 'package:frute/models/vegetable.dart';
@@ -16,7 +19,7 @@ class NearbyVendorQueryHelper {
   static const int PERMISSION_DENIED = 1;
   static const int NO_NEARBY_VENDORS = 2;
 
-  NearbyVendorQueryHelper(this.appState);
+  NearbyVendorQueryHelper({this.appState});
 
   Future<dynamic> getNearbyVendors() async {
     try {
@@ -31,7 +34,9 @@ class NearbyVendorQueryHelper {
       appState.userLocation = GeoCoord(location.latitude, location.longitude);
       GeoFirePoint center =
           geo.point(latitude: location.latitude, longitude: location.longitude);
-      var fireRef = firestoreInstance.collection('vendor_live_data');
+      var fireRef = firestoreInstance
+          .collection('vendor_live_data')
+          .where('active', isEqualTo: true);
       List<DocumentSnapshot> vendorDocs = await geo
           .collection(collectionRef: fireRef)
           .within(
@@ -55,29 +60,40 @@ class NearbyVendorQueryHelper {
       GeoPoint location = document['position']['geopoint'];
       String name = document['username'];
       String token = document['token'];
+      String imageUrl = document['imageUrl'];
       print('real to');
       print(token);
       String userId = document.documentID;
       List<dynamic> jsonNormalVegetables = document['normalVegetables'];
       List<dynamic> jsonSpecialVegetables = document['specialVegetables'];
-      List<Vegetable> normalVegetables = [];
-      List<Vegetable> specialVegetables = [];
+      List<Vegetable> vegetables = [];
       for (dynamic jsonNormalVegetable in jsonNormalVegetables) {
-        normalVegetables.add(Vegetable.fromJson(jsonNormalVegetable));
+        vegetables.add(Vegetable.fromJson(jsonNormalVegetable));
       }
       for (dynamic jsonSpecialVegetable in jsonSpecialVegetables) {
-        specialVegetables.add(Vegetable.fromJson(jsonSpecialVegetable));
+        vegetables.add(Vegetable.fromJson(jsonSpecialVegetable));
       }
       VendorInfo vendorInfo = VendorInfo(
           coords: location,
           name: name,
-          normalVegetables: normalVegetables,
-          specialVegetables: specialVegetables,
+          imageUrl: imageUrl,
+          vegetables: vegetables,
           token: token);
 
       if (!appState.verdors.containsKey(userId)) appState.userId.add(userId);
       appState.verdors[userId] = vendorInfo;
     }
     return appState;
+  }
+
+  Stream<LatLng> getVendorLocationStream(String id) {
+    print(id);
+    Stream<LatLng> stream = firestoreInstance
+        .collection('vendor_live_data')
+        .document(id)
+        .snapshots()
+        .map((document) => LatLng(document['position']['geopoint'].latitude,
+            document['position']['geopoint'].longitude));
+    return stream;
   }
 }
