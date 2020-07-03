@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'vegetable.dart';
 
 class VendorInfo {
-  String name, location, token, imageUrl;
+  String name, location, token, imageUrl, phoneNumber;
   GeoPoint coords;
   List<Vegetable> vegetables;
   double distance, eta, rating;
@@ -10,6 +11,7 @@ class VendorInfo {
   VendorInfo(
       {this.name = '',
       this.location = '',
+      @required this.phoneNumber,
       this.coords,
       this.vegetables,
       this.distance = 0.0,

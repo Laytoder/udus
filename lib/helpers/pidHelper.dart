@@ -8,7 +8,7 @@ class PIDHelper {
   static const double KD = 10.0;
   static const double dt = 5.0;
   static const double UPPER_BOUND = 1000000;
-  static const double LOWER_BOUND = 1000;
+  static const double LOWER_BOUND = 2000;
   double p, i = 0, d, prevErr = 0;
   final List<LatLng> polyLineList;
   final List<Step> stepList;
@@ -17,13 +17,19 @@ class PIDHelper {
 
   double getUpdatedDuration(LatLng newPos, LatLng currentPos, double duration) {
     newPos = snapToRoad(newPos);
+    //err is in meters
     double err = getErr(newPos, currentPos);
     p = err * KP;
     i = ((i + err) * dt) * KI;
     d = ((err - prevErr) / dt) * KD;
     prevErr = err;
     double total = p;
-    print('p is $p i is $i d is $d');
+    //print('p is $p i is $i d is $d');
+    //thresholds of 200 meters
+    print('this is total $total');
+    if(total >= 200) return LOWER_BOUND;
+    if(total <= -200) return UPPER_BOUND;
+    //normal duration adjustment
     duration = duration - total;
     duration = constrain(duration, LOWER_BOUND, UPPER_BOUND);
 
@@ -31,11 +37,8 @@ class PIDHelper {
   }
 
   double constrain(double value, double lowerBound, double upperBound) {
-
-    if(value > upperBound)
-      return upperBound;
-    if(value < lowerBound)
-      return lowerBound;
+    if (value > upperBound) return upperBound;
+    if (value < lowerBound) return lowerBound;
     return value;
   }
 
@@ -46,9 +49,11 @@ class PIDHelper {
 
   double getErr(LatLng newPos, LatLng currentPos) {
     int startIndex;
-    double mindist = 100000000000, startDist1, startDist2;
+    double mindist, startDist1, startDist2;
 
-    for (int i = 0; i < stepList.length - 1; i++) {
+    if (stepList.length == 0) return 0;
+
+    for (int i = 0; i <= stepList.length - 1; i++) {
       LatLng point1 = LatLng(stepList[i].startLocation.latitude,
           stepList[i].startLocation.longitude);
       LatLng point2 = LatLng(
@@ -56,6 +61,13 @@ class PIDHelper {
       double dist1 = distance(currentPos, point1);
       double dist2 = distance(currentPos, point2);
       double dist = dist1 + dist2;
+      if (mindist == null) {
+        mindist = dist;
+        startDist1 = dist1;
+        startDist2 = dist2;
+        startIndex = i;
+        continue;
+      }
       if (dist < mindist) {
         mindist = dist;
         startDist1 = dist1;
@@ -65,10 +77,10 @@ class PIDHelper {
     }
 
     int endIndex;
-    mindist = 1000000000000;
+    mindist = null;
     double endDist1, endDist2;
 
-    for (int i = 0; i < stepList.length - 1; i++) {
+    for (int i = 0; i <= stepList.length - 1; i++) {
       LatLng point1 = LatLng(stepList[i].startLocation.latitude,
           stepList[i].startLocation.longitude);
       LatLng point2 = LatLng(
@@ -76,6 +88,13 @@ class PIDHelper {
       double dist1 = distance(newPos, point1);
       double dist2 = distance(newPos, point2);
       double dist = dist1 + dist2;
+      if (mindist == null) {
+        mindist = dist;
+        endDist1 = dist1;
+        endDist2 = dist2;
+        endIndex = i;
+        continue;
+      }
       if (dist < mindist) {
         mindist = dist;
         endDist1 = dist1;
@@ -83,6 +102,9 @@ class PIDHelper {
         endIndex = i;
       }
     }
+
+    print('this is endIndex $endIndex');
+    print('this is startIndex $startIndex');
 
     //positive err case
     //when ending index is ahead

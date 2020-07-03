@@ -1,23 +1,30 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frute/AppState.dart';
-import 'package:frute/Pages/phoneNumPage.dart';
-import 'package:frute/Pages/homePage.dart';
-import 'package:frute/helpers/nearbyVendorQueryHelper.dart';
+import 'package:frute/Pages/homebuilder.dart';
+import 'package:frute/Pages/namePage.dart';
 
 class AuthService {
-
   //Handles Auth
   handleAuth(AppState appState) {
     return StreamBuilder(
-        stream: FirebaseAuth.instance.onAuthStateChanged,
-        builder: (BuildContext context, snapshot) {
+      stream: FirebaseAuth.instance.onAuthStateChanged,
+      builder: (BuildContext context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
           if (snapshot.hasData) {
-            return HomePage(appState);
+            return HomeBuilder(appState);
           } else {
-            return PhoneNumPage(appState);
+            return NamePage(appState);
           }
-        });
+        } else {
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.white,
+            ),
+          );
+        }
+      },
+    );
   }
 
   //Sign out
@@ -27,12 +34,18 @@ class AuthService {
 
   //SignIn
   signIn(AuthCredential authCreds) async {
-    await FirebaseAuth.instance.signInWithCredential(authCreds);
+    AuthResult authResult =
+        await FirebaseAuth.instance.signInWithCredential(authCreds);
+    return authResult;
   }
 
   signInWithOTP(smsCode, verId) async {
     AuthCredential authCreds = PhoneAuthProvider.getCredential(
         verificationId: verId, smsCode: smsCode);
-    await signIn(authCreds);
+    return await signIn(authCreds);
+  }
+
+  isSignedIn() async {
+    return await FirebaseAuth.instance.currentUser() != null;
   }
 }

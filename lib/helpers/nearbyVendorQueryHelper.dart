@@ -31,6 +31,7 @@ class NearbyVendorQueryHelper {
     if (await locationHelper.requestLocationPermission() ==
         LocationHelper.PERMISSION_GRANTED) {
       location = await locationHelper.getLocation();
+      print('updated user location');
       appState.userLocation = GeoCoord(location.latitude, location.longitude);
       GeoFirePoint center =
           geo.point(latitude: location.latitude, longitude: location.longitude);
@@ -60,7 +61,8 @@ class NearbyVendorQueryHelper {
       GeoPoint location = document['position']['geopoint'];
       String name = document['username'];
       String token = document['token'];
-      String imageUrl = document['imageUrl'];
+      String imageUrl = document['image'];
+      String phoneNumber = document['phone'];
       print('real to');
       print(token);
       String userId = document.documentID;
@@ -73,15 +75,17 @@ class NearbyVendorQueryHelper {
       for (dynamic jsonSpecialVegetable in jsonSpecialVegetables) {
         vegetables.add(Vegetable.fromJson(jsonSpecialVegetable));
       }
+      print('this is image url $imageUrl');
       VendorInfo vendorInfo = VendorInfo(
           coords: location,
           name: name,
+          phoneNumber: phoneNumber,
           imageUrl: imageUrl,
           vegetables: vegetables,
           token: token);
 
-      if (!appState.verdors.containsKey(userId)) appState.userId.add(userId);
-      appState.verdors[userId] = vendorInfo;
+      if (!appState.vendors.containsKey(userId)) appState.userId.add(userId);
+      appState.vendors[userId] = vendorInfo;
     }
     return appState;
   }
