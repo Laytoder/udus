@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:math' as Math;
 import 'package:google_directions_api/google_directions_api.dart';
@@ -12,6 +14,8 @@ class PIDHelper {
   double p, i = 0, d, prevErr = 0;
   final List<LatLng> polyLineList;
   final List<Step> stepList;
+  StreamController<String> etaStreamController = StreamController();
+  StreamController<String> distStreamController = StreamController();
 
   PIDHelper(this.polyLineList, this.stepList);
 
@@ -27,8 +31,8 @@ class PIDHelper {
     //print('p is $p i is $i d is $d');
     //thresholds of 200 meters
     print('this is total $total');
-    if(total >= 200) return LOWER_BOUND;
-    if(total <= -200) return UPPER_BOUND;
+    if (total >= 200) return LOWER_BOUND;
+    if (total <= -200) return UPPER_BOUND;
     //normal duration adjustment
     duration = duration - total;
     duration = constrain(duration, LOWER_BOUND, UPPER_BOUND);
@@ -106,6 +110,8 @@ class PIDHelper {
     print('this is endIndex $endIndex');
     print('this is startIndex $startIndex');
 
+    pushEtaAndDist(startIndex, startDist1, startDist2);
+
     //positive err case
     //when ending index is ahead
     if (endIndex > startIndex) {
@@ -135,15 +141,48 @@ class PIDHelper {
               stepList[startIndex].distance.value;
       return dist * (-1);
     }
-
-    //when no step displacement just return the err difference
-    return ((endDist1 - startDist1) / (endDist1 + endDist2)) *
+    double dist = ((endDist1 - startDist1) / (endDist1 + endDist2)) *
         stepList[endIndex].distance.value;
+    //when no step displacement just return the err difference
+    return dist;
+  }
+
+  void pushEtaAndDist(int startIndex, double startDist1, double startDist2) {
+    int endIndex = stepList.length - 1;
+    if (endIndex >= startIndex) {
+      //dist is in meters
+      double dist = (startDist2 / (startDist1 + startDist2)) *
+          stepList[startIndex].distance.value;
+      //duration in seconds
+      double eta = (startDist2 / (startDist1 + startDist2)) *
+          stepList[startIndex].duration.value;
+      for (int i = (startIndex + 1); i <= endIndex; i++) {
+        dist = dist + stepList[i].distance.value;
+        eta = eta + stepList[i].duration.value;
+      }
+      String dispEta, dispDist;
+      if(eta < 60) {
+        dispEta = '${eta.toInt()} secs';
+      }
+      else {
+        eta = eta / 60;
+        dispEta = '${eta.toInt()} mins';
+      }
+      if(dist < 1000) {
+        dispDist = '${dist.toInt()} meters';
+      }
+      else {
+        dist = dist / 1000;
+        dispDist = '${dist.toInt()} km';
+      }
+      etaStreamController.add(dispEta);
+      distStreamController.add(dispDist);
+    }
   }
 
   LatLng snapToRoad(LatLng pos) {
     LatLng min1, min2;
-    double mindist = 100000000, mindist1, mindist2;
+    double mindist, mindist1, mindist2;
 
     for (int i = 0; i < polyLineList.length - 1; i++) {
       LatLng point1 = polyLineList[i];
@@ -151,6 +190,14 @@ class PIDHelper {
       double dist1 = distance(pos, point1);
       double dist2 = distance(pos, point2);
       double dist = dist1 + dist2;
+      if (mindist == null) {
+        mindist = dist;
+        mindist1 = dist1;
+        mindist2 = dist2;
+        min1 = point1;
+        min2 = point2;
+        continue;
+      }
       if (dist < mindist) {
         mindist = dist;
         mindist1 = dist1;
@@ -175,5 +222,42 @@ class PIDHelper {
     double latitude = ((k * min2.latitude + min1.latitude) / (k + 1));
 
     return LatLng(latitude, longitude);
+  }
+
+  int getStartIndex(LatLng pos) {
+    int startIndex;
+    double mindist;
+
+    for (int i = 0; i < polyLineList.length - 1; i++) {
+      LatLng point1 = polyLineList[i];
+      LatLng point2 = polyLineList[i + 1];
+      double dist1 = distance(pos, point1);
+      double dist2 = distance(pos, point2);
+      double dist = dist1 + dist2;
+      if (mindist == null) {
+        mindist = dist;
+        startIndex = i;
+        continue;
+      }
+      if (dist < mindist) {
+        mindist = dist;
+        startIndex = i;
+      }
+    }
+
+    return startIndex;
+  }
+
+  Stream getEtaStream() {
+    return etaStreamController.stream;
+  }
+
+  Stream getDistStream() {
+    return distStreamController.stream;
+  }
+
+  void dispose() {
+    etaStreamController.close();
+    distStreamController.close();
   }
 }

@@ -111,31 +111,31 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
         verifyPhoneNumber(context);
       }
     });
-    return Scaffold(
-      appBar: AppBar(
-        title: invalidState
-            ? Text(
-                'Invalid OTP',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: (14 / 678) * height,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: 'Ubuntu',
-                ),
-              )
-            : Text(
-                'Enter OTP',
-                style: TextStyle(
-                  fontSize: (14 / 678) * height,
-                  fontFamily: 'Ubuntu',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-        elevation: 0.0,
-      ),
-      body: Stack(
-        children: <Widget>[
-          Column(
+    return Stack(
+      children: <Widget>[
+        Scaffold(
+          appBar: AppBar(
+            title: invalidState
+                ? Text(
+                    'Invalid OTP',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: (14 / 678) * height,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Ubuntu',
+                    ),
+                  )
+                : Text(
+                    'Enter OTP',
+                    style: TextStyle(
+                      fontSize: (14 / 678) * height,
+                      fontFamily: 'Ubuntu',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+            elevation: 0.0,
+          ),
+          body: Column(
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.all(
@@ -194,7 +194,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
                     print('log in successful');
                   },
                   animationType: AnimationType.fade,
-                  autoFocus: !loading,
+                  autoFocus: false,
                   controller: controller,
                 ),
               ),
@@ -209,7 +209,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
               SizedBox(
                 height: (15 / 678) * height,
               ),
-              MaterialButton(
+              GestureDetector(
                 child: Text(
                   'Resend OTP',
                   style: TextStyle(
@@ -219,9 +219,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
                     fontSize: (14 / 678) * height,
                   ),
                 ),
-                color: Colors.transparent,
-                elevation: 0, 
-                onPressed: () {
+                onTap: () {
                   setState(() => loading = true);
                   animationController.forward();
                   verifyPhoneNumber(context);
@@ -229,31 +227,35 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
               ),
             ],
           ),
-          loading
-              ? BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 2,
-                    sigmaY: 2,
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                    height: double.infinity,
-                    decoration:
-                        BoxDecoration(color: Colors.black.withOpacity(0.9)),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        //backgroundColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                )
-              : SizedBox(
-                  child: Container(),
-                  width: 0,
-                  height: 0,
+        ),
+        loading
+            ? BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 2,
+                  sigmaY: 2,
                 ),
-        ],
-      ),
+                child: Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration:
+                      BoxDecoration(color: Colors.black.withOpacity(0.9)),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                        //backgroundColor: Colors.white,
+                        ),
+                  ),
+                ),
+              )
+            : SizedBox(
+                child: Container(),
+                width: 0,
+                height: 0,
+              ),
+      ],
     );
   }
 }
+
+/*
+
+*/

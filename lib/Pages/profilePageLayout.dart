@@ -77,6 +77,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                         )),
                     onTap: () async {
                       File imageFile = await alertForSourceAndGetImage(context);
+                      if (imageFile == null) return;
                       setState(() => this.imageFile = imageFile);
                       String cache = imageFile.path;
                       Directory directory =
