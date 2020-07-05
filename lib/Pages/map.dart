@@ -13,12 +13,12 @@ import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/models/bill.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/models/vendorInfo.dart';
+import 'package:frute/widgets/mapPanel.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:math' as Math;
 import 'package:angles/angles.dart';
 import 'package:frute/helpers/pidHelper.dart';
 import 'package:frute/helpers/messageGetters.dart';
-import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class Map extends StatefulWidget {
   DirectionApiHelper directionApiHelper;
@@ -52,30 +52,6 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
     ByteData byteData =
         await DefaultAssetBundle.of(context).load('assets/car_icon.png');
     markerImg = byteData.buffer.asUint8List();
-  }
-
-  getInitialDistance() {
-    int dist = widget.directionApiHelper.distance.value;
-    String dispDist;
-    if (dist < 1000) {
-      dispDist = '$dist meters';
-    } else {
-      dist = (dist / 1000).round();
-      dispDist = '$dist km';
-    }
-    return dispDist;
-  }
-
-  getInitialETA() {
-    int eta = widget.directionApiHelper.duration.value;
-    String dispEta;
-    if (eta < 60) {
-      dispEta = '$eta secs';
-    } else {
-      eta = (eta / 60).round();
-      dispEta = '$eta mins';
-    }
-    return dispEta;
   }
 
   updateMarkerImg(LatLng newPos) {
@@ -244,42 +220,16 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        /*appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          leading: IconButton(
-            icon: Container(
-              child: SvgPicture.asset(
-                'assets/home.svg',
-                height: 25,
-                width: 25,
-                color: Color(0xff58f8f8f),
-              ),
-            ),
-            onPressed: () async {
-              widget.appState.active = false;
-              widget.appState.messages = StreamController();
-              //carController.dispose();
-              await locationSubscription.cancel();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(widget.appState),
-                ),
-              );
-            },
-          ),
-        ),*/
         body: Stack(
           children: <Widget>[
             Column(
               children: <Widget>[
-                Expanded(
+                /*Expanded(
                   flex: 2,
                   child: Container(),
-                ),
+                ),*/
                 Expanded(
-                  flex: 8,
+                  //flex: 8,
                   child: GoogleMap(
                     myLocationEnabled: true,
                     compassEnabled: false,
@@ -320,261 +270,37 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
               children: <Widget>[
                 Expanded(
                   flex: 4,
-                  child: Card(
-                    margin: EdgeInsets.only(left: 0, right: 0, top: 0),
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(50),
-                        bottomLeft: Radius.circular(50),
-                      ),
-                    ),
-                    child: Stack(
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Expanded(
-                              flex: 7,
-                              child: Align(
-                                alignment: Alignment.topCenter,
-                                child: Column(
-                                  children: <Widget>[
-                                    CachedNetworkImage(
-                                      //imageUrl: currentVendor.imageUrl,
-                                      imageUrl:
-                                          'https://c8.alamy.com/comp/EJ2D70/portrait-of-an-indian-old-man-a-street-vendor-sell-street-food-in-EJ2D70.jpg',
-                                      imageBuilder: (context, imageProvider) =>
-                                          Container(
-                                        margin: EdgeInsets.only(
-                                          top: (50 / 678) * height,
-                                          bottom: (15 / 678) * height,
-                                        ),
-                                        width: width * 0.25,
-                                        height: width * 0.25,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover),
-                                        ),
-                                      ),
-                                      placeholder: (context, url) =>
-                                          CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                    ),
-                                    Text(
-                                      currentVendor.name,
-                                      style: TextStyle(
-                                        fontFamily: 'Ubuntu',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: Stack(
-                                /*mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,*/
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Row(
-                                      children: <Widget>[
-                                        Container(
-                                          width: 100,
-                                          height: 100,
-                                          /*padding: EdgeInsets.only(
-                                            bottom: 10,
-                                            top: 10,
-                                            left: 20,
-                                            right: 20,
-                                          ),*/
-                                          margin: EdgeInsets.only(
-                                            bottom: 10,
-                                            left: 10,
-                                            right: 0,
-                                          ),
-                                          child: Center(
-                                            child: Wrap(
-                                              direction: Axis.vertical,
-                                              children: <Widget>[
-                                                Text(
-                                                  'Distance',
-                                                  style: TextStyle(
-                                                      fontSize:
-                                                          (height * 14) / 678),
-                                                ),
-                                                StreamBuilder(
-                                                  stream:
-                                                      pidHelper.getDistStream(),
-                                                  initialData:
-                                                      getInitialDistance(),
-                                                  builder: (context, snapshot) {
-                                                    if (snapshot.hasData) {
-                                                      return Text(
-                                                        snapshot.data,
-                                                        style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontSize:
-                                                                (height * 12) /
-                                                                    678),
-                                                      );
-                                                    } else {
-                                                      return CircularProgressIndicator();
-                                                    }
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.rectangle,
-                                            color: Color(0xfff6f6f6),
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(60),
-                                              bottomRight: Radius.circular(50),
-                                              topRight: Radius.circular(50),
-                                              topLeft: Radius.circular(10),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                        Container(
-                                          width: 100,
-                                          height: 100,
-                                          //width: double.infinity,
-                                          //height: double.infinity,
-                                          /*padding: EdgeInsets.only(
-                                            bottom: 10,
-                                            top: 10,
-                                            left: 20,
-                                            right: 20,
-                                          ),*/
-                                          margin: EdgeInsets.only(
-                                            bottom: 10,
-                                            left: 0,
-                                            right: 10,
-                                          ),
-                                          child: Center(
-                                            child: Wrap(
-                                              direction: Axis.vertical,
-                                              children: <Widget>[
-                                                Text(
-                                                  'ETA',
-                                                  style: TextStyle(
-                                                      fontSize:
-                                                          (height * 14) / 678),
-                                                ),
-                                                StreamBuilder(
-                                                  stream:
-                                                      pidHelper.getEtaStream(),
-                                                  initialData: getInitialETA(),
-                                                  builder: (context, snapshot) {
-                                                    if (snapshot.hasData) {
-                                                      return Text(
-                                                        snapshot.data,
-                                                        style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontSize:
-                                                                (height * 12) /
-                                                                    678),
-                                                      );
-                                                    } else {
-                                                      return CircularProgressIndicator();
-                                                    }
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.rectangle,
-                                            color: Color(0xfff6f6f6),
-                                            borderRadius: BorderRadius.only(
-                                              bottomRight: Radius.circular(60),
-                                              bottomLeft: Radius.circular(50),
-                                              topLeft: Radius.circular(50),
-                                              topRight: Radius.circular(10),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: FloatingActionButton(
-                                      onPressed: () {
-                                        UrlLauncher.launch(
-                                            'tel:${currentVendor.phoneNumber}');
-                                      },
-                                      child: Icon(
-                                        Icons.call,
-                                        color: Color(0xff25D366),
-                                      ),
-                                      backgroundColor: Colors.white,
-                                      //backgroundColor: Color(0xfff6f6f6),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Container(
-                            margin: EdgeInsets.only(
-                              top: 30,
-                            ),
-                            child: IconButton(
-                              icon: Container(
-                                child: SvgPicture.asset(
-                                  'assets/home.svg',
-                                  height: 25,
-                                  width: 25,
-                                  color: Color(0xff58f8f8f),
-                                ),
-                              ),
-                              onPressed: () async {
-                                widget.appState.active = false;
-                                widget.appState.messages = StreamController();
-                                //carController.dispose();
-                                await locationSubscription.cancel();
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        HomePage(widget.appState),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  child: MapPanel(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    currentVendor: currentVendor,
+                    pidHelper: pidHelper,
+                    directionApiHelper: widget.directionApiHelper,
+                    locationSubscription: locationSubscription,
+                    appState: widget.appState,
                   ),
                 ),
                 Expanded(
-                  child: Container(),
                   flex: 6,
+                  child: Container(),
                 ),
               ],
             ),
+            /*Align(
+              alignment: Alignment.topCenter,
+              child: MapPanel(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.4,
+                currentVendor: currentVendor,
+                pidHelper: pidHelper,
+                directionApiHelper: widget.directionApiHelper,
+                locationSubscription: locationSubscription,
+                appState: widget.appState,
+              ),
+            ),*/
           ],
         ),
       ),
     );
   }
 }
-
-/*
-
-*/

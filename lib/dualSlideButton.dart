@@ -67,18 +67,6 @@ class _DualSlideButtonState extends State<DualSlideButton>
   onDrag(BuildContext context, DragUpdateDetails details) {
     RenderBox box = context.findRenderObject();
     Offset offset = box.globalToLocal(details.globalPosition);
-    /*double value = (offset.dx) / 320;
-    double x = (1 / (0.5 + (22.5 / 320)));
-    //left region
-    if (value >= 0 && value <= (0.5 + (22.5 / 320))) {
-      _leftController.value = 1 - (value * x) < 0.2 ? 0.2 : 1 - (value * x);
-    }
-    //right region
-    if (value >= (0.5 - (22.5 / 320)) && value <= 1) {
-      _rightController.value = (value + (22.5 / 320) - 0.5) * x < 0.2
-          ? 0.2
-          : (value + (22.5 / 320) - 0.5) * x;
-    }*/
     double value = (offset.dx) / widget.width;
     double x = (1 / (0.5 + (((widget.width / 13) * 0.75) / widget.width)));
     //left region
