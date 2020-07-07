@@ -96,8 +96,10 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
               padding: EdgeInsets.all(0.0),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Color(0xff25D366), Color(0xff2ca85b)]),
+                  gradient: LinearGradient(colors: [
+                    Color.fromRGBO(35, 205, 99, 1),
+                    Color.fromRGBO(35, 205, 99, 0.5)
+                  ]),
                   borderRadius: BorderRadius.all(
                     Radius.circular((80 / 678) * height),
                   ),

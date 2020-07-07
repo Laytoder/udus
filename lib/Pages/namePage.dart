@@ -4,6 +4,8 @@ import 'package:frute/Pages/phoneNumPage.dart';
 import 'package:frute/widgets/pageHeading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../widgets/pageHeading.dart';
+
 class NamePage extends StatefulWidget {
   AppState appState;
 
@@ -31,7 +33,9 @@ class _NamePageState extends State<NamePage> {
             padding: EdgeInsets.only(
               top: (20 / 678) * height,
             ),
-            child: PageHeading('Hi this is Hawfer!\nWhat\'s your name?'),
+            child: PageHeading(
+              "Hi There \nThis is Hawfer ! \nWhat's your name?",
+            ),
           ),
           Expanded(
             flex: 4,
@@ -58,7 +62,7 @@ class _NamePageState extends State<NamePage> {
                 controller: controller,
                 autofocus: true,
                 decoration: InputDecoration(
-                  labelText: 'Name',
+                  hintText: 'Name',
                   border: InputBorder.none,
                   errorStyle: TextStyle(
                     color: Colors.red,
@@ -104,10 +108,17 @@ class _NamePageState extends State<NamePage> {
               padding: EdgeInsets.all(0.0),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Color(0xff25D366), Color(0xff2ca85b)]),
+                  boxShadow: [
+                    new BoxShadow(
+                      color: Color.fromRGBO(35, 205, 99, 0.2),
+                    ),
+                  ],
+                  gradient: LinearGradient(colors: [
+                    Color.fromRGBO(35, 205, 99, 1),
+                    Color.fromRGBO(35, 205, 99, 0.5)
+                  ]),
                   borderRadius: BorderRadius.all(
-                    Radius.circular((80 / 678) * height),
+                    Radius.circular((40 / 678) * height),
                   ),
                 ),
                 width: width,
