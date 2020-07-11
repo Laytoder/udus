@@ -51,18 +51,22 @@ dependencies:
   permission_handler: ^5.0.0+hotfix.5
   flutter_local_notifications: ^1.4.4+1
   url_launcher: ^5.4.11
+  circular_profile_avatar: ^1.0.6
+  clip_shadow: ^0.2.1
+  flutter_custom_clippers: ^1.1.1
+  line_awesome_flutter: ^1.0.1
+  animated_theme_switcher: ^1.0.6
+  flutter_screenutil: ^2.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -70,25 +74,28 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/car_icon.png
-   - assets/beetroot.jpg
-   - assets/bitterground.jpg
-   - assets/brinjal.jpg
-   - assets/cabbagesmall.jpg
-   - assets/capsicum.jpg
-   - assets/capsicumorange.jpg
-   - assets/capsicumred.jpg
-   - assets/ladiesfinger.jpg
-   - assets/mushroom.jpg
-   - assets/onion.jpg
-   - assets/potato.jpg
-   - assets/pumpkingreen.jpg
-   - assets/raddish.jpg
-   - assets/tomato.jpg
-   - assets/locating_anim.gif
-   - assets/user.svg
-   - assets/bill.svg
-   - assets/home.svg
+    - assets/car_icon.png
+    - assets/beetroot.jpg
+    - assets/bitterground.jpg
+    - assets/brinjal.jpg
+    - assets/cabbagesmall.jpg
+    - assets/capsicum.jpg
+    - assets/capsicumorange.jpg
+    - assets/capsicumred.jpg
+    - assets/ladiesfinger.jpg
+    - assets/mushroom.jpg
+    - assets/onion.jpg
+    - assets/potato.jpg
+    - assets/pumpkingreen.jpg
+    - assets/raddish.jpg
+    - assets/tomato.jpg
+    - assets/locating_anim.gif
+    - assets/user.svg
+    - assets/bill.svg
+    - assets/home.svg
+    - assets/home.svg
+    - assets/person.png
+    - assets/BG-img.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

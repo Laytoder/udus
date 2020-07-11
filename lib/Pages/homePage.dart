@@ -127,8 +127,8 @@ class _HomePageState extends State<HomePage>
                           child: Container(
                             decoration: BoxDecoration(
                               gradient: LinearGradient(colors: [
-                                Color(0xff25D366),
-                                Color(0xff2ca85b)
+                                Color.fromRGBO(35, 205, 99, 1),
+                                Color.fromRGBO(35, 205, 99, 0.6)
                               ]),
                               borderRadius:
                                   BorderRadius.circular((80 / 678) * height),
@@ -136,7 +136,7 @@ class _HomePageState extends State<HomePage>
                             child: Container(
                               alignment: Alignment.center,
                               child: Text(
-                                'Call Vendor',
+                                'Contact Vendor',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.white,
@@ -270,7 +270,34 @@ class _HomePageState extends State<HomePage>
                     ],
                   ),
                   Center(
-                    child: Text('Coming Soon!'),
+                    child: Container(
+                      height: 200,
+                      width: 200,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(8.0),
+                          ),
+                        ),
+                        elevation: 15,
+                        shadowColor: Color.fromRGBO(35, 205, 99, 0.2),
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: (80 / 678) * height,
+                              ),
+                            ),
+                            Text(
+                              'Coming Soon',
+                              style: TextStyle(
+                                fontSize: (30 / 678) * height,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

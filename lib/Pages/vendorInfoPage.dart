@@ -24,7 +24,8 @@ class VendorInfoPage extends StatelessWidget {
       padding: EdgeInsets.only(
           top: (16 / 678) * height, bottom: (16 / 678) * height),
       child: Card(
-        elevation: 5,
+        elevation: 10,
+        shadowColor: Color.fromRGBO(35, 205, 99, 0.3),
         color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular((24 / 678) * height),
@@ -36,13 +37,14 @@ class VendorInfoPage extends StatelessWidget {
                 Expanded(
                   flex: 5,
                   child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular((24 / 678) * height),
-                      //color: Color(0xffdd4f41),
-                      gradient: LinearGradient(
-                          colors: [Color(0xff0d2f3d), Color(0xff175670)]),
+                      decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular((24 / 678) * height),
+                    //color: Color(0xffdd4f41),
+                    image: DecorationImage(
+                      image: AssetImage('assets/BG-img.jpg'),
+                      fit: BoxFit.contain,
                     ),
-                  ),
+                  )),
                 ),
                 Expanded(
                   flex: 10,
@@ -50,10 +52,14 @@ class VendorInfoPage extends StatelessWidget {
                     itemCount: vendor.vegetables.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: selectImageType(
-                              vendor.vegetables[index].imageUrl),
-                          radius: (20 / 678) * height,
+                        leading: Container(
+                          height: (50 / 678) * height,
+                          width: (50 / 360) * width,
+                          child: CircleAvatar(
+                            backgroundImage: selectImageType(
+                                vendor.vegetables[index].imageUrl),
+                            radius: (20 / 678) * height,
+                          ),
                         ),
                         title: Wrap(
                           direction: Axis.horizontal,
@@ -119,7 +125,8 @@ class VendorInfoPage extends StatelessWidget {
                     ),
                     Card(
                       elevation: 5,
-                      color: Colors.white,
+                      shadowColor: Color.fromRGBO(35, 205, 99, 0.1),
+                      color: Colors.grey[100],
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                           (15 / 678) * height,
