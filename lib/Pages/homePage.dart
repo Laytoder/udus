@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:frute/Animations/FadeAnimations.dart';
 import 'package:frute/AppState.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:frute/Pages/billHistory.dart';
@@ -20,6 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frute/models/trip.dart';
 import 'holdPage.dart';
 import 'package:frute/helpers/messageGetters.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 class HomePage extends StatefulWidget {
   AppState appState;
@@ -119,83 +121,38 @@ class _HomePageState extends State<HomePage>
                           left: (40 / 360) * width,
                           right: (40 / 360) * width,
                         ),
-                        child: RaisedButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular((80 / 678) * height)),
-                          padding: EdgeInsets.all(0.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                                Color.fromRGBO(35, 205, 99, 1),
-                                Color.fromRGBO(35, 205, 99, 0.6)
-                              ]),
-                              borderRadius:
-                                  BorderRadius.circular((80 / 678) * height),
-                            ),
-                            child: Container(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Contact Vendor',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: (20 / 678) * height,
-                                  fontWeight: FontWeight.w400,
+                        child: FadeAnimation(
+                            1,
+                            RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      (80 / 678) * height)),
+                              padding: EdgeInsets.all(0.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(colors: [
+                                    Color.fromRGBO(35, 205, 99, 1),
+                                    Color.fromRGBO(35, 205, 99, 0.6)
+                                  ]),
+                                  borderRadius: BorderRadius.circular(
+                                      (80 / 678) * height),
+                                ),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    'Contact Vendor',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: (20 / 678) * height,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          onPressed: () async {
-                            //appState.pendingTrip != null
-                            if (appState.pendingTrip != null) {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            (10 / 678) * height)),
-                                    title: Text(
-                                      'Sorry, you can only call one vendor at a time',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: (14 / 678) * height,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            } else {
-                              setState(() => locating = true);
-                              controller.forward();
-                              Trip trip = Trip(
-                                state: 'requested',
-                                vendorId: currVendorId,
-                              );
-                              appState.pendingTrip = trip;
-                              preferences =
-                                  await SharedPreferences.getInstance();
-                              preferences.setString(
-                                  'pendingTripVendorId', currVendorId);
-                              //send message to vendor
-                              await messagingHelper.sendMessage(
-                                currVendorToken,
-                                appState.messagingToken,
-                                appState.userLocation,
-                                appState.clientName,
-                                appState.phoneNumber,
-                              );
-                              appState.active = true;
-                              var reply = await getReply(appState);
-                              String state = reply['state'];
-                              switch (state) {
-                                case 'rejected':
-                                  appState.pendingTrip = null;
-                                  preferences.setString(
-                                      'pendingTripVendorId', null);
-                                  await controller.reverse();
-                                  setState(() => locating = false);
+                              onPressed: () async {
+                                //appState.pendingTrip != null
+                                if (appState.pendingTrip != null) {
                                   showDialog(
                                     context: context,
                                     builder: (context) {
@@ -204,7 +161,7 @@ class _HomePageState extends State<HomePage>
                                             borderRadius: BorderRadius.circular(
                                                 (10 / 678) * height)),
                                         title: Text(
-                                          'Sorry, the vendor denied call',
+                                          'Sorry, you can only call one vendor at a time',
                                           style: TextStyle(
                                             fontWeight: FontWeight.w400,
                                             fontSize: (14 / 678) * height,
@@ -213,59 +170,108 @@ class _HomePageState extends State<HomePage>
                                       );
                                     },
                                   );
-                                  appState.active = false;
-                                  break;
-                                case 'hold':
-                                  appState.pendingTrip.state = 'hold';
-                                  appState.pendingTrip.eta = reply['eta'];
-                                  await controller.reverse();
-                                  setState(() => locating = false);
-                                  Navigator.pushReplacement(
-                                    context,
-                                    FadeRoute(
-                                      page: HoldPage(
-                                        vendorName: 'Ramu Kaka',
-                                        eta: reply['eta'],
-                                        appState: appState,
-                                        preferences: preferences,
-                                      ),
-                                    ),
+                                } else {
+                                  setState(() => locating = true);
+                                  controller.forward();
+                                  Trip trip = Trip(
+                                    state: 'requested',
+                                    vendorId: currVendorId,
                                   );
-                                  //setState(() => locating = false);
-                                  break;
-                                case 'ongoing':
-                                  appState.pendingTrip.state = 'ongoing';
-                                  GeoCoord destination =
-                                      GeoCoord.fromJson(reply['destination']);
-                                  GeoCoord origin =
-                                      GeoCoord.fromJson(reply['origin']);
-                                  appState.pendingTrip.origin = origin;
-                                  appState.pendingTrip.destination =
-                                      destination;
-                                  await directionApiHelper.populateData(
-                                      origin, destination);
-                                  appState.pendingTrip.directionApiHelper =
-                                      directionApiHelper;
+                                  appState.pendingTrip = trip;
+                                  preferences =
+                                      await SharedPreferences.getInstance();
                                   preferences.setString(
-                                    'directionsApiHelper',
-                                    jsonEncode(directionApiHelper.toJson()),
+                                      'pendingTripVendorId', currVendorId);
+                                  //send message to vendor
+                                  await messagingHelper.sendMessage(
+                                    currVendorToken,
+                                    appState.messagingToken,
+                                    appState.userLocation,
+                                    appState.clientName,
+                                    appState.phoneNumber,
                                   );
-                                  await controller.reverse();
-                                  setState(() => locating = false);
-                                  Navigator.pushReplacement(
-                                    context,
-                                    FadeRoute(
-                                      page: Map(
-                                        directionApiHelper: directionApiHelper,
-                                        appState: appState,
-                                      ),
-                                    ),
-                                  );
-                                  break;
-                              }
-                            }
-                          },
-                        ),
+                                  appState.active = true;
+                                  var reply = await getReply(appState);
+                                  String state = reply['state'];
+                                  switch (state) {
+                                    case 'rejected':
+                                      appState.pendingTrip = null;
+                                      preferences.setString(
+                                          'pendingTripVendorId', null);
+                                      await controller.reverse();
+                                      setState(() => locating = false);
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        (10 / 678) * height)),
+                                            title: Text(
+                                              'Sorry, the vendor denied call',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: (14 / 678) * height,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                      appState.active = false;
+                                      break;
+                                    case 'hold':
+                                      appState.pendingTrip.state = 'hold';
+                                      appState.pendingTrip.eta = reply['eta'];
+                                      await controller.reverse();
+                                      setState(() => locating = false);
+                                      Navigator.pushReplacement(
+                                        context,
+                                        FadeRoute(
+                                          page: HoldPage(
+                                            vendorName: 'Ramu Kaka',
+                                            eta: reply['eta'],
+                                            appState: appState,
+                                            preferences: preferences,
+                                          ),
+                                        ),
+                                      );
+                                      //setState(() => locating = false);
+                                      break;
+                                    case 'ongoing':
+                                      appState.pendingTrip.state = 'ongoing';
+                                      GeoCoord destination = GeoCoord.fromJson(
+                                          reply['destination']);
+                                      GeoCoord origin =
+                                          GeoCoord.fromJson(reply['origin']);
+                                      appState.pendingTrip.origin = origin;
+                                      appState.pendingTrip.destination =
+                                          destination;
+                                      await directionApiHelper.populateData(
+                                          origin, destination);
+                                      appState.pendingTrip.directionApiHelper =
+                                          directionApiHelper;
+                                      preferences.setString(
+                                        'directionsApiHelper',
+                                        jsonEncode(directionApiHelper.toJson()),
+                                      );
+                                      await controller.reverse();
+                                      setState(() => locating = false);
+                                      Navigator.pushReplacement(
+                                        context,
+                                        FadeRoute(
+                                          page: Map(
+                                            directionApiHelper:
+                                                directionApiHelper,
+                                            appState: appState,
+                                          ),
+                                        ),
+                                      );
+                                      break;
+                                  }
+                                }
+                              },
+                            )),
                       ),
                     ],
                   ),
@@ -273,28 +279,31 @@ class _HomePageState extends State<HomePage>
                     child: Container(
                       height: 200,
                       width: 200,
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(8.0),
+                      child: FadeAnimation(
+                        1,
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
                           ),
-                        ),
-                        elevation: 15,
-                        shadowColor: Color.fromRGBO(35, 205, 99, 0.2),
-                        child: Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: (80 / 678) * height,
+                          elevation: 15,
+                          shadowColor: Color.fromRGBO(35, 205, 99, 0.2),
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: (80 / 678) * height,
+                                ),
                               ),
-                            ),
-                            Text(
-                              'Coming Soon',
-                              style: TextStyle(
-                                fontSize: (30 / 678) * height,
+                              Text(
+                                'Coming Soon',
+                                style: TextStyle(
+                                  fontSize: (30 / 678) * height,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
