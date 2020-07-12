@@ -27,7 +27,7 @@ class VendorInfoPage extends StatelessWidget {
       child: FadeAnimation(
           1,
           Card(
-            elevation: 10,
+            elevation: (7 / 678) * height,
             shadowColor: Color.fromRGBO(35, 205, 99, 0.3),
             color: Colors.white,
             shape: RoundedRectangleBorder(
@@ -40,15 +40,16 @@ class VendorInfoPage extends StatelessWidget {
                     Expanded(
                       flex: 5,
                       child: Container(
-                          decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular((24 / 678) * height),
-                        //color: Color(0xffdd4f41),
-                        image: DecorationImage(
-                          image: AssetImage('assets/BG-img.jpg'),
-                          fit: BoxFit.contain,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular((24 / 678) * height),
+                          //color: Color(0xffdd4f41),
+                          image: DecorationImage(
+                            image: AssetImage('assets/BG-img.jpg'),
+                            fit: BoxFit.fill,
+                          ),
                         ),
-                      )),
+                      ),
                     ),
                     Expanded(
                       flex: 10,

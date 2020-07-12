@@ -79,7 +79,8 @@ class _HomePageState extends State<HomePage>
           appState: widget.appState,
         ),
         Scaffold(
-          backgroundColor: Color(0xfff6f7fb),
+          //backgroundColor: Color(0xfff6f7fb),
+          backgroundColor: Colors.amberAccent,
           body: Stack(
             children: <Widget>[
               PageView(
@@ -323,7 +324,8 @@ class _HomePageState extends State<HomePage>
                             'assets/user.svg',
                             height: (25 / 678) * height,
                             width: (25 / 678) * height,
-                            color: Color(0xff58f8f8f),
+                            //color: Color(0xff58f8f8f),
+                            color: Color.fromRGBO(35, 205, 99, 1.0),
                           ),
                         ),
                         onPressed: () {
@@ -369,7 +371,8 @@ class _HomePageState extends State<HomePage>
                             'assets/bill.svg',
                             height: (25 / 678) * height,
                             width: (25 / 678) * height,
-                            color: Color(0xff58f8f8f),
+                            //color: Color(0xff58f8f8f),
+                            color: Color.fromRGBO(35, 205, 99, 1.0),
                           ),
                         ),
                         onPressed: () {
