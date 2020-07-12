@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:rating_bar/rating_bar.dart';
@@ -114,10 +115,23 @@ class VendorInfoPage extends StatelessWidget {
                           ),
                           width: width * 0.25,
                           height: width * 0.25,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: imageProvider, fit: BoxFit.cover),
+                          child: CircularProfileAvatar(
+                            vendor.imageUrl,
+                            radius: 100,
+                            backgroundColor: Colors.green,
+                            borderColor: Colors.white,
+                            elevation: 5.0,
+                            foregroundColor: Colors.brown.withOpacity(0.5),
+                            borderWidth: 5,
+                            cacheImage: true,
+                            /*child: CachedNetworkImage(
+                                  imageUrl: vendor.imageUrl,
+                                  
+                                  placeholder: (context, url) =>
+                                      CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                ),*/
                           ),
                         ),
                         placeholder: (context, url) =>
