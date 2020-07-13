@@ -25,8 +25,6 @@ dependencies:
   cupertino_icons: ^0.1.2
   carousel_slider: ^2.0.0
   mapbox_search_flutter: ^1.0.3
-  infinite_listview: ^1.0.1+1
-  swipedetector: ^1.2.0
   cloud_firestore: ^0.13.6
   geoflutterfire: ^2.1.0
   rxdart: ^0.23.1
@@ -52,10 +50,7 @@ dependencies:
   flutter_local_notifications: ^1.4.4+1
   url_launcher: ^5.4.11
   circular_profile_avatar: ^1.0.6
-  clip_shadow: ^0.2.1
-  flutter_custom_clippers: ^1.1.1
   line_awesome_flutter: ^1.0.1
-  animated_theme_switcher: ^1.0.6
   flutter_screenutil: ^2.2.0
   simple_animations: ^2.2.1
 

@@ -29,13 +29,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
-  animated_theme_switcher:
-    dependency: "direct main"
-    description:
-      name: animated_theme_switcher
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.6"
   archive:
     dependency: transitive
     description:
@@ -106,13 +99,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.6"
-  clip_shadow:
-    dependency: "direct main"
-    description:
-      name: clip_shadow
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.1"
   clock:
     dependency: transitive
     description:
@@ -286,13 +272,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.1"
-  flutter_custom_clippers:
-    dependency: "direct main"
-    description:
-      name: flutter_custom_clippers
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.1"
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -462,13 +441,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
-  infinite_listview:
-    dependency: "direct main"
-    description:
-      name: infinite_listview
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1+1"
   intl:
     dependency: transitive
     description:
@@ -880,13 +852,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.0"
-  swipedetector:
-    dependency: "direct main"
-    description:
-      name: swipedetector
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.0"
   synchronized:
     dependency: transitive
     description:

@@ -89,208 +89,211 @@ class _ProfilePageState extends State<ProfilePage>
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xfff6f7fb),
-      body: Stack(
-        children: <Widget>[
-          AnimatedContainer(
-            duration: Duration(milliseconds: 300),
-            transform: Matrix4.diagonal3Values(1.0, curvedLength, 1.0),
-            color: Color(0xfff6f7fb),
-            child: CurvedDecorator(
-              color: Colors.white,
-              radius: MediaQuery.of(context).size.height * 0.75,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Color(0xfff6f7fb),
+        body: Stack(
+          children: <Widget>[
+            AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              transform: Matrix4.diagonal3Values(1.0, curvedLength, 1.0),
+              color: Color(0xfff6f7fb),
+              child: CurvedDecorator(
+                color: Colors.white,
+                radius: MediaQuery.of(context).size.height * 0.75,
+              ),
             ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: (40 / 678) * height,
-              ),
-              Stack(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Container(),
-                      ),
-                      IconButton(
-                        icon: Container(
-                          child: SvgPicture.asset(
-                            'assets/user.svg',
-                            height: (100 / 678) * height,
-                            width: (100 / 678) * height,
-                            color: Color(0xff25d368),
-                          ),
-                        ),
-                        onPressed: null,
-                      ),
-                      Expanded(
-                        child: Container(),
-                      ),
-                    ],
-                  ),
-                  state != 'profile'
-                      ? FadeTransition(
-                          opacity: panelOpacity,
-                          child: Row(
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(
-                                  Icons.arrow_back,
-                                  size: (24 / 678) * height,
-                                ),
-                                onPressed: () {
-                                  if (editNameController.value == 1.0)
-                                    editNameController.reverse();
-                                  if (editNameController.value == 1.0)
-                                    editNameController.reverse();
-                                  panelController.reverse();
-                                  profileController.reverse();
-                                  homeController.reverse();
-                                  setState(() {
-                                    curvedLength = 1.0;
-                                    state = 'profile';
-                                  });
-                                },
-                              ),
-                              Expanded(
-                                child: Container(),
-                              ),
-                              state == 'editName'
-                                  ? IconButton(
-                                      icon: Icon(
-                                        Icons.check,
-                                        size: (24 / 678) * height,
-                                      ),
-                                      onPressed: () {
-                                        if (formKey.currentState.validate()) {
-                                          formKey.currentState.save();
-                                          if (editNameController.value == 1.0)
-                                            editNameController.reverse();
-                                          if (editNameController.value == 1.0)
-                                            editNameController.reverse();
-                                          panelController.reverse();
-                                          profileController.reverse();
-                                          homeController.reverse();
-                                          setState(() {
-                                            curvedLength = 1.0;
-                                            state = 'profile';
-                                          });
-                                        }
-                                      },
-                                    )
-                                  : SizedBox(
-                                      width: 0,
-                                      height: 0,
-                                      child: Container(),
-                                    ),
-                              SizedBox(
-                                width: (10 / 360) * width,
-                              ),
-                            ],
-                          ),
-                        )
-                      : SizedBox(
-                          width: 0,
-                          height: 0,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  height: (40 / 678) * height,
+                ),
+                Stack(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Expanded(
                           child: Container(),
                         ),
-                  state == 'profile'
-                      ? FadeTransition(
-                          opacity: homeOpacity,
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Container(),
-                              ),
-                              IconButton(
-                                icon: Container(
-                                  child: SvgPicture.asset(
-                                    'assets/home.svg',
-                                    height: (25 / 678) * height,
-                                    width: (25 / 678) * height,
-                                    color: Color(0xff58f8f8f),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  widget.controller.animateToPage(
-                                    1,
-                                    duration: Duration(milliseconds: 1000),
-                                    curve: Curves.fastLinearToSlowEaseIn,
-                                  );
-                                },
-                              ),
-                              SizedBox(
-                                width: (10 / 360) * width,
-                              ),
-                            ],
+                        IconButton(
+                          icon: Container(
+                            child: SvgPicture.asset(
+                              'assets/user.svg',
+                              height: (100 / 678) * height,
+                              width: (100 / 678) * height,
+                              color: Color(0xff25d368),
+                            ),
                           ),
-                        )
-                      : SizedBox(
-                          width: 0,
-                          height: 0,
+                          onPressed: null,
+                        ),
+                        Expanded(
                           child: Container(),
                         ),
-                ],
-              ),
-              Stack(
-                children: <Widget>[
-                  FadeTransition(
-                    opacity: profileOpacity,
-                    child: ProfilePageLayout(
-                      editNameController: editNameController,
-                      editPhoneController: editPhoneController,
-                      appState: widget.appState,
-                      onNamePressed: () {
-                        setState(() => curvedLength = 1.5);
-                        panelController.forward();
-                        homeController.forward();
-                        profileController.forward();
-                        state = 'editName';
-                      },
-                      onPhonePressed: () {
-                        setState(() => curvedLength = 1.5);
-                        panelController.forward();
-                        homeController.forward();
-                        profileController.forward();
-                        state = 'editPhone';
-                      },
+                      ],
                     ),
-                  ),
-                  state == 'editPhone'
-                      ? FadeTransition(
-                          opacity: editPhoneOpacity,
-                          child: EditPhoneLayout(
-                            appState: widget.appState,
+                    state != 'profile'
+                        ? FadeTransition(
+                            opacity: panelOpacity,
+                            child: Row(
+                              children: <Widget>[
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.arrow_back,
+                                    size: (24 / 678) * height,
+                                  ),
+                                  onPressed: () {
+                                    if (editNameController.value == 1.0)
+                                      editNameController.reverse();
+                                    if (editNameController.value == 1.0)
+                                      editNameController.reverse();
+                                    panelController.reverse();
+                                    profileController.reverse();
+                                    homeController.reverse();
+                                    setState(() {
+                                      curvedLength = 1.0;
+                                      state = 'profile';
+                                    });
+                                  },
+                                ),
+                                Expanded(
+                                  child: Container(),
+                                ),
+                                state == 'editName'
+                                    ? IconButton(
+                                        icon: Icon(
+                                          Icons.check,
+                                          size: (24 / 678) * height,
+                                        ),
+                                        onPressed: () {
+                                          if (formKey.currentState.validate()) {
+                                            formKey.currentState.save();
+                                            if (editNameController.value == 1.0)
+                                              editNameController.reverse();
+                                            if (editNameController.value == 1.0)
+                                              editNameController.reverse();
+                                            panelController.reverse();
+                                            profileController.reverse();
+                                            homeController.reverse();
+                                            setState(() {
+                                              curvedLength = 1.0;
+                                              state = 'profile';
+                                            });
+                                          }
+                                        },
+                                      )
+                                    : SizedBox(
+                                        width: 0,
+                                        height: 0,
+                                        child: Container(),
+                                      ),
+                                SizedBox(
+                                  width: (10 / 360) * width,
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(
+                            width: 0,
+                            height: 0,
+                            child: Container(),
                           ),
-                        )
-                      : SizedBox(
-                          child: Container(),
-                          width: 0,
-                          height: 0,
-                        ),
-                  state == 'editName'
-                      ? FadeTransition(
-                          opacity: editNameOpacity,
-                          child: EditNameLayout(
-                            appState: widget.appState,
-                            formKey: formKey,
+                    state == 'profile'
+                        ? FadeTransition(
+                            opacity: homeOpacity,
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Container(),
+                                ),
+                                IconButton(
+                                  icon: Container(
+                                    child: SvgPicture.asset(
+                                      'assets/home.svg',
+                                      height: (25 / 678) * height,
+                                      width: (25 / 678) * height,
+                                      color: Color(0xff58f8f8f),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    widget.controller.animateToPage(
+                                      1,
+                                      duration: Duration(milliseconds: 1000),
+                                      curve: Curves.fastLinearToSlowEaseIn,
+                                    );
+                                  },
+                                ),
+                                SizedBox(
+                                  width: (10 / 360) * width,
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox(
+                            width: 0,
+                            height: 0,
+                            child: Container(),
                           ),
-                        )
-                      : SizedBox(
-                          child: Container(),
-                          width: 0,
-                          height: 0,
-                        ),
-                ],
-              ),
-            ],
-          ),
-        ],
+                  ],
+                ),
+                Stack(
+                  children: <Widget>[
+                    FadeTransition(
+                      opacity: profileOpacity,
+                      child: ProfilePageLayout(
+                        editNameController: editNameController,
+                        editPhoneController: editPhoneController,
+                        appState: widget.appState,
+                        onNamePressed: () {
+                          setState(() => curvedLength = 1.5);
+                          panelController.forward();
+                          homeController.forward();
+                          profileController.forward();
+                          state = 'editName';
+                        },
+                        onPhonePressed: () {
+                          setState(() => curvedLength = 1.5);
+                          panelController.forward();
+                          homeController.forward();
+                          profileController.forward();
+                          state = 'editPhone';
+                        },
+                      ),
+                    ),
+                    state == 'editPhone'
+                        ? FadeTransition(
+                            opacity: editPhoneOpacity,
+                            child: EditPhoneLayout(
+                              appState: widget.appState,
+                            ),
+                          )
+                        : SizedBox(
+                            child: Container(),
+                            width: 0,
+                            height: 0,
+                          ),
+                    state == 'editName'
+                        ? FadeTransition(
+                            opacity: editNameOpacity,
+                            child: EditNameLayout(
+                              appState: widget.appState,
+                              formKey: formKey,
+                            ),
+                          )
+                        : SizedBox(
+                            child: Container(),
+                            width: 0,
+                            height: 0,
+                          ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
