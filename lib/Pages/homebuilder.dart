@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:frute/Pages/homePage.dart';
 import 'package:frute/helpers/nearbyVendorQueryHelper.dart';
 import 'package:frute/AppState.dart';
+import 'package:google_map_location_picker/google_map_location_picker.dart';
+import 'package:location/location.dart';
 
 class HomeBuilder extends StatefulWidget {
   AppState appState;
+  //LocationResult locationResult;
   HomeBuilder(this.appState);
   @override
   _HomeBuilderState createState() => _HomeBuilderState();
@@ -13,20 +18,30 @@ class HomeBuilder extends StatefulWidget {
 class _HomeBuilderState extends State<HomeBuilder> {
   bool loading = false;
   NearbyVendorQueryHelper nearbyVendorQueryHelper;
+  Completer refreshCompleter;
 
   @override
   void initState() {
     super.initState();
     nearbyVendorQueryHelper =
         NearbyVendorQueryHelper(appState: widget.appState);
+    refreshCompleter = Completer();
+    //print('location result ${widget.locationResult}');
+  }
+
+  refreshVendors() {
+    refreshCompleter = Completer();
+    setState(() {});
+    return refreshCompleter.future;
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: nearbyVendorQueryHelper.getNearbyVendors(),
+      future: nearbyVendorQueryHelper.getNearbyVendors(context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          refreshCompleter.complete();
           if (snapshot.data ==
               NearbyVendorQueryHelper.LOCATION_SERVICE_DISABLED) {
             return WillPopScope(
@@ -58,7 +73,7 @@ class _HomeBuilderState extends State<HomeBuilder> {
               ),
             );
           } else {
-            return HomePage(snapshot.data);
+            return HomePage(snapshot.data, refreshVendors);
           }
         } else {
           return WillPopScope(

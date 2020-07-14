@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:frute/Pages/homebuilder.dart';
 import 'package:frute/Pages/namePage.dart';
 import 'package:frute/helpers/messagingHelper.dart';
@@ -16,7 +17,11 @@ import 'dart:convert';
 import 'helpers/directionApiHelper.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   DirectionsService.init(gmapsApiKey);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(MyApp());
 }
 
@@ -52,7 +57,7 @@ class _MyAppState extends State<MyApp> {
         .document(pendingTripVendorId)
         .get();
     List<dynamic> jsonTrips = document.data['pendingTrips'];
-    if(jsonTrips == null) return null;
+    if (jsonTrips == null) return null;
     for (dynamic jsonTrip in jsonTrips) {
       String uid = jsonTrip['uid'];
       if (phoneNumber == uid) {

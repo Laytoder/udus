@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:frute/AppState.dart';
+import 'package:frute/tokens/googleMapsApiKey.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'locationHelper.dart';
@@ -21,18 +24,38 @@ class NearbyVendorQueryHelper {
 
   NearbyVendorQueryHelper({this.appState});
 
-  Future<dynamic> getNearbyVendors() async {
+  Future<dynamic> getNearbyVendors(BuildContext context) async {
     try {
       await locationHelper.enableLocationService();
     } catch (e) {
       return LOCATION_SERVICE_DISABLED;
     }
-    LocationData location;
     if (await locationHelper.requestLocationPermission() ==
         LocationHelper.PERMISSION_GRANTED) {
-      location = await locationHelper.getLocation();
-      print('updated user location');
+      //location = await locationHelper.getLocation();
+      //print('updated user location');
+      LatLng location;
+      if (appState.userLocation == null) {
+        location = (await showLocationPicker(
+          context,
+          gmapsApiKey,
+          myLocationButtonEnabled: true,
+          automaticallyAnimateToCurrentLocation: true,
+        ))
+            .latLng;
+      } else {
+        LocationData newLocation = await locationHelper.getLocation();
+        location = LatLng(newLocation.latitude, newLocation.longitude);
+      }
       appState.userLocation = GeoCoord(location.latitude, location.longitude);
+      /*LatLng location;
+    if (locationResult != null) {
+      location = locationResult.latLng;
+      appState.userLocation = GeoCoord(location.latitude, location.longitude);
+    } else {
+      location = LatLng(
+          appState.userLocation.latitude, appState.userLocation.longitude);
+    }*/
       GeoFirePoint center =
           geo.point(latitude: location.latitude, longitude: location.longitude);
       var fireRef = firestoreInstance

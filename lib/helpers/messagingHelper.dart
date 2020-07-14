@@ -43,7 +43,12 @@ class MessagingHelper {
           <String, dynamic>{
             'notification': <String, dynamic>{
               'body': 'Request from $clientName',
-              'title': 'Request Occured'
+              'title': 'Request Occured',
+              'android': {
+                'notification': {
+                  'channel_id': 'hawferid',
+                },
+              }
             },
             'priority': 'high',
             'data': <String, dynamic>{
@@ -199,8 +204,8 @@ class MessagingHelper {
 
   Future showNotification(Map<String, dynamic> message) async {
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'hawferid', 'hawfer', 'this is hawfer channel',
-        importance: Importance.Max, priority: Priority.High);
+        'hawferid', 'hawfer name', 'hawfer description',
+        importance: Importance.High, priority: Priority.High);
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
     var platformChannelSpecifics = new NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
@@ -327,10 +332,7 @@ class MessagingHelper {
     }
   }
 
-  startMessagingService(
-      AppState appState, SharedPreferences preferences) async {
-    this.preferences = preferences;
-    this.appState = appState;
+  Future<void> initializeLocalNotifications() async {
     var initializationSettingsAndroid =
         new AndroidInitializationSettings('app_icon');
     var initializationSettingsIOS = new IOSInitializationSettings();
@@ -339,6 +341,29 @@ class MessagingHelper {
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
+  }
+
+  Future<void> createNotificationChannel(
+      String id, String name, String description) async {
+    var androidNotificationChannel = AndroidNotificationChannel(
+      id,
+      name,
+      description,
+      importance: Importance.High,
+    );
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(androidNotificationChannel);
+  }
+
+  startMessagingService(
+      AppState appState, SharedPreferences preferences) async {
+    this.preferences = preferences;
+    this.appState = appState;
+    await initializeLocalNotifications();
+    await createNotificationChannel(
+        'hawferid', 'hawfer name', 'hawfer description');
     appState.messages = StreamController();
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {

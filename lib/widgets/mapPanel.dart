@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/homePage.dart';
+import 'package:frute/Pages/homebuilder.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/helpers/pidHelper.dart';
 import 'package:frute/models/vendorInfo.dart';
@@ -346,7 +347,7 @@ class _MapPanelState extends State<MapPanel>
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          HomePage(widget.appState),
+                                          HomeBuilder(widget.appState),
                                     ),
                                   );
                                 },

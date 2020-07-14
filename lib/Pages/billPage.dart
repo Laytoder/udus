@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/homePage.dart';
+import 'package:frute/Pages/homebuilder.dart';
 import 'package:frute/helpers/tripCompleter.dart';
 import 'package:frute/models/vegetable.dart';
 
@@ -91,7 +92,7 @@ class _BillPageState extends State<BillPage> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => HomePage(widget.appState)),
+                            builder: (context) => HomeBuilder(widget.appState)),
                       );
                     },
                   ),

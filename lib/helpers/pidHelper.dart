@@ -161,17 +161,15 @@ class PIDHelper {
         eta = eta + stepList[i].duration.value;
       }
       String dispEta, dispDist;
-      if(eta < 60) {
+      if (eta < 60) {
         dispEta = '${eta.toInt()} secs';
-      }
-      else {
+      } else {
         eta = eta / 60;
         dispEta = '${eta.toInt()} mins';
       }
-      if(dist < 1000) {
+      if (dist < 1000) {
         dispDist = '${dist.toInt()} meters';
-      }
-      else {
+      } else {
         dist = dist / 1000;
         dispDist = '${dist.toInt()} km';
       }
@@ -254,6 +252,11 @@ class PIDHelper {
 
   Stream getDistStream() {
     return distStreamController.stream;
+  }
+
+  endTrip() {
+    etaStreamController.add('0 secs');
+    distStreamController.add('0 meters');
   }
 
   void dispose() {

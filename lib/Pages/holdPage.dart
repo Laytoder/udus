@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/homePage.dart';
+import 'package:frute/Pages/homebuilder.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/helpers/messageGetters.dart';
 import 'package:frute/helpers/messagingHelper.dart';
@@ -101,7 +102,7 @@ class HoldPage extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomePage(appState),
+                  builder: (context) => HomeBuilder(appState),
                 ),
               );
             },

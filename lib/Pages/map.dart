@@ -117,6 +117,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
           if (index == polyLineList.length - 1) {
             carController.stop();
             locationSubscription.cancel();
+            pidHelper.endTrip();
             return;
           }
           carController.reset();
