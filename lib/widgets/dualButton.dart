@@ -41,7 +41,7 @@ class _DualButtonState extends State<DualButton>
 
     anim2 = ColorTween(
       begin: Colors.white,
-      end: Color(0xff58f8f8f),
+      end: Colors.white,
     ).animate(controller);
 
     anim1 = ColorTween(
@@ -79,7 +79,7 @@ class _DualButtonState extends State<DualButton>
                   height: (widget.height - (2 * widget.padding)),
                   duration: Duration(milliseconds: 200),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Color.fromRGBO(13, 47, 61, 1),
                     //You can create a variable to unify the
                     //borderRadius for all containers.
                     borderRadius:

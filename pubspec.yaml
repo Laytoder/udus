@@ -53,6 +53,7 @@ dependencies:
   line_awesome_flutter: ^1.0.1
   flutter_screenutil: ^2.2.0
   simple_animations: ^2.2.1
+  flutter_neumorphic: ^3.0.1
 
 dev_dependencies:
   flutter_test:

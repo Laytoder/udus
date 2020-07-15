@@ -21,7 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frute/models/trip.dart';
 import 'holdPage.dart';
 import 'package:frute/helpers/messageGetters.dart';
-import 'package:simple_animations/simple_animations.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class HomePage extends StatefulWidget {
   AppState appState;
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage>
         WillPopScope(
           onWillPop: () async => false,
           child: Scaffold(
-            backgroundColor: Color(0xfff6f7fb),
+            backgroundColor: Colors.white,
             //backgroundColor: Colors.amberAccent,
             body: Stack(
               children: <Widget>[

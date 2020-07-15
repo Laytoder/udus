@@ -110,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage>
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: (40 / 678) * height,
+                  height: (20 / 678) * height,
                 ),
                 Stack(
                   children: <Widget>[

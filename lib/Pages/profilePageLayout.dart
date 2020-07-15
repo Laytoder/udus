@@ -97,6 +97,26 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
               ),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.only(top: (15 / 640) * height),
+            child: Text(
+              'Yuvraj Singh',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: (25 / (640 * 360)) * height * width,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: (5 / 640) * height),
+            child: Text(
+              '+9191XXXXXXX9',
+              style: TextStyle(
+                fontWeight: FontWeight.w100,
+                fontSize: (12 / (640 * 360)) * height * width,
+              ),
+            ),
+          ),
           Expanded(
             flex: 12,
             child: Stack(
@@ -124,7 +144,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                           ),
                         ),
                         Text(
-                          'EDIT NAME',
+                          'Edit Name',
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontWeight: FontWeight.w400,
@@ -152,7 +172,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                           ),
                         ),
                         Text(
-                          'EDIT NUMBER',
+                          'Edit Number',
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontWeight: FontWeight.w400,
@@ -196,7 +216,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                           height: (3 / 678) * height,
                         ),
                         Text(
-                          'EDIT LOCATION',
+                          'Edit Location',
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontWeight: FontWeight.w400,
