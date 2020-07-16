@@ -41,7 +41,7 @@ class _HomeBuilderState extends State<HomeBuilder> {
       future: nearbyVendorQueryHelper.getNearbyVendors(context),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          refreshCompleter.complete();
+          //refreshCompleter.complete();
           if (snapshot.data ==
               NearbyVendorQueryHelper.LOCATION_SERVICE_DISABLED) {
             return WillPopScope(
