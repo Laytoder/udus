@@ -323,7 +323,7 @@ class _MapPanelState extends State<MapPanel>
                               ),
                             ],
                           ),
-                          Align(
+                          /*Align(
                             alignment: Alignment.topLeft,
                             child: Container(
                               margin: EdgeInsets.only(
@@ -353,7 +353,7 @@ class _MapPanelState extends State<MapPanel>
                                 },
                               ),
                             ),
-                          ),
+                          ),*/
                         ],
                       ),
                     ),

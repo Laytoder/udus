@@ -336,6 +336,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_xlider:
+    dependency: "direct main"
+    description:
+      name: flutter_xlider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.4.0"
   geoflutterfire:
     dependency: "direct main"
     description:
@@ -553,6 +560,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.4"
+  neumorphic:
+    dependency: "direct main"
+    description:
+      name: neumorphic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
   node_interop:
     dependency: transitive
     description:
@@ -959,4 +973,4 @@ packages:
     version: "2.2.1"
 sdks:
   dart: ">=2.8.0 <3.0.0"
-  flutter: ">=1.16.3 <2.0.0"
+  flutter: ">=1.17.0 <2.0.0"

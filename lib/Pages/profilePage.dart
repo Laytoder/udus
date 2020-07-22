@@ -4,6 +4,7 @@ import 'package:frute/AppState.dart';
 import 'package:frute/Pages/editNameLayout.dart';
 import 'package:frute/Pages/profilePageLayout.dart';
 import 'package:frute/Pages/editPhoneLayout.dart';
+import 'package:frute/assets/my_flutter_app_icons.dart';
 import 'package:frute/widgets/curvedDecorator.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -120,13 +121,18 @@ class _ProfilePageState extends State<ProfilePage>
                           child: Container(),
                         ),
                         IconButton(
-                          icon: Container(
+                          /*icon: Container(
                             child: SvgPicture.asset(
                               'assets/user.svg',
-                              height: (100 / 678) * height,
-                              width: (100 / 678) * height,
+                              height: (60 / 678) * height,
+                              width: (60 / 678) * height,
                               color: Color(0xff25d368),
                             ),
+                          ),*/
+                          icon: Icon(
+                            MyFlutterApp.user,
+                            color: Color.fromRGBO(35, 205, 99, 1.0),
+                            size: 30,
                           ),
                           onPressed: null,
                         ),

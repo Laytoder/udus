@@ -86,8 +86,8 @@ class HoldPage extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
+        /*appBar: AppBar(
+          /*leading: IconButton(
             icon: Container(
               child: SvgPicture.asset(
                 'assets/home.svg',
@@ -106,8 +106,8 @@ class HoldPage extends StatelessWidget {
                 ),
               );
             },
-          ),
-        ),
+          ),*/
+        ),*/
         body: Center(
           child: Text(
               '$vendorName is on another trip\nWill take approx $eta to start your trip'),

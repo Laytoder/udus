@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/helpers/sourceAndImageFetcherDialog.dart';
 import 'package:frute/tokens/googleMapsApiKey.dart';
@@ -103,7 +104,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
               'Yuvraj Singh',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: (25 / (640 * 360)) * height * width,
+                fontSize: (20 / (640 * 360)) * height * width,
               ),
             ),
           ),
@@ -148,7 +149,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontWeight: FontWeight.w400,
-                            fontSize: (14 / 678) * height,
+                            fontSize: (12 / 678) * height,
                           ),
                         ),
                       ],
@@ -176,7 +177,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontWeight: FontWeight.w400,
-                            fontSize: (14 / 678) * height,
+                            fontSize: (12 / 678) * height,
                           ),
                         ),
                       ],
@@ -195,7 +196,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                         SizedBox(
                           height: (50 / 678) * height,
                         ),
-                        FloatingActionButton(
+                        /*FloatingActionButton(
                           heroTag: null,
                           onPressed: () async {
                             LocationResult locationResult =
@@ -211,16 +212,32 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                             color: Colors.white,
                             size: (24 / 678) * height,
                           ),
-                        ),
+                        ),*/
+                        /*Container(
+                          alignment: Alignment.center,
+                          width: 10,
+                          height: 10,
+                          margin: EdgeInsets.only(top: 50, left: 50, right: 50),
+                          child: FlutterSlider(
+                            values: [300],
+                            max: 500,
+                            min: 0,
+                            onDragging: (handlerIndex, lowerValue, upperValue) {
+                              //_lowerValue = lowerValue;
+                              //_upperValue = upperValue;
+                              setState(() {});
+                            },
+                          ),
+                        ),*/
                         SizedBox(
                           height: (3 / 678) * height,
                         ),
                         Text(
-                          'Edit Location',
+                          'Edit Distance',
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontWeight: FontWeight.w400,
-                            fontSize: (14 / 678) * height,
+                            fontSize: (12 / 678) * height,
                           ),
                         ),
                       ],

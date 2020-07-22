@@ -19,6 +19,7 @@ import 'dart:math' as Math;
 import 'package:angles/angles.dart';
 import 'package:frute/helpers/pidHelper.dart';
 import 'package:frute/helpers/messageGetters.dart';
+import 'package:frute/Pages/priceListPage.dart';
 
 class Map extends StatefulWidget {
   DirectionApiHelper directionApiHelper;
@@ -137,11 +138,13 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   startListeningToLiveDataAndStartCarAnim() {
     locationSubscription =
         vendorQueryHelper.getVendorLocationStream(vendorId).listen((newPos) {
-      if (!carAnimStarted) {
-        locationSubscription.pause();
-        startCarAnim(newPos);
-      } else {
-        updateInterval(newPos);
+      if (newPos != null) {
+        if (!carAnimStarted) {
+          locationSubscription.pause();
+          startCarAnim(newPos);
+        } else {
+          updateInterval(newPos);
+        }
       }
     });
   }
@@ -190,8 +193,9 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   }
 
   waitForReplyAndLaunch() async {
+    widget.appState.messages = StreamController();
     var messageMap = await getReply(widget.appState);
-    List<dynamic> jsonVegetables = messageMap['vegetables'];
+    /*List<dynamic> jsonVegetables = messageMap['vegetables'];
     List<Vegetable> purchasedVegetables = [];
     for (dynamic jsonVegetable in jsonVegetables) {
       Vegetable vegetable = Vegetable.fromJson(jsonVegetable);
@@ -209,6 +213,18 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
           vegetables: purchasedVegetables,
           total: total,
           appState: widget.appState,
+        ),
+      ),
+    );*/
+    widget.appState.pendingTrip.state = 'reached';
+    String vendorId = widget.appState.pendingTrip.vendorId;
+    VendorInfo vendor = widget.appState.vendors[vendorId];
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PriceListPage(
+          vendor,
+          widget.appState,
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/tokens/googleMapsApiKey.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -24,7 +25,7 @@ class NearbyVendorQueryHelper {
 
   NearbyVendorQueryHelper({this.appState});
 
-  Future<dynamic> getNearbyVendors(BuildContext context) async {
+  Future<dynamic> getNearbyVendors(BuildContext context, String state) async {
     try {
       await locationHelper.enableLocationService();
     } catch (e) {
@@ -35,19 +36,50 @@ class NearbyVendorQueryHelper {
       //location = await locationHelper.getLocation();
       //print('updated user location');
       LatLng location;
-      if (appState.userLocation == null) {
-        location = (await showLocationPicker(
+      if (state == 'normal') {
+        if (appState.userLocation == null && appState.pendingTrip == null) {
+          location = (await showLocationPicker(
+            context,
+            gmapsApiKey,
+            appBarColor: Colors.white,
+            myLocationButtonEnabled: true,
+            automaticallyImplyLeading: false,
+            automaticallyAnimateToCurrentLocation: true,
+          ))
+              .latLng;
+          appState.userLocation =
+              GeoCoord(location.latitude, location.longitude);
+        } else {
+          /*LocationData newLocation = await locationHelper.getLocation();
+          location = LatLng(newLocation.latitude, newLocation.longitude);*/
+          location = LatLng(
+            appState.userLocation.latitude,
+            appState.userLocation.longitude,
+          );
+        }
+        //appState.userLocation = GeoCoord(location.latitude, location.longitude);
+      } else {
+        location = LatLng(
+          appState.userLocation.latitude,
+          appState.userLocation.longitude,
+        );
+        LocationResult locationResult = await showLocationPicker(
           context,
           gmapsApiKey,
+          appBarColor: Colors.white,
           myLocationButtonEnabled: true,
-          automaticallyAnimateToCurrentLocation: true,
-        ))
-            .latLng;
-      } else {
-        LocationData newLocation = await locationHelper.getLocation();
-        location = LatLng(newLocation.latitude, newLocation.longitude);
+          automaticallyImplyLeading: true,
+          automaticallyAnimateToCurrentLocation: false,
+          initialCenter: location,
+        );
+        if (locationResult != null) {
+          double lat = locationResult.latLng.latitude;
+          double lon = locationResult.latLng.longitude;
+          GeoCoord newLoc = GeoCoord(lat, lon);
+          appState.userLocation = newLoc;
+          location = locationResult.latLng;
+        }
       }
-      appState.userLocation = GeoCoord(location.latitude, location.longitude);
       /*LatLng location;
     if (locationResult != null) {
       location = locationResult.latLng;

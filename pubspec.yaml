@@ -54,6 +54,8 @@ dependencies:
   flutter_screenutil: ^2.2.0
   simple_animations: ^2.2.1
   flutter_neumorphic: ^3.0.1
+  neumorphic: ^0.3.2
+  flutter_xlider: ^3.4.0
 
 dev_dependencies:
   flutter_test:
@@ -92,7 +94,9 @@ flutter:
     - assets/home.svg
     - assets/home.svg
     - assets/person.png
-    - assets/BG-img.jpg
+    - assets/BG-img.png
+    - assets/veg_box.jpg
+    - assets/medal.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

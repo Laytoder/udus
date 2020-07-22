@@ -21,12 +21,12 @@ class Trip {
       this.directionApiHelper,
       this.verificationBill});
 
-  /*Map toJson() {
+  Map toJson() {
     return <String, dynamic>{
       'state': state,
       'eta': eta,
       //'vendorId': vendorId,
-      'uid': uid,
+      //'uid': uid,
       'origin': origin == null ? '' : origin.toJson(),
       'destination': destination == null ? '' : destination.toJson(),
       'directionApiHelper':
@@ -35,7 +35,7 @@ class Trip {
           verificationBill == null ? '' : verificationBill.toJson(),
     };
   }
-
+/*
   Trip.fromJson(Map json) {
     state = json['state'];
     eta = json['eta'];

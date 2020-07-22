@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:frute/models/vegetable.dart';
 
 class Bill {
@@ -20,12 +22,14 @@ class Bill {
   }
 
   Bill.fromJson(Map json) {
-    List<dynamic> jsonPurchasedVegs = json['purchasedVegetables'];
-    List<Vegetable> purchasedVegetables = [];
+    List<dynamic> jsonPurchasedVegs = json['vegetables'];
+    purchasedVegetables = [];
+    print(json);
     for (dynamic jsonVeg in jsonPurchasedVegs)
       purchasedVegetables.add(Vegetable.fromJson(jsonVeg));
-    this.purchasedVegetables = purchasedVegetables;
+    //this.purchasedVegetables = purchasedVegetables;
     total = json['total'];
-    date = DateTime.parse(json['date']);
+    date = DateTime.now();
+    //print('reached');
   }
 }

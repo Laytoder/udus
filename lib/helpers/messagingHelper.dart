@@ -218,6 +218,10 @@ class MessagingHelper {
     );
   }
 
+  Future cancelNotifications() async {
+    flutterLocalNotificationsPlugin.cancelAll();
+  }
+
   Future onSelectNotification(String payload) async {
     Map<String, dynamic> messageMap = jsonDecode(payload);
     String state = messageMap['state'];
@@ -413,7 +417,7 @@ class MessagingHelper {
             }
             break;
         }*/
-        if (appState.active) {
+        /*if (appState.active) {
           appState.messages.add(messageMap);
         } else {
           String state = messageMap['state'];
@@ -454,11 +458,12 @@ class MessagingHelper {
               break;
           }
           showNotification(message);
-        }
+        }*/
+        appState.messages.add(messageMap);
       },
       onResume: (Map<String, dynamic> message) async {
         print('on resume is the asshole');
-        Map<String, dynamic> messageMap =
+        /*Map<String, dynamic> messageMap =
             jsonDecode(message['data']['message']);
         String state = messageMap['state'];
         switch (state) {
@@ -496,11 +501,11 @@ class MessagingHelper {
                 Bill(purchasedVegetables, total, DateTime.now());
             break;
         }
-        onSelectNotification(message['data']['message']);
+        onSelectNotification(message['data']['message']);*/
       },
       onLaunch: (Map<String, dynamic> message) async {
         print('on launch is the asshole');
-        Map<String, dynamic> messageMap =
+        /*Map<String, dynamic> messageMap =
             jsonDecode(message['data']['message']);
         String state = messageMap['state'];
         switch (state) {
@@ -538,7 +543,7 @@ class MessagingHelper {
                 Bill(purchasedVegetables, total, DateTime.now());
             break;
         }
-        onSelectNotification(message['data']['message']);
+        onSelectNotification(message['data']['message']);*/
       },
     );
   }

@@ -15,6 +15,7 @@ import 'helpers/authService.dart';
 import 'models/trip.dart';
 import 'dart:convert';
 import 'helpers/directionApiHelper.dart';
+import 'Pages/pendingTripBuilder.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,11 +28,13 @@ void main() {
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  AppState appState;
+  MyApp({this.appState});
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   AppState appState = AppState(
       vendors: Map<String, VendorInfo>(), userId: [], messagingToken: '');
 
@@ -45,7 +48,38 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
+    if (widget.appState != null) {
+      appState = widget.appState;
+    }
     initializeAppStateAndStartMessagingService();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(final AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      print('onResume called');
+      if (appState.active) {
+        messagingHelper.cancelNotifications();
+        //setState(() {
+        appState.isPendingTripUpdated = false;
+        //});
+        //messagingHelper.navigatorkey.currentState.pop();
+        messagingHelper.navigatorkey.currentState.pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => MyApp(
+              appState: appState,
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    //WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   getPendingTripWithLatestData(
@@ -57,8 +91,12 @@ class _MyAppState extends State<MyApp> {
         .document(pendingTripVendorId)
         .get();
     List<dynamic> jsonTrips = document.data['pendingTrips'];
-    if (jsonTrips == null) return null;
+    print('this is jsonTrip $jsonTrips');
+    //print('reached');
+    //when there are no jsonTrips means the state is still requested
+    if (jsonTrips == null) return trip;
     for (dynamic jsonTrip in jsonTrips) {
+      //print('reached');
       String uid = jsonTrip['uid'];
       if (phoneNumber == uid) {
         trip.state = jsonTrip['state'];
@@ -66,17 +104,20 @@ class _MyAppState extends State<MyApp> {
           trip.origin = GeoCoord.fromJson(jsonTrip['origin']);
         if (jsonTrip['destination'] != null)
           trip.destination = GeoCoord.fromJson(jsonTrip['destination']);
+        //print('reached');
         if (jsonTrip['jsonBill'] != null)
           trip.verificationBill = Bill.fromJson(jsonTrip['jsonBill']);
+        //print('reached');
         trip.eta = jsonTrip['eta'];
       }
     }
+    //print('reached');
     if (trip.state == 'ongoing') {
       String jsonDirectionsApiHelper =
           preferences.getString('directionsApiHelper');
       if (jsonDirectionsApiHelper == null) {
         DirectionApiHelper directionApiHelper = DirectionApiHelper();
-        directionApiHelper.populateData(trip.origin, trip.destination);
+        await directionApiHelper.populateData(trip.origin, trip.destination);
         trip.directionApiHelper = directionApiHelper;
         preferences.setString(
           'directionsApiHelper',
@@ -90,8 +131,10 @@ class _MyAppState extends State<MyApp> {
         trip.directionApiHelper = directionApiHelper;
       }
     }
+    //print('reached');
     trip.vendorId = pendingTripVendorId;
-    if (trip.state == 'rejected') return null;
+    print('this is the got trip ${trip.toJson()}');
+    //if (trip.state == 'rejected') return null;
     return trip;
   }
 
@@ -112,9 +155,17 @@ class _MyAppState extends State<MyApp> {
       appState.phoneNumber = preferences.getString('phoneNumber');
     if (preferences.getString('image') != null)
       appState.image = preferences.getString('image');
+    if (!appState.isMessagingServiceStarted) {
+      print('starting messagign service');
+      messagingHelper.startMessagingService(appState, preferences);
+      appState.isMessagingServiceStarted = true;
+    }
+  }
+
+  updatePendingTrip(pendingTripVendorId) async {
     if (!appState.isPendingTripUpdated) {
       //List<String> jsonTrips = preferences.getStringList('pendingTrips');
-      String pendingTripVendorId = preferences.getString('pendingTripVendorId');
+      //String pendingTripVendorId = preferences.getString('pendingTripVendorId');
       /*if (jsonTrips != null && jsonTrips.length != 0) {
         for (String json in jsonTrips) {
           if (json != null) trips.add(Trip.fromJson(jsonDecode(json)));
@@ -124,16 +175,13 @@ class _MyAppState extends State<MyApp> {
       appState.pendingTrips = trips;
       appState.isPendingTripsUpdated = true;
     }*/
-      if (pendingTripVendorId != null)
-        appState.pendingTrip = await getPendingTripWithLatestData(
-            pendingTripVendorId, appState.phoneNumber);
+      //if (pendingTripVendorId != null)
+      appState.pendingTrip = await getPendingTripWithLatestData(
+          pendingTripVendorId, appState.phoneNumber);
+      //print('this is pendingTrip ${appState.pendingTrip}');
       appState.isPendingTripUpdated = true;
     }
-    if (!appState.isMessagingServiceStarted) {
-      print('starting messagign service');
-      messagingHelper.startMessagingService(appState, preferences);
-      appState.isMessagingServiceStarted = true;
-    }
+    return 'done';
   }
 
   @override
@@ -149,12 +197,53 @@ class _MyAppState extends State<MyApp> {
       ),
       navigatorKey: messagingHelper.navigatorkey,
       //home: AuthService().handleAuth(appState),
-      /* home: FutureBuilder(
+      home: FutureBuilder(
         future: AuthService().isSignedIn(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.data) {
-              return HomeBuilder(appState);
+              String pendingTripVendorId =
+                  preferences.getString('pendingTripVendorId');
+              if (pendingTripVendorId != null) {
+                //retreiving pendingTripVendorInfo
+                appState.vendors = Map<String, VendorInfo>();
+                appState.userId = [];
+                appState.userId.add(pendingTripVendorId);
+                VendorInfo pendingTripVendorInfo = VendorInfo.fromJson(
+                  jsonDecode(
+                    preferences.getString('pendingTripVendorInfo'),
+                  ),
+                );
+                appState.vendors[pendingTripVendorId] = pendingTripVendorInfo;
+                return FutureBuilder(
+                  future: updatePendingTrip(pendingTripVendorId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.data == 'done')
+                        return PendingTripBuilder(
+                          appState.pendingTrip,
+                          appState,
+                          preferences,
+                        );
+                      else
+                        return Scaffold(
+                          body: Center(
+                            child: Text('Loading latest state..'),
+                          ),
+                        );
+                    } else
+                      return Scaffold(
+                        body: Center(
+                          child: Text('Loading latest state..'),
+                        ),
+                      );
+                  },
+                );
+              } else {
+                appState.vendors = Map<String, VendorInfo>();
+                appState.userId = [];
+                return HomeBuilder(appState);
+              }
             } else {
               return NamePage(appState);
             }
@@ -164,8 +253,8 @@ class _MyAppState extends State<MyApp> {
             );
           }
         },
-      ),*/
-      home: HomeBuilder(appState),
+      ),
+      //home: HomeBuilder(appState),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -9,8 +9,9 @@ import 'package:location/location.dart';
 
 class HomeBuilder extends StatefulWidget {
   AppState appState;
+  String state;
   //LocationResult locationResult;
-  HomeBuilder(this.appState);
+  HomeBuilder(this.appState, {this.state = 'normal'});
   @override
   _HomeBuilderState createState() => _HomeBuilderState();
 }
@@ -31,14 +32,16 @@ class _HomeBuilderState extends State<HomeBuilder> {
 
   refreshVendors() {
     refreshCompleter = Completer();
-    setState(() {});
+    setState(() {
+      widget.state = 'normal';
+    });
     return refreshCompleter.future;
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: nearbyVendorQueryHelper.getNearbyVendors(context),
+      future: nearbyVendorQueryHelper.getNearbyVendors(context, widget.state),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           //refreshCompleter.complete();
