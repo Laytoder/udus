@@ -196,7 +196,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                         SizedBox(
                           height: (50 / 678) * height,
                         ),
-                        /*FloatingActionButton(
+                        FloatingActionButton(
                           heroTag: null,
                           onPressed: () async {
                             LocationResult locationResult =
@@ -208,11 +208,11 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                           },
                           backgroundColor: Color(0xff25d368),
                           child: Icon(
-                            Icons.location_on,
+                            Icons.location_searching,
                             color: Colors.white,
                             size: (24 / 678) * height,
                           ),
-                        ),*/
+                        ),
                         /*Container(
                           alignment: Alignment.center,
                           width: 10,

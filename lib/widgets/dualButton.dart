@@ -60,9 +60,14 @@ class _DualButtonState extends State<DualButton>
             boxShape: NeumorphicBoxShape.roundRect(
               BorderRadius.circular(widget.radius),
             ),
-            depth: -25,
+            depth: -3,
             lightSource: LightSource.topLeft,
-            color: Colors.white,
+            border: NeumorphicBorder(
+              color: Colors.white,
+              width: 1.5,
+            ),
+            //color: Colors.white,
+            color: Color(0xffE9F2F9),
           ),
           child: Container(
             //height: 50,

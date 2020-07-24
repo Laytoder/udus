@@ -20,6 +20,7 @@ import 'package:frute/Pages/map.dart';
 import 'package:neumorphic/neumorphic.dart' as neu;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frute/models/trip.dart';
+import 'package:slider_button/slider_button.dart';
 import 'holdPage.dart';
 import 'package:frute/helpers/messageGetters.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -233,6 +234,7 @@ class _HomePageState extends State<HomePage>
         WillPopScope(
           onWillPop: () async => false,
           child: Scaffold(
+            //backgroundColor: Color(0xffE9F2F9),
             //backgroundColor: Colors.white,
             //backgroundColor: Colors.amberAccent,
             body: Container(
@@ -241,13 +243,14 @@ class _HomePageState extends State<HomePage>
                   colors: [
                     //Color.fromRGBO(13, 47, 61, 1),
                     //Color.fromRGBO(35, 205, 99, 1.0),
-                    Colors.white,
-                    Color.fromRGBO(35, 205, 99, 0.3),
+                    Color(0xffE9F2F9),
+                    Color(0xffE5EFF8),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  stops: [0.6, 1],
+                  stops: [0.5, 1],
                 ),
+                color: Color(0xffdee8f4),
                 /*image: DecorationImage(
                   image: AssetImage('assets/Vegetable_back.jpg'),
                   fit: BoxFit.fill,
@@ -271,11 +274,11 @@ class _HomePageState extends State<HomePage>
                         },
                         child: SingleChildScrollView(
                           physics: AlwaysScrollableScrollPhysics(),
-                          child: Column(
+                          child: Stack(
                             children: <Widget>[
-                              SizedBox(
+                              /*SizedBox(
                                 height: (80 / 678) * height,
-                              ),
+                              ),*/
                               CarouselSlider.builder(
                                 itemCount: appState.userId.length,
                                 itemBuilder: (context, index) {
@@ -289,7 +292,7 @@ class _HomePageState extends State<HomePage>
                                 options: CarouselOptions(
                                   autoPlay: false,
                                   enableInfiniteScroll: true,
-                                  height: height * 0.80,
+                                  height: height * 0.94,
                                   enlargeCenterPage: true,
                                   onPageChanged: (index, _) {
                                     String key = appState.userId[index];
@@ -300,42 +303,74 @@ class _HomePageState extends State<HomePage>
                                   },
                                 ),
                               ),
-                              Container(
-                                width: width,
-                                color: Colors.transparent,
-                                height: (60 / 678) * height,
-                                //height: height,
-                                padding: EdgeInsets.only(
-                                  left: (40 / 360) * width,
-                                  right: (40 / 360) * width,
-                                  bottom: (20 / 678) * height,
-                                  //top: (20 / 678) * height,
-                                ),
-                                child: FadeAnimation(
-                                  1,
-                                  FloatingActionButton(
-                                    /*margin: EdgeInsets.only(
+                              Align(
+                                //alignment: Alignment.bottomRight,
+                                child: Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: height * 0.9,
+                                    ),
+                                    SliderButton(
+                                      width: width * 0.77,
+                                      height: height * 0.08,
+                                      action: () {},
+                                      dismissible: false,
+                                      buttonSize: 50,
+                                      label: Text(
+                                        "Slide to Call Vendor",
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15),
+                                      ),
+                                      icon: Container(
+                                        child: SvgPicture.asset(
+                                          'assets/ER.svg',
+                                          height: 32.5,
+                                          width: 32.5,
+                                          color: Color.fromRGBO(35, 205, 99, 1),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 40,
+                                    )
+                                    /*Container(
+                                      width: width,
+                                      color: Colors.transparent,
+                                      height: (60 / 678) * height,
+                                      //height: height,
+                                      padding: EdgeInsets.only(
+                                        left: (40 / 360) * width,
+                                        right: (40 / 360) * width,
+                                        bottom: (20 / 678) * height,
+                                        //top: (20 / 678) * height,
+                                      ),
+                                      child: FadeAnimation(
+                                        1,
+                                        FloatingActionButton(
+                                          /*margin: EdgeInsets.only(
                                     left: (40 / 360) * width,
                                     right: (40 / 360) * width,
                                   ),*/
-                                    /*backgroundColor:
+                                          /*backgroundColor:
                                         Color.fromRGBO(13, 47, 61, 1),*/
-                                    backgroundColor:
-                                        Color.fromRGBO(35, 205, 99, 1.0),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          (20 / 678) * height),
-                                    ),
-                                    //pressed: true,
-                                    /*style: NeumorphicStyle(
+                                          backgroundColor:
+                                              Color.fromRGBO(35, 205, 99, 1.0),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                (15 / 678) * height),
+                                          ),
+                                          //pressed: true,
+                                          /*style: NeumorphicStyle(
                                       shape: NeumorphicShape.flat,
                                       color: Color.fromRGBO(13, 47, 61, 1),
                                       boxShape: NeumorphicBoxShape.roundRect(
                                         BorderRadius.circular(
                                             (20 / 678) * height),
                                       )),*/
-                                    //padding: EdgeInsets.all(0.0),
-                                    /*child: Container(
+                                          //padding: EdgeInsets.all(0.0),
+                                          /*child: Container(
                                       decoration: BoxDecoration(
                                         /*gradient: LinearGradient(colors: [
                                           Color.fromRGBO(35, 205, 99, 1),
@@ -358,16 +393,16 @@ class _HomePageState extends State<HomePage>
                                         ),
                                       ),
                                     ),*/
-                                    child: Text(
-                                      'Contact Vendor',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: (18 / 678) * height,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    /*child: Text(
+                                          child: Text(
+                                            'Contact Vendor',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: (18 / 678) * height,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                          /*child: Text(
                                     'Contact Vendor',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -376,39 +411,47 @@ class _HomePageState extends State<HomePage>
                                       fontWeight: FontWeight.w400,
                                     ),
                                   ),*/
-                                    onPressed: () async {
-                                      //appState.pendingTrip != null
-                                      bool surity = await getSurity(context);
-                                      if (surity) {
-                                        if (appState.pendingTrip != null &&
-                                            appState.pendingTrip.state !=
-                                                'requested') {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            (10 / 678) *
-                                                                height)),
-                                                title: Text(
-                                                  'Sorry, you can only call one vendor at a time',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize:
-                                                        (14 / 678) * height,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        } else {
-                                          manageTrip(context, false, setState);
-                                        }
-                                      }
-                                    },
-                                  ),
+                                          onPressed: () async {
+                                            //appState.pendingTrip != null
+                                            bool surity =
+                                                await getSurity(context);
+                                            if (surity) {
+                                              if (appState.pendingTrip !=
+                                                      null &&
+                                                  appState.pendingTrip.state !=
+                                                      'requested') {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular((10 /
+                                                                          678) *
+                                                                      height)),
+                                                      title: Text(
+                                                        'Sorry, you can only call one vendor at a time',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: (14 / 678) *
+                                                              height,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
+                                              } else {
+                                                manageTrip(
+                                                    context, false, setState);
+                                              }
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    ),*/
+                                  ],
                                 ),
                               ),
                               /*NeumorphicButton(
@@ -508,14 +551,24 @@ class _HomePageState extends State<HomePage>
                               MyFlutterApp.user,
                               style: NeumorphicStyle(
                                 shape: NeumorphicShape.concave,
-                                depth: 30,
+                                //depth: 30,
+                                depth: 3,
                                 lightSource: LightSource.topLeft,
+                                //shadowLightColor: Color(0xffF6F7FA),
+                                shadowDarkColor: Colors.grey[300],
+                                intensity: 1.0,
+                                border: NeumorphicBorder(
+                                  color: Colors.white,
+                                  width: 0.5,
+                                ),
+                                //shadowLightColorEmboss: Colors.white,
                                 //color: Color.fromRGBO(13, 47, 61, 1),
                                 //color: Colors.grey[100],
                                 //color: Color.fromRGBO(58, 124, 236, 1.0),
-                                color: Color.fromRGBO(35, 205, 99, 1.0),
+                                //color: Color.fromRGBO(35, 205, 99, 1.0),
+                                color: Color(0xffAFBBCA),
                               ),
-                              size: 25,
+                              size: 28,
                             ),
                             onPressed: () {
                               globalController.animateToPage(
@@ -566,15 +619,27 @@ class _HomePageState extends State<HomePage>
                             ),
                           ),*/
                             icon: NeumorphicIcon(
-                              MyFlutterApp.bill,
+                              Icons.shopping_basket,
                               style: NeumorphicStyle(
                                 shape: NeumorphicShape.concave,
-                                depth: 30,
+                                //depth: 30,
+                                depth: 3,
                                 lightSource: LightSource.topLeft,
+                                //shadowLightColor: Color(0xffF6F7FA),
+                                shadowDarkColor: Colors.grey[300],
+                                intensity: 1.0,
+                                border: NeumorphicBorder(
+                                  color: Colors.white,
+                                  width: 0.5,
+                                ),
+                                //shadowLightColorEmboss: Colors.white,
                                 //color: Color.fromRGBO(13, 47, 61, 1),
-                                color: Color.fromRGBO(35, 205, 99, 1.0),
+                                //color: Colors.grey[100],
+                                //color: Color.fromRGBO(58, 124, 236, 1.0),
+                                //color: Color.fromRGBO(35, 205, 99, 1.0),
+                                color: Color(0xffAFBBCA),
                               ),
-                              size: 25,
+                              size: 32,
                             ),
                             onPressed: () {
                               globalController.animateToPage(

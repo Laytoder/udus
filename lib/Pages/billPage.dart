@@ -168,8 +168,10 @@ class _BillPageState extends State<BillPage> {
                         decoration: BoxDecoration(
                           borderRadius:
                               BorderRadius.circular((88 / 678) * height),
-                          gradient: LinearGradient(
-                              colors: [Color(0xff00b4db), Color(0xff0083b0)]),
+                          gradient: LinearGradient(colors: [
+                            Color.fromRGBO(35, 205, 99, 1),
+                            Color.fromRGBO(35, 205, 99, 0.5),
+                          ]),
                         ),
                         child: Center(
                           child: ListTile(

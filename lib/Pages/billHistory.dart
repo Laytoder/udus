@@ -36,11 +36,11 @@ class _BillHistoryState extends State<BillHistory> {
     List<dynamic> jsonbills = preferences.getStringList('bills');
     print('this is jsonbills $jsonbills');
     List<dynamic> bills = [];
-    print('this is pending trip ${widget.appState.pendingTrip}');
+    /*print('this is pending trip ${widget.appState.pendingTrip}');
     if (widget.appState.pendingTrip != null) {
       print('pendingTrip is not null');
       bills.add(widget.appState.pendingTrip);
-    }
+    }*/
     if (jsonbills != null) {
       for (dynamic jsonbill in jsonbills) {
         bills.add(Bill.fromJson(jsonDecode(jsonbill)));
@@ -143,7 +143,7 @@ class _BillHistoryState extends State<BillHistory> {
                           return ListView.builder(
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
-                              if (index == 0 && (snapshot.data[0] is Trip)) {
+                              /*if (index == 0 && (snapshot.data[0] is Trip)) {
                                 return Card(
                                   //elevation: 5.0,
                                   margin: EdgeInsets.only(
@@ -245,7 +245,7 @@ class _BillHistoryState extends State<BillHistory> {
                                     ),
                                   ),
                                 );
-                              } else
+                              } else*/
                                 return Card(
                                   //elevation: 5.0,
                                   margin: EdgeInsets.only(
