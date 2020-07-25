@@ -101,9 +101,9 @@ class _ProfilePageState extends State<ProfilePage>
             AnimatedContainer(
               duration: Duration(milliseconds: 300),
               transform: Matrix4.diagonal3Values(1.0, curvedLength, 1.0),
-              color: Color(0xfff6f7fb),
+              color: Colors.white,
               child: CurvedDecorator(
-                color: Colors.white,
+                color: Color(0xffE0E5EC),
                 radius: MediaQuery.of(context).size.height * 0.75,
               ),
             ),
