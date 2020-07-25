@@ -197,7 +197,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       ),
       navigatorKey: messagingHelper.navigatorkey,
       //home: AuthService().handleAuth(appState),
-      home: FutureBuilder(
+      /* home: FutureBuilder(
         future: AuthService().isSignedIn(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -253,8 +253,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             );
           }
         },
-      ),
-      //home: HomeBuilder(appState),
+      ),*/
+      home: HomeBuilder(appState),
       debugShowCheckedModeBanner: false,
     );
   }
