@@ -48,14 +48,17 @@ class VendorInfoPage extends StatelessWidget {
             boxShape: NeumorphicBoxShape.roundRect(
               BorderRadius.circular((24 / 678) * height),
             ),
-            shape: NeumorphicShape.concave,
+            shape: NeumorphicShape.convex,
             lightSource: LightSource.topLeft,
-            shadowDarkColor: Colors.grey[400],
-            shadowDarkColorEmboss: Colors.grey[400],
+            //shadowDarkColor: Colors.grey[400],
+            shadowDarkColor: Color(0xffA3B1C6),
+            shadowLightColor: Colors.white,
+            //shadowDarkColorEmboss: Colors.grey[400],
             intensity: 1.0,
             //color: Color(0xffE9F2F9),
             //color: Colors.white,
-            color: Color(0xffE9F2F9),
+            //color: Color(0xffE9F2F9),
+            color: Color(0xffE0E5EC),
           ),
           /*child: Card(
             //elevation: (7 / 678) * height,
@@ -95,7 +98,7 @@ class VendorInfoPage extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    flex: 11,
+                    flex: 12,
                     child: ListView.builder(
                       itemCount: vendor.vegetables.length,
                       itemBuilder: (context, index) {
@@ -225,7 +228,7 @@ class VendorInfoPage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: (10 / 678) * height,
+                    height: (5 / 678) * height,
                   ),
                   Row(
                     children: <Widget>[
@@ -259,11 +262,11 @@ class VendorInfoPage extends StatelessWidget {
                                 //color: Color.fromRGBO(35, 205, 99, 1.0),
                                 //color: Color.fromRGBO(13, 47, 61, 1),
                               ),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
+                              Stack(
+                                //mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
                                   Align(
-                                    alignment: Alignment.topCenter,
+                                    alignment: Alignment.topLeft,
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                         left: (13 / 360) * width,
@@ -275,8 +278,7 @@ class VendorInfoPage extends StatelessWidget {
                                         vendor.name
                                                 .substring(0, 1)
                                                 .toUpperCase() +
-                                            vendor.name.substring(1) +
-                                            ', 25',
+                                            vendor.name.substring(1),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w400,
@@ -287,12 +289,13 @@ class VendorInfoPage extends StatelessWidget {
                                     ),
                                   ),
                                   Align(
-                                    alignment: Alignment.topLeft,
+                                    alignment: Alignment.bottomLeft,
                                     child: Container(
                                       margin: EdgeInsets.only(
-                                        left: (0 / 360) * width,
+                                        left: (11 / 360) * width,
                                         bottom: (5 / 678) * height,
                                         right: (10 / 360) * width,
+                                        top: (20 / 678) * height,
                                       ),
                                       child: RatingBar.readOnly(
                                         initialRating: 5,

@@ -234,12 +234,12 @@ class _HomePageState extends State<HomePage>
         WillPopScope(
           onWillPop: () async => false,
           child: Scaffold(
-            //backgroundColor: Color(0xffE9F2F9),
+            backgroundColor: Color(0xffE0E5EC),
             //backgroundColor: Colors.white,
             //backgroundColor: Colors.amberAccent,
             body: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
+                  /*gradient: LinearGradient(
                   colors: [
                     //Color.fromRGBO(13, 47, 61, 1),
                     //Color.fromRGBO(35, 205, 99, 1.0),
@@ -249,14 +249,14 @@ class _HomePageState extends State<HomePage>
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   stops: [0.5, 1],
-                ),
-                color: Color(0xffdee8f4),
-                /*image: DecorationImage(
+                ),*/
+                  //color: Color(0xffdee8f4),
+                  /*image: DecorationImage(
                   image: AssetImage('assets/Vegetable_back.jpg'),
                   fit: BoxFit.fill,
                 ),*/
-                //color: Colors.white,
-              ),
+                  //color: Colors.white,
+                  ),
               child: Stack(
                 children: <Widget>[
                   PageView(
@@ -313,24 +313,165 @@ class _HomePageState extends State<HomePage>
                                     SliderButton(
                                       width: width * 0.77,
                                       height: height * 0.08,
-                                      action: () {},
+                                      /*child: Neumorphic(
+                                        style: NeumorphicStyle(
+                                          boxShape:
+                                              NeumorphicBoxShape.roundRect(
+                                            BorderRadius.circular(100),
+                                          ),
+                                          shape: NeumorphicShape.concave,
+                                          color: Color.fromRGBO(35, 205, 99, 1),
+                                          depth: 5,
+                                        ),
+                                        child: Container(
+                                          height: height * 0.077,
+                                          width: height * 0.077,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black,
+                                                blurRadius: 4,
+                                              ),
+                                            ],
+                                            color:
+                                                Color.fromRGBO(35, 205, 99, 1),
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                          ),
+                                          child: Center(
+                                            child: Container(
+                                              child: SvgPicture.asset(
+                                                'assets/truck.svg',
+                                                height: 32.5,
+                                                width: 32.5,
+                                                color: Color.fromRGBO(
+                                                    13, 47, 61, 1),
+                                                //color: Color(0xffE0E5EC),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),*/
+                                      child: Container(
+                                        height: height * 0.077,
+                                        width: height * 0.077,
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black,
+                                              blurRadius: 4,
+                                            ),
+                                          ],
+                                          color: Color.fromRGBO(35, 205, 99, 1),
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                        ),
+                                        /*child: Center(
+                                          child: Container(
+                                            child: SvgPicture.asset(
+                                              'assets/truck.svg',
+                                              height: 32.5,
+                                              width: 32.5,
+                                              color:
+                                                  Color.fromRGBO(13, 47, 61, 1),
+                                              //color: Color(0xffE0E5EC),
+                                            ),
+                                          ),
+                                        ),*/
+                                        child: Neumorphic(
+                                          style: NeumorphicStyle(
+                                            boxShape:
+                                                NeumorphicBoxShape.roundRect(
+                                              BorderRadius.circular(100),
+                                            ),
+                                            border: NeumorphicBorder(
+                                              width: 0.5,
+                                              //color: Colors.white,
+                                            ),
+                                            shadowLightColor: Colors.transparent,
+                                            shape: NeumorphicShape.concave,
+                                            color:
+                                                Color.fromRGBO(35, 205, 99, 1),
+                                            depth: 20,
+                                          ),
+                                          child: Center(
+                                            child: Container(
+                                              child: SvgPicture.asset(
+                                                'assets/truck.svg',
+                                                height: 32.5,
+                                                width: 32.5,
+                                                color: Color.fromRGBO(
+                                                    13, 47, 61, 1),
+                                                //color: Color(0xffE0E5EC),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      vibrationFlag: false,
+                                      action: () async {
+                                        //appState.pendingTrip != null
+                                        bool surity = await getSurity(context);
+                                        if (surity) {
+                                          if (appState.pendingTrip != null &&
+                                              appState.pendingTrip.state !=
+                                                  'requested') {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              (10 / 678) *
+                                                                  height)),
+                                                  title: Text(
+                                                    'Sorry, you can only call one vendor at a time',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize:
+                                                          (14 / 678) * height,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          } else {
+                                            manageTrip(
+                                                context, false, setState);
+                                          }
+                                        }
+                                      },
                                       dismissible: false,
-                                      buttonSize: 50,
+                                      buttonSize: height * 0.077,
+                                      startPercent: 1,
+                                      //radius: 10,
+                                      baseColor: Color.fromRGBO(13, 47, 61, 1),
+                                      /*backgroundColor:
+                                          Color.fromRGBO(13, 47, 61, 1),*/
+                                      backgroundColor: Color(0xffE0E5EC),
+                                      highlightedColor:
+                                          Color.fromRGBO(35, 205, 99, 1),
+                                      /*buttonColor:
+                                          Color.fromRGBO(35, 205, 99, 1),*/
                                       label: Text(
                                         "Slide to Call Vendor",
                                         style: TextStyle(
-                                            color: Colors.red,
+                                            fontFamily: 'Ubuntu',
+                                            //color: Colors.white,
                                             fontWeight: FontWeight.w500,
                                             fontSize: 15),
                                       ),
-                                      icon: Container(
+                                      /*icon: Container(
                                         child: SvgPicture.asset(
-                                          'assets/ER.svg',
+                                          'assets/truck.svg',
                                           height: 32.5,
                                           width: 32.5,
-                                          color: Color.fromRGBO(35, 205, 99, 1),
+                                          color: Color.fromRGBO(13, 47, 61, 1),
+                                          //color: Color(0xffE0E5EC),
                                         ),
-                                      ),
+                                      ),*/
                                     ),
                                     SizedBox(
                                       height: 40,
@@ -550,17 +691,28 @@ class _HomePageState extends State<HomePage>
                             icon: NeumorphicIcon(
                               MyFlutterApp.user,
                               style: NeumorphicStyle(
-                                shape: NeumorphicShape.concave,
+                                shape: NeumorphicShape.convex,
                                 //depth: 30,
                                 depth: 3,
                                 lightSource: LightSource.topLeft,
                                 //shadowLightColor: Color(0xffF6F7FA),
-                                shadowDarkColor: Colors.grey[300],
-                                intensity: 1.0,
+                                //shadowDarkColor: Colors.transparent,
+                                intensity: 0.68,
                                 border: NeumorphicBorder(
                                   color: Colors.white,
                                   width: 0.5,
                                 ),
+                                //shape: NeumorphicShape.convex,
+                                //lightSource: LightSource.topLeft,
+                                //shadowDarkColor: Colors.grey[400],
+                                shadowDarkColor: Color(0xffA3B1C6),
+                                shadowLightColor: Colors.white,
+                                //shadowDarkColorEmboss: Colors.grey[400],
+                                //intensity: 1.0,
+                                //color: Color(0xffE9F2F9),
+                                //color: Colors.white,
+                                //color: Color(0xffE9F2F9),
+                                //color: Color(0xffE0E5EC),
                                 //shadowLightColorEmboss: Colors.white,
                                 //color: Color.fromRGBO(13, 47, 61, 1),
                                 //color: Colors.grey[100],
@@ -586,7 +738,7 @@ class _HomePageState extends State<HomePage>
                             width: width * 0.4,
                             textSize: (12 / 678) * height,
                             //can keep padding without scale
-                            padding: (3 / 678) * height,
+                            padding: (1 / 678) * height,
                             //maybe radius as well
                             radius: (80 / 678) * height,
                             onDropInClicked: () {
@@ -621,17 +773,28 @@ class _HomePageState extends State<HomePage>
                             icon: NeumorphicIcon(
                               Icons.shopping_basket,
                               style: NeumorphicStyle(
-                                shape: NeumorphicShape.concave,
+                                shape: NeumorphicShape.convex,
                                 //depth: 30,
                                 depth: 3,
                                 lightSource: LightSource.topLeft,
                                 //shadowLightColor: Color(0xffF6F7FA),
-                                shadowDarkColor: Colors.grey[300],
-                                intensity: 1.0,
+                                //shadowDarkColor: Colors.transparent,
+                                intensity: 0.68,
                                 border: NeumorphicBorder(
                                   color: Colors.white,
                                   width: 0.5,
                                 ),
+                                //shape: NeumorphicShape.convex,
+                                //lightSource: LightSource.topLeft,
+                                //shadowDarkColor: Colors.grey[400],
+                                shadowDarkColor: Color(0xffA3B1C6),
+                                shadowLightColor: Colors.white,
+                                //shadowDarkColorEmboss: Colors.grey[400],
+                                //intensity: 1.0,
+                                //color: Color(0xffE9F2F9),
+                                //color: Colors.white,
+                                //color: Color(0xffE9F2F9),
+                                //color: Color(0xffE0E5EC),
                                 //shadowLightColorEmboss: Colors.white,
                                 //color: Color.fromRGBO(13, 47, 61, 1),
                                 //color: Colors.grey[100],

@@ -101,7 +101,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
           Padding(
             padding: EdgeInsets.only(top: (15 / 640) * height),
             child: Text(
-              'Yuvraj Singh',
+              widget.appState.clientName,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: (20 / (640 * 360)) * height * width,
@@ -111,7 +111,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
           Padding(
             padding: EdgeInsets.only(top: (5 / 640) * height),
             child: Text(
-              '+9191XXXXXXX9',
+              widget.appState.phoneNumber,
               style: TextStyle(
                 fontWeight: FontWeight.w100,
                 fontSize: (12 / (640 * 360)) * height * width,

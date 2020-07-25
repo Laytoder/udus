@@ -64,10 +64,10 @@ class _DualButtonState extends State<DualButton>
             lightSource: LightSource.topLeft,
             border: NeumorphicBorder(
               color: Colors.white,
-              width: 1.5,
+              width: 0.5,
             ),
             //color: Colors.white,
-            color: Color(0xffE9F2F9),
+            color: Color(0xffE0E5EC),
           ),
           child: Container(
             //height: 50,
@@ -95,10 +95,32 @@ class _DualButtonState extends State<DualButton>
                         left: widget.padding, right: widget.padding),
                     height: (widget.height - (2 * widget.padding)),
                     duration: Duration(milliseconds: 200),
+                    child: Neumorphic(
+                      style: NeumorphicStyle(
+                        boxShape: NeumorphicBoxShape.roundRect(
+                          BorderRadius.circular(widget.radius - widget.padding),
+                        ),
+                        border: NeumorphicBorder(
+                          width: 0.5,
+                          //color: Colors.white,
+                        ),
+                        shadowLightColor: Colors.transparent,
+                        shape: NeumorphicShape.convex,
+                        color: Color.fromRGBO(35, 205, 99, 1),
+                        depth: 20,
+                      ),
+                    ),
                     decoration: BoxDecoration(
                       //color: Color.fromRGBO(13, 47, 61, 1),
                       //color: Colors.cyan,
-                      color: Color(0xff25D366),
+                      //color: Color(0xff25D366),
+                      color: Color.fromRGBO(35, 205, 99, 1),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black,
+                          blurRadius: 4,
+                        ),
+                      ],
                       //You can create a variable to unify the
                       //borderRadius for all containers.
                       borderRadius:
