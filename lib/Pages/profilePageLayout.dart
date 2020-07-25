@@ -67,33 +67,6 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                           )
                         : null,
                   ),
-                  GestureDetector(
-                    child: CircleAvatar(
-                        backgroundColor: Color(0xff0D2F3D),
-                        radius: (15 / 678) * height,
-                        child: Icon(
-                          Icons.camera_alt,
-                          size: (15 / 678) * height,
-                          color: Colors.white,
-                        )),
-                    onTap: () async {
-                      File imageFile = await alertForSourceAndGetImage(context);
-                      if (imageFile == null) return;
-                      setState(() => this.imageFile = imageFile);
-                      String cache = imageFile.path;
-                      Directory directory =
-                          await getApplicationDocumentsDirectory();
-                      String path = directory.path;
-                      String fileName = cache.substring(
-                          cache.lastIndexOf('/') + 1, cache.length - 1);
-
-                      File saved = await File(cache).copy('$path/' + fileName);
-                      SharedPreferences preferences =
-                          await SharedPreferences.getInstance();
-                      preferences.setString('image', saved.path);
-                      widget.appState.image = saved.path;
-                    },
-                  ),
                 ],
               ),
             ),
@@ -196,22 +169,34 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                         SizedBox(
                           height: (50 / 678) * height,
                         ),
-                        FloatingActionButton(
-                          heroTag: null,
-                          onPressed: () async {
-                            LocationResult locationResult =
-                                await showLocationPicker(context, gmapsApiKey);
-                            double lat = locationResult.latLng.latitude;
-                            double lon = locationResult.latLng.longitude;
-                            GeoCoord newLoc = GeoCoord(lat, lon);
-                            widget.appState.userLocation = newLoc;
-                          },
-                          backgroundColor: Color(0xff25d368),
-                          child: Icon(
-                            Icons.location_searching,
-                            color: Colors.white,
-                            size: (24 / 678) * height,
+                        GestureDetector(
+                          child: CircleAvatar(
+                            backgroundColor: Color(0xff0D2F3D),
+                            radius: (24 / 678) * height,
+                            child: Icon(
+                              Icons.camera_alt,
+                              size: (24 / 678) * height,
+                              color: Colors.white,
+                            ),
                           ),
+                          onTap: () async {
+                            File imageFile =
+                                await alertForSourceAndGetImage(context);
+                            if (imageFile == null) return;
+                            setState(() => this.imageFile = imageFile);
+                            String cache = imageFile.path;
+                            Directory directory =
+                                await getApplicationDocumentsDirectory();
+                            String path = directory.path;
+                            String fileName = cache.substring(
+                                cache.lastIndexOf('/') + 1, cache.length - 1);
+                            File saved =
+                                await File(cache).copy('$path/' + fileName);
+                            SharedPreferences preferences =
+                                await SharedPreferences.getInstance();
+                            preferences.setString('image', saved.path);
+                            widget.appState.image = saved.path;
+                          },
                         ),
                         /*Container(
                           alignment: Alignment.center,
@@ -233,7 +218,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                           height: (3 / 678) * height,
                         ),
                         Text(
-                          'Edit Distance',
+                          'Edit Picture',
                           style: TextStyle(
                             color: Colors.grey[500],
                             fontWeight: FontWeight.w400,
