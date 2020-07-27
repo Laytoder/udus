@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/homePage.dart';
@@ -127,6 +128,7 @@ class _MapPanelState extends State<MapPanel>
                 heightFactor: 1.0 - upperPanelController.value,
                 child: Container(
                   child: Card(
+                    color: Color(0xffE0E5EC),
                     margin: EdgeInsets.only(left: 0, right: 0, top: 0),
                     elevation: 5,
                     shape: RoundedRectangleBorder(
@@ -151,9 +153,7 @@ class _MapPanelState extends State<MapPanel>
                                   child: Column(
                                     children: <Widget>[
                                       CachedNetworkImage(
-                                        //imageUrl: currentVendor.imageUrl,
-                                        imageUrl:
-                                            'https://c8.alamy.com/comp/EJ2D70/portrait-of-an-indian-old-man-a-street-vendor-sell-street-food-in-EJ2D70.jpg',
+                                        imageUrl: widget.currentVendor.imageUrl,
                                         imageBuilder:
                                             (context, imageProvider) =>
                                                 Container(
@@ -196,6 +196,80 @@ class _MapPanelState extends State<MapPanel>
                                     Row(
                                       //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
+                                        /*Neumorphic(
+                                          style: NeumorphicStyle(
+                                            boxShape:
+                                                NeumorphicBoxShape.roundRect(
+                                              BorderRadius.only(
+                                                bottomLeft: Radius.circular(60),
+                                                bottomRight:
+                                                    Radius.circular(50),
+                                                topRight: Radius.circular(50),
+                                                topLeft: Radius.circular(10),
+                                              ),
+                                            ),
+                                            color: Color(0xffE0E5EC),
+                                            depth: 3,
+                                            shape: NeumorphicShape.flat,
+                                          ),
+                                          child: Container(
+                                            width: 100,
+                                            height: 100,
+                                            margin: EdgeInsets.only(
+                                              bottom: 10,
+                                              left: 10,
+                                              right: 0,
+                                            ),
+                                            child: Center(
+                                              child: Wrap(
+                                                direction: Axis.vertical,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Distance',
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            (height * 14) /
+                                                                678),
+                                                  ),
+                                                  StreamBuilder(
+                                                    stream: widget.pidHelper
+                                                        .getDistStream(),
+                                                    initialData:
+                                                        getInitialDistance(),
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      if (snapshot.hasData) {
+                                                        return Text(
+                                                          snapshot.data,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontSize:
+                                                                  (height *
+                                                                          12) /
+                                                                      678),
+                                                        );
+                                                      } else {
+                                                        return CircularProgressIndicator();
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.rectangle,
+                                              color: Color(0xfff6f6f6),
+                                              borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(60),
+                                                bottomRight:
+                                                    Radius.circular(50),
+                                                topRight: Radius.circular(50),
+                                                topLeft: Radius.circular(10),
+                                              ),
+                                            ),
+                                          ),
+                                        ),*/
                                         Container(
                                           width: 100,
                                           height: 100,
@@ -204,42 +278,65 @@ class _MapPanelState extends State<MapPanel>
                                             left: 10,
                                             right: 0,
                                           ),
-                                          child: Center(
-                                            child: Wrap(
-                                              direction: Axis.vertical,
-                                              children: <Widget>[
-                                                Text(
-                                                  'Distance',
-                                                  style: TextStyle(
-                                                      fontSize:
-                                                          (height * 14) / 678),
+                                          //color: Color(0xffE0E5EC),
+                                          child: Neumorphic(
+                                            style: NeumorphicStyle(
+                                              boxShape:
+                                                  NeumorphicBoxShape.roundRect(
+                                                BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(60),
+                                                  bottomRight:
+                                                      Radius.circular(50),
+                                                  topRight: Radius.circular(50),
+                                                  topLeft: Radius.circular(10),
                                                 ),
-                                                StreamBuilder(
-                                                  stream: widget.pidHelper
-                                                      .getDistStream(),
-                                                  initialData:
-                                                      getInitialDistance(),
-                                                  builder: (context, snapshot) {
-                                                    if (snapshot.hasData) {
-                                                      return Text(
-                                                        snapshot.data,
-                                                        style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontSize:
-                                                                (height * 12) /
-                                                                    678),
-                                                      );
-                                                    } else {
-                                                      return CircularProgressIndicator();
-                                                    }
-                                                  },
-                                                ),
-                                              ],
+                                              ),
+                                              color: Color(0xffE0E5EC),
+                                              depth: 3,
+                                              shape: NeumorphicShape.flat,
+                                            ),
+                                            child: Center(
+                                              child: Wrap(
+                                                direction: Axis.vertical,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Distance',
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            (height * 14) /
+                                                                678),
+                                                  ),
+                                                  StreamBuilder(
+                                                    stream: widget.pidHelper
+                                                        .getDistStream(),
+                                                    initialData:
+                                                        getInitialDistance(),
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      if (snapshot.hasData) {
+                                                        return Text(
+                                                          snapshot.data,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontSize:
+                                                                  (height *
+                                                                          12) /
+                                                                      678),
+                                                        );
+                                                      } else {
+                                                        return CircularProgressIndicator();
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                           decoration: BoxDecoration(
                                             shape: BoxShape.rectangle,
-                                            color: Color(0xfff6f6f6),
+                                            color: Color(0xffE0E5EC),
                                             borderRadius: BorderRadius.only(
                                               bottomLeft: Radius.circular(60),
                                               bottomRight: Radius.circular(50),
@@ -259,41 +356,64 @@ class _MapPanelState extends State<MapPanel>
                                             left: 0,
                                             right: 10,
                                           ),
-                                          child: Center(
-                                            child: Wrap(
-                                              direction: Axis.vertical,
-                                              children: <Widget>[
-                                                Text(
-                                                  'ETA',
-                                                  style: TextStyle(
-                                                      fontSize:
-                                                          (height * 14) / 678),
+                                          child: Neumorphic(
+                                            style: NeumorphicStyle(
+                                              boxShape:
+                                                  NeumorphicBoxShape.roundRect(
+                                                BorderRadius.only(
+                                                  bottomRight:
+                                                      Radius.circular(60),
+                                                  bottomLeft:
+                                                      Radius.circular(50),
+                                                  topLeft: Radius.circular(50),
+                                                  topRight: Radius.circular(10),
                                                 ),
-                                                StreamBuilder(
-                                                  stream: widget.pidHelper
-                                                      .getEtaStream(),
-                                                  initialData: getInitialETA(),
-                                                  builder: (context, snapshot) {
-                                                    if (snapshot.hasData) {
-                                                      return Text(
-                                                        snapshot.data,
-                                                        style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontSize:
-                                                                (height * 12) /
-                                                                    678),
-                                                      );
-                                                    } else {
-                                                      return CircularProgressIndicator();
-                                                    }
-                                                  },
-                                                ),
-                                              ],
+                                              ),
+                                              color: Color(0xffE0E5EC),
+                                              depth: 3,
+                                              shape: NeumorphicShape.flat,
+                                            ),
+                                            child: Center(
+                                              child: Wrap(
+                                                direction: Axis.vertical,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'ETA',
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            (height * 14) /
+                                                                678),
+                                                  ),
+                                                  StreamBuilder(
+                                                    stream: widget.pidHelper
+                                                        .getEtaStream(),
+                                                    initialData:
+                                                        getInitialETA(),
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      if (snapshot.hasData) {
+                                                        return Text(
+                                                          snapshot.data,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontSize:
+                                                                  (height *
+                                                                          12) /
+                                                                      678),
+                                                        );
+                                                      } else {
+                                                        return CircularProgressIndicator();
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
                                           decoration: BoxDecoration(
                                             shape: BoxShape.rectangle,
-                                            color: Color(0xfff6f6f6),
+                                            color: Color(0xffE0E5EC),
                                             borderRadius: BorderRadius.only(
                                               bottomRight: Radius.circular(60),
                                               bottomLeft: Radius.circular(50),
@@ -306,7 +426,7 @@ class _MapPanelState extends State<MapPanel>
                                     ),
                                     Align(
                                       alignment: Alignment.center,
-                                      child: FloatingActionButton(
+                                      /*child: FloatingActionButton(
                                         onPressed: () {
                                           UrlLauncher.launch(
                                               'tel:${widget.currentVendor.phoneNumber}');
@@ -316,6 +436,31 @@ class _MapPanelState extends State<MapPanel>
                                           color: Color(0xff25D366),
                                         ),
                                         backgroundColor: Colors.white,
+                                      ),*/
+                                      child: GestureDetector(
+                                        child: Neumorphic(
+                                          style: NeumorphicStyle(
+                                            boxShape:
+                                                NeumorphicBoxShape.circle(),
+                                            shape: NeumorphicShape.flat,
+                                            depth: 3,
+                                            color: Color(0xffE0E5EC),
+                                          ),
+                                          child: Container(
+                                            height: (50 / 678) * height,
+                                            width: (50 / 678) * height,
+                                            child: Icon(
+                                              Icons.phone,
+                                              color: Color.fromRGBO(
+                                                  35, 205, 99, 1.0),
+                                              size: (20 / 678) * height,
+                                            ),
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          UrlLauncher.launch(
+                                              'tel:${widget.currentVendor.phoneNumber}');
+                                        },
                                       ),
                                     ),
                                   ],

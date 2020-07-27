@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/helpers/sourceAndImageFetcherDialog.dart';
@@ -49,23 +50,35 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
         children: <Widget>[
           PageHeading('Profile'),
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Center(
               child: Stack(
                 alignment: AlignmentDirectional.bottomEnd,
                 children: <Widget>[
-                  CircleAvatar(
-                    backgroundColor: Colors.grey[100],
-                    radius: (50 / 678) * height,
-                    backgroundImage:
-                        imageFile != null ? FileImage(imageFile) : null,
-                    child: imageFile == null
-                        ? Icon(
-                            Icons.person,
-                            size: (40 / 678) * height,
-                            color: Colors.grey[500],
-                          )
-                        : null,
+                  Neumorphic(
+                    style: NeumorphicStyle(
+                      boxShape: NeumorphicBoxShape.circle(),
+                      color: Color(0xffE0E5EC),
+                      depth: -3,
+                      shape: NeumorphicShape.flat,
+                      border: NeumorphicBorder(
+                        width: 0.5,
+                        color: Colors.white,
+                      ),
+                    ),
+                    child: CircleAvatar(
+                      backgroundColor: Color(0xffE0E5EC),
+                      radius: (60 / 678) * height,
+                      backgroundImage:
+                          imageFile != null ? FileImage(imageFile) : null,
+                      child: imageFile == null
+                          ? Icon(
+                              Icons.person,
+                              size: (40 / 678) * height,
+                              color: Colors.grey[500],
+                            )
+                          : null,
+                    ),
                   ),
                 ],
               ),
@@ -104,18 +117,31 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                     ),
                     Column(
                       children: <Widget>[
-                        FloatingActionButton(
-                          heroTag: null,
-                          mini: true,
-                          onPressed: () async {
+                        GestureDetector(
+                          child: Neumorphic(
+                            style: NeumorphicStyle(
+                              boxShape: NeumorphicBoxShape.circle(),
+                              shape: NeumorphicShape.flat,
+                              depth: 3,
+                              color: Color(0xffE0E5EC),
+                            ),
+                            child: Container(
+                              height: (40 / 678) * height,
+                              width: (40 / 678) * height,
+                              child: Icon(
+                                Icons.edit,
+                                color: Color(0xff0D2F3D),
+                                size: (20 / 678) * height,
+                              ),
+                            ),
+                          ),
+                          onTap: () {
                             widget.onNamePressed();
                             widget.editNameController.forward();
                           },
-                          child: Icon(
-                            Icons.edit,
-                            color: Color(0xff0D2F3D),
-                            size: (24 / 678) * height,
-                          ),
+                        ),
+                        SizedBox(
+                          height: (7 / 678) * height,
                         ),
                         Text(
                           'Edit Name',
@@ -132,7 +158,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                     ),
                     Column(
                       children: <Widget>[
-                        FloatingActionButton(
+                        /*FloatingActionButton(
                           heroTag: null,
                           mini: true,
                           onPressed: () {
@@ -144,6 +170,32 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                             color: Color(0xff0D2F3D),
                             size: (24 / 678) * height,
                           ),
+                        ),*/
+                        GestureDetector(
+                          child: Neumorphic(
+                            style: NeumorphicStyle(
+                              boxShape: NeumorphicBoxShape.circle(),
+                              shape: NeumorphicShape.flat,
+                              depth: 3,
+                              color: Color(0xffE0E5EC),
+                            ),
+                            child: Container(
+                              height: (40 / 678) * height,
+                              width: (40 / 678) * height,
+                              child: Icon(
+                                Icons.phone,
+                                color: Color(0xff0D2F3D),
+                                size: (20 / 678) * height,
+                              ),
+                            ),
+                          ),
+                          onTap: () {
+                            widget.onPhonePressed();
+                            widget.editPhoneController.forward();
+                          },
+                        ),
+                        SizedBox(
+                          height: (7 / 678) * height,
                         ),
                         Text(
                           'Edit Number',
@@ -169,7 +221,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                         SizedBox(
                           height: (50 / 678) * height,
                         ),
-                        GestureDetector(
+                        /*GestureDetector(
                           child: CircleAvatar(
                             backgroundColor: Color(0xff0D2F3D),
                             radius: (24 / 678) * height,
@@ -197,7 +249,7 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                             preferences.setString('image', saved.path);
                             widget.appState.image = saved.path;
                           },
-                        ),
+                        ),*/
                         /*Container(
                           alignment: Alignment.center,
                           width: 10,
@@ -214,8 +266,48 @@ class _ProfilePageLayoutState extends State<ProfilePageLayout>
                             },
                           ),
                         ),*/
-                        SizedBox(
+                        /*SizedBox(
                           height: (3 / 678) * height,
+                        ),*/
+                        GestureDetector(
+                          child: Neumorphic(
+                            style: NeumorphicStyle(
+                              boxShape: NeumorphicBoxShape.circle(),
+                              shape: NeumorphicShape.flat,
+                              depth: 3,
+                              color: Color(0xffE0E5EC),
+                            ),
+                            child: Container(
+                              height: (50 / 678) * height,
+                              width: (50 / 678) * height,
+                              child: Icon(
+                                Icons.camera_alt,
+                                color: Color.fromRGBO(35, 205, 99, 1.0),
+                                size: (24 / 678) * height,
+                              ),
+                            ),
+                          ),
+                          onTap: () async {
+                            File imageFile =
+                                await alertForSourceAndGetImage(context);
+                            if (imageFile == null) return;
+                            setState(() => this.imageFile = imageFile);
+                            String cache = imageFile.path;
+                            Directory directory =
+                                await getApplicationDocumentsDirectory();
+                            String path = directory.path;
+                            String fileName = cache.substring(
+                                cache.lastIndexOf('/') + 1, cache.length - 1);
+                            File saved =
+                                await File(cache).copy('$path/' + fileName);
+                            SharedPreferences preferences =
+                                await SharedPreferences.getInstance();
+                            preferences.setString('image', saved.path);
+                            widget.appState.image = saved.path;
+                          },
+                        ),
+                        SizedBox(
+                          height: (7 / 678) * height,
                         ),
                         Text(
                           'Edit Picture',

@@ -22,11 +22,13 @@ class Bill {
   }
 
   Bill.fromJson(Map json) {
-    List<dynamic> jsonPurchasedVegs = json['vegetables'];
+    List<dynamic> jsonPurchasedVegs = json['purchasedVegetables'];
     purchasedVegetables = [];
     print(json);
-    for (dynamic jsonVeg in jsonPurchasedVegs)
+    for (dynamic jsonVeg in jsonPurchasedVegs) {
+      //print(jsonVeg);
       purchasedVegetables.add(Vegetable.fromJson(jsonVeg));
+    }
     //this.purchasedVegetables = purchasedVegetables;
     total = json['total'];
     date = DateTime.now();

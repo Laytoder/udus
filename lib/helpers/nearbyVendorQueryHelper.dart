@@ -105,6 +105,7 @@ class NearbyVendorQueryHelper {
       if (vendorDocs == null || vendorDocs.length == 0) {
         return NO_NEARBY_VENDORS;
       }
+      //print('returning appState herer');
       return getAppState(vendorDocs);
     } else {
       return PERMISSION_DENIED;

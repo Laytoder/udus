@@ -76,7 +76,7 @@ class _HomeBuilderState extends State<HomeBuilder> {
               ),
             );
           } else {
-            return HomePage(snapshot.data, refreshVendors);
+            return HomePage(widget.appState, refreshVendors);
           }
         } else {
           return WillPopScope(

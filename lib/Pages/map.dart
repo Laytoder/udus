@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/foundation.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/billPage.dart';
-import 'package:frute/Pages/homePage.dart';
+import 'package:frute/Pages/priceListPage.dart';
 import 'package:frute/helpers/messagingHelper.dart';
 import 'package:frute/helpers/nearbyVendorQueryHelper.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ import 'dart:math' as Math;
 import 'package:angles/angles.dart';
 import 'package:frute/helpers/pidHelper.dart';
 import 'package:frute/helpers/messageGetters.dart';
-import 'package:frute/Pages/priceListPage.dart';
 
 class Map extends StatefulWidget {
   DirectionApiHelper directionApiHelper;
@@ -38,7 +36,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   String vendorId;
   Uint8List markerImg;
   Marker marker;
-  LatLng currentPos;
+  LatLng currentPos, newPos;
   static AnimationController carController;
   List<LatLng> polyLineList;
   static Duration interval;
@@ -48,6 +46,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   bool carAnimStarted = false;
   VendorInfo currentVendor;
   double width, height;
+  Timer intervalUpdatingTimer;
 
   intitMarkerImg() async {
     ByteData byteData =
@@ -67,6 +66,11 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
         icon: BitmapDescriptor.fromBytes(markerImg),
       );
       currentPos = newPos;
+      /*can optimize these intermediate updateIntervals by 
+      not computing endIndex info*/
+      //can further give duration updates only on newPos fetch
+      //can use the compute function to compute on different thread
+      //updateInterval();
     });
   }
 
@@ -85,6 +89,10 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
     return -1;
   }
 
+  getIntervalUpdatingTimer() {
+    return Timer.periodic(Duration(seconds: 2), (timer) => updateInterval());
+  }
+
   startCarAnim(LatLng startPos) async {
     carAnimStarted = true;
     locationSubscription.resume();
@@ -92,6 +100,8 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
     int index, next;
     int startIndex = pidHelper.getStartIndex(startPos);
     currentPos = polyLineList[startIndex];
+    updateInterval();
+    intervalUpdatingTimer = getIntervalUpdatingTimer();
 
     index = startIndex;
     next = startIndex + 1;
@@ -118,6 +128,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
           if (index == polyLineList.length - 1) {
             carController.stop();
             locationSubscription.cancel();
+            intervalUpdatingTimer.cancel();
             pidHelper.endTrip();
             return;
           }
@@ -138,20 +149,21 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   startListeningToLiveDataAndStartCarAnim() {
     locationSubscription =
         vendorQueryHelper.getVendorLocationStream(vendorId).listen((newPos) {
+      this.newPos = newPos;
       if (newPos != null) {
         if (!carAnimStarted) {
           locationSubscription.pause();
           startCarAnim(newPos);
         } else {
-          updateInterval(newPos);
+          updateInterval();
         }
       }
     });
   }
 
-  updateInterval(LatLng pos) {
+  updateInterval() {
     double intervalmilli = pidHelper.getUpdatedDuration(
-        pos, currentPos, interval.inMilliseconds.toDouble());
+        newPos, currentPos, interval.inMilliseconds.toDouble());
     interval = Duration(milliseconds: intervalmilli.toInt());
     print('this is updated interval ${intervalmilli.toInt()}');
     print(carController.isAnimating);

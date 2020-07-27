@@ -17,7 +17,6 @@ import 'package:frute/routes/fadeRoute.dart';
 import 'package:frute/widgets/dualButton.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:frute/Pages/map.dart';
-import 'package:neumorphic/neumorphic.dart' as neu;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frute/models/trip.dart';
 import 'package:slider_button/slider_button.dart';

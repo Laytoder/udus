@@ -6,6 +6,7 @@ import 'package:frute/Pages/profilePageLayout.dart';
 import 'package:frute/Pages/editPhoneLayout.dart';
 import 'package:frute/assets/my_flutter_app_icons.dart';
 import 'package:frute/widgets/curvedDecorator.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class ProfilePage extends StatefulWidget {
   PageController controller;
@@ -95,13 +96,14 @@ class _ProfilePageState extends State<ProfilePage>
       child: Scaffold(
         resizeToAvoidBottomPadding: false,
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xfff6f7fb),
+        //backgroundColor: Color(0xfff6f7fb),
+        backgroundColor: Color(0xffE0E5EC),
         body: Stack(
           children: <Widget>[
             AnimatedContainer(
               duration: Duration(milliseconds: 300),
               transform: Matrix4.diagonal3Values(1.0, curvedLength, 1.0),
-              color: Colors.white,
+              color: Color(0xffdce1e9),
               child: CurvedDecorator(
                 color: Color(0xffE0E5EC),
                 radius: MediaQuery.of(context).size.height * 0.75,
@@ -111,7 +113,7 @@ class _ProfilePageState extends State<ProfilePage>
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: (20 / 678) * height,
+                  height: (40 / 678) * height,
                 ),
                 Stack(
                   children: <Widget>[
@@ -129,10 +131,25 @@ class _ProfilePageState extends State<ProfilePage>
                               color: Color(0xff25d368),
                             ),
                           ),*/
-                          icon: Icon(
+                          icon: NeumorphicIcon(
                             MyFlutterApp.user,
-                            color: Color.fromRGBO(35, 205, 99, 1.0),
-                            size: 30,
+                            style: NeumorphicStyle(
+                              shape: NeumorphicShape.convex,
+                              //depth: 30,
+                              depth: 3,
+                              lightSource: LightSource.topLeft,
+                              //shadowLightColor: Color(0xffF6F7FA),
+                              //shadowDarkColor: Colors.transparent,
+                              intensity: 0.68,
+                              border: NeumorphicBorder(
+                                color: Colors.white,
+                                width: 0.5,
+                              ),
+                              shadowDarkColor: Color(0xffA3B1C6),
+                              shadowLightColor: Colors.white,
+                              color: Color.fromRGBO(35, 205, 99, 1.0),
+                            ),
+                            size: (33 / 678) * height,
                           ),
                           onPressed: null,
                         ),
@@ -216,13 +233,30 @@ class _ProfilePageState extends State<ProfilePage>
                                   child: Container(),
                                 ),
                                 IconButton(
-                                  icon: Container(
+                                  /*icon: Container(
                                     child: SvgPicture.asset(
                                       'assets/home.svg',
                                       height: (25 / 678) * height,
                                       width: (25 / 678) * height,
                                       color: Color(0xff58f8f8f),
                                     ),
+                                  ),*/
+                                  icon: NeumorphicIcon(
+                                    MyFlutterApp.home,
+                                    style: NeumorphicStyle(
+                                      shape: NeumorphicShape.convex,
+                                      depth: 3,
+                                      lightSource: LightSource.topLeft,
+                                      intensity: 0.68,
+                                      border: NeumorphicBorder(
+                                        color: Colors.white,
+                                        width: 0.5,
+                                      ),
+                                      shadowDarkColor: Color(0xffA3B1C6),
+                                      shadowLightColor: Colors.white,
+                                      color: Color(0xffAFBBCA),
+                                    ),
+                                    size: 26,
                                   ),
                                   onPressed: () {
                                     widget.controller.animateToPage(

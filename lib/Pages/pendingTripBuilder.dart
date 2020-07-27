@@ -25,6 +25,7 @@ class PendingTripBuilder extends StatelessWidget {
   );
   @override
   Widget build(BuildContext context) {
+    print('appState $appState');
     String state = pendingTrip.state;
     switch (state) {
       case 'hold':

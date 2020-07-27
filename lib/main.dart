@@ -47,7 +47,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-
     if (widget.appState != null) {
       appState = widget.appState;
     }
@@ -104,10 +103,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           trip.origin = GeoCoord.fromJson(jsonTrip['origin']);
         if (jsonTrip['destination'] != null)
           trip.destination = GeoCoord.fromJson(jsonTrip['destination']);
-        //print('reached');
+        print('reached before bills');
         if (jsonTrip['jsonBill'] != null)
           trip.verificationBill = Bill.fromJson(jsonTrip['jsonBill']);
-        //print('reached');
+        print('reached after bills');
         trip.eta = jsonTrip['eta'];
       }
     }
@@ -197,7 +196,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       ),
       navigatorKey: messagingHelper.navigatorkey,
       //home: AuthService().handleAuth(appState),
-      /* home: FutureBuilder(
+      home: FutureBuilder(
         future: AuthService().isSignedIn(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -219,13 +218,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                   future: updatePendingTrip(pendingTripVendorId),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.data == 'done')
+                      if (snapshot.data == 'done') {
                         return PendingTripBuilder(
                           appState.pendingTrip,
                           appState,
                           preferences,
                         );
-                      else
+                      } else
                         return Scaffold(
                           body: Center(
                             child: Text('Loading latest state..'),
@@ -253,8 +252,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             );
           }
         },
-      ),*/
-      home: HomeBuilder(appState),
+      ),
+      //home: HomeBuilder(appState),
       debugShowCheckedModeBanner: false,
     );
   }
