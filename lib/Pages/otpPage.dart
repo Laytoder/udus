@@ -114,6 +114,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
     return Stack(
       children: <Widget>[
         Scaffold(
+          backgroundColor: Color(0xffE0E5EC),
           appBar: AppBar(
             title: invalidState
                 ? Text(
