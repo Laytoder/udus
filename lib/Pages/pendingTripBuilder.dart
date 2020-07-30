@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:frute/AppState.dart';
+import 'package:frute/Pages/VendorPage.dart';
 import 'package:frute/Pages/billPage.dart';
 import 'package:frute/Pages/holdPage.dart';
 import 'package:frute/Pages/homebuilder.dart';
@@ -57,7 +58,7 @@ class PendingTripBuilder extends StatelessWidget {
       case 'reached':
         String vendorId = appState.pendingTrip.vendorId;
         VendorInfo vendor = appState.vendors[vendorId];
-        return PriceListPage(
+        return VendorPage(
           vendor,
           appState,
         );

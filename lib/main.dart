@@ -139,6 +139,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   initializeAppStateAndStartMessagingService() async {
     preferences = await SharedPreferences.getInstance();
+    appState.preferences = preferences;
     if (preferences.getString(MESSAGING_TOKEN) != null) {
       messagingToken = preferences.getString(MESSAGING_TOKEN);
     } else {

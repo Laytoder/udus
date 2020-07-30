@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:frute/AppState.dart';
+import 'package:frute/Pages/VendorPage.dart';
 import 'package:frute/Pages/billPage.dart';
 import 'package:frute/Pages/priceListPage.dart';
 import 'package:frute/helpers/messagingHelper.dart';
@@ -11,6 +12,8 @@ import 'package:flutter/services.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/models/bill.dart';
 import 'package:frute/models/vegetable.dart';
+import 'package:frute/Pages/profilePage.dart';
+import 'package:frute/Pages/billHistory.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:frute/widgets/mapPanel.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,6 +21,8 @@ import 'dart:math' as Math;
 import 'package:angles/angles.dart';
 import 'package:frute/helpers/pidHelper.dart';
 import 'package:frute/helpers/messageGetters.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:frute/assets/my_flutter_app_icons.dart';
 
 class Map extends StatefulWidget {
   DirectionApiHelper directionApiHelper;
@@ -47,6 +52,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   VendorInfo currentVendor;
   double width, height;
   Timer intervalUpdatingTimer;
+  PageController globalController;
 
   intitMarkerImg() async {
     ByteData byteData =
@@ -192,6 +198,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
     carAnimStarted = false;
     vendorId = widget.appState.pendingTrip.vendorId;
     currentVendor = widget.appState.vendors[vendorId];
+    globalController = PageController(initialPage: 1);
 
     polyLineList = widget.directionApiHelper.points;
     pidHelper = PIDHelper(polyLineList, widget.directionApiHelper.steps);
@@ -234,7 +241,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => PriceListPage(
+        builder: (context) => VendorPage(
           vendor,
           widget.appState,
         ),
@@ -246,76 +253,85 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            Column(
+    return PageView(
+      allowImplicitScrolling: false,
+      physics: NeverScrollableScrollPhysics(),
+      controller: globalController,
+      children: <Widget>[
+        ProfilePage(
+          controller: globalController,
+          appState: widget.appState,
+        ),
+        WillPopScope(
+          onWillPop: () async => false,
+          child: Scaffold(
+            body: Stack(
               children: <Widget>[
-                /*Expanded(
+                Column(
+                  children: <Widget>[
+                    /*Expanded(
                   flex: 2,
                   child: Container(),
                 ),*/
-                Expanded(
-                  //flex: 8,
-                  child: GoogleMap(
-                    myLocationEnabled: true,
-                    compassEnabled: false,
-                    mapToolbarEnabled: false,
-                    trafficEnabled: false,
-                    initialCameraPosition: CameraPosition(
-                      target: widget.directionApiHelper.initCamera,
-                      zoom: 17,
-                      //bearing: 30,
-                      //tilt: 45,
+                    Expanded(
+                      //flex: 8,
+                      child: GoogleMap(
+                        myLocationEnabled: true,
+                        compassEnabled: false,
+                        mapToolbarEnabled: false,
+                        trafficEnabled: false,
+                        initialCameraPosition: CameraPosition(
+                          target: widget.directionApiHelper.initCamera,
+                          zoom: 17,
+                          //bearing: 30,
+                          //tilt: 45,
+                        ),
+                        //cameraTargetBounds:
+                        //CameraTargetBounds(widget.directionApiHelper.bounds),
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller = controller;
+                          CameraUpdate u2 = CameraUpdate.newLatLngBounds(
+                              widget.directionApiHelper.bounds, 50);
+                          _controller.animateCamera(u2);
+                        },
+                        mapType: MapType.normal,
+                        markers: Set<Marker>.of(marker == null ? [] : [marker]),
+                        polylines: Set<Polyline>.of([
+                          Polyline(
+                            polylineId: PolylineId('poly'),
+                            color: Colors.grey,
+                            width: 5,
+                            points: polyLineList,
+                            jointType: JointType.round,
+                            startCap: Cap.squareCap,
+                            endCap: Cap.squareCap,
+                          )
+                        ]),
+                      ),
                     ),
-                    //cameraTargetBounds:
-                    //CameraTargetBounds(widget.directionApiHelper.bounds),
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller = controller;
-                      CameraUpdate u2 = CameraUpdate.newLatLngBounds(
-                          widget.directionApiHelper.bounds, 50);
-                      _controller.animateCamera(u2);
-                    },
-                    mapType: MapType.normal,
-                    markers: Set<Marker>.of(marker == null ? [] : [marker]),
-                    polylines: Set<Polyline>.of([
-                      Polyline(
-                        polylineId: PolylineId('poly'),
-                        color: Colors.grey,
-                        width: 5,
-                        points: polyLineList,
-                        jointType: JointType.round,
-                        startCap: Cap.squareCap,
-                        endCap: Cap.squareCap,
-                      )
-                    ]),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-            Column(
-              children: <Widget>[
-                Expanded(
-                  flex: 4,
-                  child: MapPanel(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    currentVendor: currentVendor,
-                    pidHelper: pidHelper,
-                    directionApiHelper: widget.directionApiHelper,
-                    locationSubscription: locationSubscription,
-                    appState: widget.appState,
-                  ),
+                Column(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 4,
+                      child: MapPanel(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        currentVendor: currentVendor,
+                        pidHelper: pidHelper,
+                        directionApiHelper: widget.directionApiHelper,
+                        locationSubscription: locationSubscription,
+                        appState: widget.appState,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Container(),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  flex: 6,
-                  child: Container(),
-                ),
-              ],
-            ),
-            /*Align(
+                /*Align(
               alignment: Alignment.topCenter,
               child: MapPanel(
                 width: MediaQuery.of(context).size.width,
@@ -327,9 +343,91 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
                 appState: widget.appState,
               ),
             ),*/
-          ],
+                Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: (40 / 678) * height,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 10,
+                        ),
+                        IconButton(
+                          icon: NeumorphicIcon(
+                            MyFlutterApp.user,
+                            style: NeumorphicStyle(
+                              shape: NeumorphicShape.convex,
+                              depth: 3,
+                              lightSource: LightSource.topLeft,
+                              intensity: 0.68,
+                              border: NeumorphicBorder(
+                                color: Colors.white,
+                                width: 0.5,
+                              ),
+                              shadowDarkColor: Color(0xffA3B1C6),
+                              shadowLightColor: Colors.white,
+                              color: Color(0xffAFBBCA),
+                            ),
+                            size: 28,
+                          ),
+                          onPressed: () {
+                            globalController.animateToPage(
+                              0,
+                              duration: Duration(milliseconds: 1000),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                            );
+                          },
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        IconButton(
+                          icon: NeumorphicIcon(
+                            Icons.shopping_basket,
+                            style: NeumorphicStyle(
+                              shape: NeumorphicShape.convex,
+                              depth: 3,
+                              lightSource: LightSource.topLeft,
+                              intensity: 0.68,
+                              border: NeumorphicBorder(
+                                color: Colors.white,
+                                width: 0.5,
+                              ),
+                              shadowDarkColor: Color(0xffA3B1C6),
+                              shadowLightColor: Colors.white,
+                              color: Color(0xffAFBBCA),
+                            ),
+                            size: 32,
+                          ),
+                          onPressed: () {
+                            globalController.animateToPage(
+                              2,
+                              duration: Duration(milliseconds: 1000),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
+        BillHistory(
+          globalController,
+          widget.appState,
+          widget.appState.preferences,
+        ),
+      ],
     );
   }
 }

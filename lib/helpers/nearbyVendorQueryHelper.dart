@@ -13,6 +13,7 @@ import 'locationHelper.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:google_directions_api/google_directions_api.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class NearbyVendorQueryHelper {
   final firestoreInstance = Firestore.instance;
@@ -33,16 +34,42 @@ class NearbyVendorQueryHelper {
     }
     if (await locationHelper.requestLocationPermission() ==
         LocationHelper.PERMISSION_GRANTED) {
-      //location = await locationHelper.getLocation();
+      final RenderBox renderBox = context.findRenderObject();
+      Size size = renderBox.size;
       //print('updated user location');
       LatLng location;
+      //location = await locationHelper.getLocation();
       if (state == 'normal') {
+        print(appState.userLocation);
         if (appState.userLocation == null && appState.pendingTrip == null) {
           location = (await showLocationPicker(
             context,
             gmapsApiKey,
-            appBarColor: Colors.white,
-            myLocationButtonEnabled: true,
+            resultCardPadding: EdgeInsets.all(0.0),
+            searchHeight: (50 / 678) * size.height,
+            //initialCenter: location,
+            searchWidth: size.width,
+            searchPadding: 20,
+            markerIcon: Container(
+              child: SvgPicture.asset(
+                'assets/marker.svg',
+                height: 52,
+                width: 52,
+                //color: Color.fromRGBO(13, 47, 61, 1),
+                //color: Color(0xffE0E5EC),
+              ),
+            ),
+            title: const Text(
+              'Where Should Hawfer Come?',
+              style: TextStyle(
+                color: Color.fromRGBO(13, 47, 61, 1),
+                fontFamily: 'Ubuntu',
+                fontSize: 20,
+              ),
+            ),
+            hintText: 'Search Location',
+            appBarColor: Color(0xffE0E5EC),
+            myLocationButtonEnabled: false,
             automaticallyImplyLeading: false,
             automaticallyAnimateToCurrentLocation: true,
           ))

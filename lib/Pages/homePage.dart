@@ -134,9 +134,46 @@ class _HomePageState extends State<HomePage>
     }
     appState.active = true;
     appState.messages = StreamController();
+    bool gotReply = false;
+    Future.delayed(
+      Duration(seconds: 40),
+      () {
+        print('ran got reply $gotReply');
+        if (!gotReply) {
+          appState.messages.add(<String, dynamic>{
+            'state': 'unanswered',
+          });
+        }
+      },
+    );
     var reply = await getReply(appState);
+    gotReply = true;
     String state = reply['state'];
     switch (state) {
+      case 'unanswered':
+        appState.pendingTrip = null;
+        preferences.setString('pendingTripVendorId', null);
+        preferences.setString('pendingTripVendorInfo', null);
+        await controller.reverse();
+        setState(() => locating = false);
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular((10 / 678) * height)),
+              title: Text(
+                'Sorry, the vendor didn\'t respond',
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: (14 / 678) * height,
+                ),
+              ),
+            );
+          },
+        );
+        appState.active = false;
+        break;
       case 'rejected':
         appState.pendingTrip = null;
         preferences.setString('pendingTripVendorId', null);
@@ -222,8 +259,8 @@ class _HomePageState extends State<HomePage>
     }
     isIncomingTripManaged = true;
     return PageView(
-      //allowImplicitScrolling: false,
-      //physics: NeverScrollableScrollPhysics(),
+      allowImplicitScrolling: false,
+      physics: NeverScrollableScrollPhysics(),
       controller: globalController,
       children: <Widget>[
         ProfilePage(
@@ -387,7 +424,8 @@ class _HomePageState extends State<HomePage>
                                               width: 0.5,
                                               //color: Colors.white,
                                             ),
-                                            shadowLightColor: Colors.transparent,
+                                            shadowLightColor:
+                                                Colors.transparent,
                                             shape: NeumorphicShape.concave,
                                             color:
                                                 Color.fromRGBO(35, 205, 99, 1),

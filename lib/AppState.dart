@@ -3,6 +3,7 @@ import 'dart:async';
 import 'models/vendorInfo.dart';
 import 'models/trip.dart';
 import 'package:google_directions_api/google_directions_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppState {
   Map<String, VendorInfo> vendors;
@@ -11,6 +12,7 @@ class AppState {
   String messagingToken, clientName, phoneNumber, image;
   GeoCoord userLocation;
   Trip pendingTrip;
+  SharedPreferences preferences;
   StreamController<Map<String, dynamic>> messages;
   /*StreamController<Map<String, dynamic>> rejectionMessages,
       holdMessages,
@@ -26,6 +28,7 @@ class AppState {
       this.userLocation,
       this.pendingTrip,
       this.messages,
+      this.preferences,
       //this.rejectionMessages,
       //this.holdMessages,
       //this.ongoingMessages,

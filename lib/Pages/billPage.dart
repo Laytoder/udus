@@ -7,6 +7,7 @@ import 'package:frute/helpers/tripCompleter.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/widgets/pageHeading.dart';
 import 'package:slider_button/slider_button.dart';
+import 'package:intl/intl.dart';
 
 class BillPage extends StatefulWidget {
   List<Vegetable> vegetables;
@@ -184,10 +185,13 @@ class _BillPageState extends State<BillPage> {
                         ),
                       ),
                       widget.state == 'Verification'
-                          ? SizedBox(
-                              height: 0,
-                              width: 0,
-                              child: Container(),
+                          ? Text(
+                              DateFormat('dd-MM-yyyy')
+                                              .format(DateTime.now())
+                                              .toString(),
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                              ),
                             )
                           : Text(
                               widget.date,
@@ -320,7 +324,7 @@ class _BillPageState extends State<BillPage> {
                                   highlightedColor:
                                       Color.fromRGBO(35, 205, 99, 1),
                                   label: Text(
-                                    'Slide to confirm bill',
+                                    'Confirm Total : \u20B9${widget.total}',
                                     style: TextStyle(
                                         fontFamily: 'Ubuntu',
                                         //color: Colors.white,

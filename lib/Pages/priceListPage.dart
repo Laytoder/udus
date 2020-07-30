@@ -18,7 +18,7 @@ class PriceListPage extends StatelessWidget {
   waitForReplyAndLaunch(BuildContext context) async {
     appState.messages = StreamController();
     var messageMap = await getReply(appState);
-    List<dynamic> jsonVegetables = messageMap['vegetables'];
+    List<dynamic> jsonVegetables = messageMap['purchasedVegetables'];
     List<Vegetable> purchasedVegetables = [];
     for (dynamic jsonVegetable in jsonVegetables) {
       Vegetable vegetable = Vegetable.fromJson(jsonVegetable);

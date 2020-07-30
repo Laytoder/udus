@@ -247,10 +247,12 @@ class PIDHelper {
   }
 
   Stream getEtaStream() {
+    etaStreamController = StreamController();
     return etaStreamController.stream;
   }
 
   Stream getDistStream() {
+    distStreamController = StreamController();
     return distStreamController.stream;
   }
 

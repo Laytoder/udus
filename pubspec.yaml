@@ -57,6 +57,7 @@ dependencies:
   neumorphic: ^0.3.2
   flutter_xlider: ^3.4.0
   slider_button: ^0.5.0
+  flutter_custom_clippers: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -100,6 +101,8 @@ flutter:
     - assets/medal.svg
     - assets/mapBack.svg
     - assets/truck.svg
+    - assets/BG.png
+    - assets/marker.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
