@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/phoneNumPage.dart';
 import 'package:frute/widgets/pageHeading.dart';
@@ -26,6 +27,7 @@ class _NamePageState extends State<NamePage> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Color(0xffE0E5EC),
       body: Column(
         //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -113,10 +115,7 @@ class _NamePageState extends State<NamePage> {
                       color: Color.fromRGBO(35, 205, 99, 0.2),
                     ),
                   ],
-                  gradient: LinearGradient(colors: [
-                    Color.fromRGBO(35, 205, 99, 1),
-                    Color.fromRGBO(35, 205, 99, 0.5)
-                  ]),
+                  color: Color.fromRGBO(35, 205, 99, 1),
                   borderRadius: BorderRadius.all(
                     Radius.circular((40 / 678) * height),
                   ),
