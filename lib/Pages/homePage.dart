@@ -672,10 +672,9 @@ class _HomePageState extends State<HomePage>
                       Center(
                         child: Center(
                           child: Container(
-                              height: 1000,
                               child: Image(
-                                image: AssetImage('assets/coming_soon2.png'),
-                              )),
+                            image: AssetImage('comingsoon.png'),
+                          )),
                         ),
                       ),
                     ],

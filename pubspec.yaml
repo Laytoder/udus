@@ -106,6 +106,13 @@ flutter:
     - assets/coming_soon.svg
     - assets/coming_soon2.svg
     - assets/coming_soon2.png
+    - assets/slide3.svg
+    - assets/slide2.svg
+    - assets/slide1.svg
+    - assets/slide3.png
+    - assets/slide2.png
+    - assets/slide1.png
+    - assets/comingsoon.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
