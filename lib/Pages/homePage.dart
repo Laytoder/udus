@@ -670,36 +670,12 @@ class _HomePageState extends State<HomePage>
                         ),
                       ),
                       Center(
-                        child: Container(
-                          height: 200,
-                          width: 200,
-                          child: FadeAnimation(
-                            1,
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(8.0),
-                                ),
-                              ),
-                              elevation: 15,
-                              shadowColor: Color.fromRGBO(35, 205, 99, 0.2),
-                              child: Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: (80 / 678) * height,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Coming Soon',
-                                    style: TextStyle(
-                                      fontSize: (25 / 678) * height,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                        child: Center(
+                          child: Container(
+                              height: 1000,
+                              child: Image(
+                                image: AssetImage('assets/coming_soon2.png'),
+                              )),
                         ),
                       ),
                     ],

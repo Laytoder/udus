@@ -103,6 +103,10 @@ flutter:
     - assets/truck.svg
     - assets/BG.png
     - assets/marker.svg
+    - assets/coming_soon.svg
+    - assets/coming_soon2.svg
+    - assets/coming_soon2.png
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
