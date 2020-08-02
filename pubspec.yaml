@@ -104,6 +104,7 @@ flutter:
     - assets/BG.png
     - assets/marker.svg
     - assets/loading.gif
+    - assets/ripple.gif
     - assets/HL.png
     - assets/coming_soon.svg
     - assets/coming_soon2.svg

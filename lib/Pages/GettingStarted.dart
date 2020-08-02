@@ -1,9 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:frute/Pages/GSdata.dart';
+import 'package:frute/AppState.dart';
+import 'package:frute/Pages/namePage.dart';
+import 'package:frute/models/GSdata.dart';
 
 class GettingStarted extends StatefulWidget {
+  AppState appState;
+  GettingStarted({
+    @required this.appState,
+  });
+
   @override
   _GettingStartedState createState() => _GettingStartedState();
 }
@@ -21,8 +28,9 @@ class _GettingStartedState extends State<GettingStarted> {
 
   Widget pageIndexIndicator(bool isCurrentPage) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 2),
-      height: isCurrentPage ? 10.0 : 60.0,
+      margin: EdgeInsets.symmetric(horizontal: 8),
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      height: isCurrentPage ? 10.0 : 6.0,
       width: isCurrentPage ? 10.0 : 6.0,
       decoration: BoxDecoration(
         color: isCurrentPage ? Colors.grey : Colors.grey[300],
@@ -83,18 +91,28 @@ class _GettingStartedState extends State<GettingStarted> {
                 ],
               ),
             )
-          : Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width,
-              height: Platform.isIOS ? 70 : 60,
-              color: Color.fromRGBO(35, 205, 99, 1),
-              child: Text(
-                "GET STARTED NOW",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
+          : GestureDetector(
+              child: Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width,
+                height: Platform.isIOS ? 70 : 60,
+                color: Color.fromRGBO(35, 205, 99, 1),
+                child: Text(
+                  "GET STARTED NOW",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NamePage(widget.appState),
+                  ),
+                );
+              },
             ),
     );
   }

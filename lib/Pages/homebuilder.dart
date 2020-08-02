@@ -41,7 +41,7 @@ class _HomeBuilderState extends State<HomeBuilder> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: nearbyVendorQueryHelper.getNearbyVendors(context, widget.state),
+      future: nearbyVendorQueryHelper.pickLocation(context, widget.state),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           //refreshCompleter.complete();
@@ -65,18 +65,54 @@ class _HomeBuilderState extends State<HomeBuilder> {
                 ),
               ),
             );
-          } else if (snapshot.data ==
-              NearbyVendorQueryHelper.NO_NEARBY_VENDORS) {
-            return WillPopScope(
-              onWillPop: () async => false,
-              child: Scaffold(
-                body: Center(
-                  child: Text('Sorry, There Are No Nearby Vendors'),
-                ),
-              ),
-            );
           } else {
-            return HomePage(widget.appState, refreshVendors);
+            print('returned from here');
+            return FutureBuilder(
+              future: nearbyVendorQueryHelper.getNearbyVendors(
+                  context, snapshot.data),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.data ==
+                      NearbyVendorQueryHelper.NO_NEARBY_VENDORS) {
+                    return WillPopScope(
+                      onWillPop: () async => false,
+                      child: Scaffold(
+                        body: Center(
+                          child: Text('Sorry, There Are No Nearby Vendors'),
+                        ),
+                      ),
+                    );
+                  } else {
+                    return HomePage(widget.appState, refreshVendors);
+                  }
+                } else {
+                  return WillPopScope(
+                    onWillPop: () async => false,
+                    child: Scaffold(
+                      backgroundColor: Color(0xffE0E5EC),
+                      body: Stack(
+                        children: <Widget>[
+                          Center(
+                            child: Image(
+                              image: AssetImage('assets/ripple.gif'),
+                              height: 200,
+                              width: 200,
+                            ),
+                          ),
+                          Center(
+                            child: CircleAvatar(
+                              backgroundColor: Colors.white,
+                              backgroundImage: AssetImage('assets/HL.png'),
+                              radius: 50,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              },
+            );
           }
         } else {
           return WillPopScope(

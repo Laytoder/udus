@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:frute/AppState.dart';
+import 'package:frute/Pages/GettingStarted.dart';
 import 'package:frute/Pages/homebuilder.dart';
 import 'package:frute/Pages/namePage.dart';
 import 'package:frute/Pages/pendingTripBuilder.dart';
@@ -26,7 +27,7 @@ class SplashNav extends StatefulWidget {
 }
 
 class _SplashNavState extends State<SplashNav> {
-  GlobalKey<SplashScreenState> globalKey = GlobalKey();
+  //GlobalKey<SplashScreenState> globalKey = GlobalKey();
 
   getPendingTripWithLatestData(
       String pendingTripVendorId, String phoneNumber) async {
@@ -188,15 +189,25 @@ class _SplashNavState extends State<SplashNav> {
                 future: checkSignedStateWithDelay(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
-                    globalKey.currentState.endSplash();
+                    //globalKey.currentState.endSplash();
                     if (snapshot.data) {
-                      performNav();
+                      return performNav();
                     } else {
-                      return NamePage(widget.appState);
+                      //return NamePage(widget.appState);
+                      return GettingStarted(
+                        appState: widget.appState,
+                      );
                     }
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
+                    return Scaffold(
+                      backgroundColor: Colors.white,
+                      body: Center(
+                        child: Image(
+                          image: AssetImage('assets/HL.png'),
+                          height: 200,
+                          width: 200,
+                        ),
+                      ),
                     );
                   }
                 },
@@ -204,7 +215,7 @@ class _SplashNavState extends State<SplashNav> {
             : Builder(
                 builder: (context) => performNav(),
               ),
-        !widget.appState.active
+        /*!widget.appState.active
             ? SplashScreen(
                 key: globalKey,
               )
@@ -212,7 +223,7 @@ class _SplashNavState extends State<SplashNav> {
                 height: 0,
                 width: 0,
                 child: Container(),
-              ),
+              ),*/
       ],
     );
   }

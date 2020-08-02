@@ -673,7 +673,7 @@ class _HomePageState extends State<HomePage>
                         child: Center(
                           child: Container(
                               child: Image(
-                            image: AssetImage('comingsoon.png'),
+                            image: AssetImage('assets/comingsoon.png'),
                           )),
                         ),
                       ),
