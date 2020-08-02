@@ -44,50 +44,48 @@ class _NamePageState extends State<NamePage> {
             child: Container(),
           ),
           Container(
-            margin: EdgeInsets.only(
-              left: (20 / 360) * width,
-              right: (20 / 360) * width,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-              borderRadius: BorderRadius.circular(
-                (30 / 678) * height,
+            width: 320,
+            child: Neumorphic(
+              style: NeumorphicStyle(
+                boxShape:
+                    NeumorphicBoxShape.roundRect(BorderRadius.circular(30)),
+                depth: -3,
               ),
-            ),
-            padding: EdgeInsets.only(
-              left: (20 / 360) * width,
-              right: (20 / 360) * width,
-            ),
-            child: Form(
-              key: formKey,
-              child: TextFormField(
-                controller: controller,
-                autofocus: false,
-                decoration: InputDecoration(
-                  hintText: 'Name',
-                  border: InputBorder.none,
-                  errorStyle: TextStyle(
-                    color: Colors.red,
-                    fontSize: (12 / 678) * height,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Ubuntu',
+              padding: EdgeInsets.only(
+                left: (20 / 360) * width,
+                right: (20 / 360) * width,
+              ),
+              child: Form(
+                key: formKey,
+                child: TextFormField(
+                  controller: controller,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    hintText: 'Name',
+                    border: InputBorder.none,
+                    errorStyle: TextStyle(
+                      color: Colors.red,
+                      fontSize: (12 / 678) * height,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Ubuntu',
+                    ),
+                    labelStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: (12 / 678) * height,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Ubuntu',
+                    ),
                   ),
-                  labelStyle: TextStyle(
-                    color: Colors.black,
-                    fontSize: (12 / 678) * height,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Ubuntu',
-                  ),
+                  validator: (value) {
+                    if (value.isEmpty) return 'Please specify a name';
+                  },
+                  onSaved: (value) async {
+                    widget.appState.clientName = value;
+                    SharedPreferences preferences =
+                        await SharedPreferences.getInstance();
+                    preferences.setString('clientName', value);
+                  },
                 ),
-                validator: (value) {
-                  if (value.isEmpty) return 'Please specify a name';
-                },
-                onSaved: (value) async {
-                  widget.appState.clientName = value;
-                  SharedPreferences preferences =
-                      await SharedPreferences.getInstance();
-                  preferences.setString('clientName', value);
-                },
               ),
             ),
           ),

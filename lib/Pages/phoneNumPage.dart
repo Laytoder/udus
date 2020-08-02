@@ -41,41 +41,41 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
             child: Container(),
           ),
           Container(
-            margin: EdgeInsets.only(
-              left: (20 / 360) * width,
-              right: (20 / 360) * width,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-              borderRadius: BorderRadius.circular((30 / 678) * height),
-            ),
-            padding: EdgeInsets.only(
-              left: (20 / 360) * width,
-              right: (20 / 360) * width,
-              top: (10 / 678) * height,
-              bottom: (10 / 678) * height,
-            ),
-            child: Form(
-              key: formKey,
-              child: InternationalPhoneNumberInput(
-                onInputChanged: (PhoneNumber number) {
-                  currentNumber = number;
-                },
-                inputBorder: InputBorder.none,
-                autoFocus: true,
-                countries: ['IN', 'US'],
-                initialValue: currentNumber,
-                errorMessage: 'Please enter a valid phone number',
-                countrySelectorScrollControlled: true,
-                selectorType: PhoneInputSelectorType.DIALOG,
-                ignoreBlank: false,
-                autoValidate: false,
-                selectorTextStyle: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Ubuntu',
-                    fontWeight: FontWeight.w400,
-                    fontSize: (14 / 678) * height),
-                textFieldController: controller,
+            width: 320,
+            child: Neumorphic(
+              style: NeumorphicStyle(
+                boxShape:
+                    NeumorphicBoxShape.roundRect(BorderRadius.circular(30)),
+                depth: -3,
+              ),
+              padding: EdgeInsets.only(
+                left: (20 / 360) * width,
+                right: (20 / 360) * width,
+                top: (10 / 678) * height,
+                bottom: (10 / 678) * height,
+              ),
+              child: Form(
+                key: formKey,
+                child: InternationalPhoneNumberInput(
+                  onInputChanged: (PhoneNumber number) {
+                    currentNumber = number;
+                  },
+                  inputBorder: InputBorder.none,
+                  autoFocus: true,
+                  countries: ['IN', 'US'],
+                  initialValue: currentNumber,
+                  errorMessage: 'Please enter a valid phone number',
+                  countrySelectorScrollControlled: true,
+                  selectorType: PhoneInputSelectorType.DIALOG,
+                  ignoreBlank: false,
+                  autoValidate: false,
+                  selectorTextStyle: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Ubuntu',
+                      fontWeight: FontWeight.w400,
+                      fontSize: (14 / 678) * height),
+                  textFieldController: controller,
+                ),
               ),
             ),
           ),
@@ -98,10 +98,7 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
               padding: EdgeInsets.all(0.0),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    Color.fromRGBO(35, 205, 99, 1),
-                    Color.fromRGBO(35, 205, 99, 0.5)
-                  ]),
+                  color: Color.fromRGBO(35, 205, 99, 1),
                   borderRadius: BorderRadius.all(
                     Radius.circular((80 / 678) * height),
                   ),
