@@ -34,5 +34,4 @@ class LocationHelper {
     _locationData = await _location.getLocation();
     return _locationData;
   }
-
 }

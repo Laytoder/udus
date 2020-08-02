@@ -56,6 +56,7 @@ class HoldPage extends StatelessWidget {
         ),
       ),
     );*/
+    appState.messages = StreamController();
     Map<String, dynamic> reply = await getReply(appState);
     DirectionApiHelper directionApiHelper = DirectionApiHelper();
     appState.pendingTrip.state = 'ongoing';

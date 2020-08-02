@@ -82,8 +82,13 @@ class _HomeBuilderState extends State<HomeBuilder> {
           return WillPopScope(
             onWillPop: () async => false,
             child: Scaffold(
+              backgroundColor: Color(0xffE0E5EC),
               body: Center(
-                child: CircularProgressIndicator(),
+                child: Image(
+                  image: AssetImage('assets/loading.gif'),
+                  height: 200,
+                  width: 200,
+                ),
               ),
             ),
           );

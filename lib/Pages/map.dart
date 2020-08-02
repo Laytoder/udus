@@ -22,7 +22,6 @@ import 'package:angles/angles.dart';
 import 'package:frute/helpers/pidHelper.dart';
 import 'package:frute/helpers/messageGetters.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:frute/assets/my_flutter_app_icons.dart';
 
 class Map extends StatefulWidget {
   DirectionApiHelper directionApiHelper;
@@ -53,6 +52,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
   double width, height;
   Timer intervalUpdatingTimer;
   PageController globalController;
+  bool loading = true;
 
   intitMarkerImg() async {
     ByteData byteData =
@@ -72,6 +72,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
         icon: BitmapDescriptor.fromBytes(markerImg),
       );
       currentPos = newPos;
+      loading = false;
       /*can optimize these intermediate updateIntervals by 
       not computing endIndex info*/
       //can further give duration updates only on newPos fetch
@@ -323,6 +324,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
                         directionApiHelper: widget.directionApiHelper,
                         locationSubscription: locationSubscription,
                         appState: widget.appState,
+                        globalController: globalController,
                       ),
                     ),
                     Expanded(
@@ -331,6 +333,25 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
                     ),
                   ],
                 ),
+                loading
+                    ? Container(
+                        height: height,
+                        width: width,
+                        child: Center(
+                          child: Container(
+                            height: 100,
+                            width: 100,
+                            child: Image(
+                              image: AssetImage('assets/loading.gif'),
+                            ),
+                          ),
+                        ),
+                      )
+                    : SizedBox(
+                        height: 0,
+                        width: 0,
+                        child: Container(),
+                      ),
                 /*Align(
               alignment: Alignment.topCenter,
               child: MapPanel(
@@ -343,81 +364,6 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
                 appState: widget.appState,
               ),
             ),*/
-                Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: (40 / 678) * height,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 10,
-                        ),
-                        IconButton(
-                          icon: NeumorphicIcon(
-                            MyFlutterApp.user,
-                            style: NeumorphicStyle(
-                              shape: NeumorphicShape.convex,
-                              depth: 3,
-                              lightSource: LightSource.topLeft,
-                              intensity: 0.68,
-                              border: NeumorphicBorder(
-                                color: Colors.white,
-                                width: 0.5,
-                              ),
-                              shadowDarkColor: Color(0xffA3B1C6),
-                              shadowLightColor: Colors.white,
-                              color: Color(0xffAFBBCA),
-                            ),
-                            size: 28,
-                          ),
-                          onPressed: () {
-                            globalController.animateToPage(
-                              0,
-                              duration: Duration(milliseconds: 1000),
-                              curve: Curves.fastLinearToSlowEaseIn,
-                            );
-                          },
-                        ),
-                        Expanded(
-                          child: Container(),
-                        ),
-                        IconButton(
-                          icon: NeumorphicIcon(
-                            Icons.shopping_basket,
-                            style: NeumorphicStyle(
-                              shape: NeumorphicShape.convex,
-                              depth: 3,
-                              lightSource: LightSource.topLeft,
-                              intensity: 0.68,
-                              border: NeumorphicBorder(
-                                color: Colors.white,
-                                width: 0.5,
-                              ),
-                              shadowDarkColor: Color(0xffA3B1C6),
-                              shadowLightColor: Colors.white,
-                              color: Color(0xffAFBBCA),
-                            ),
-                            size: 32,
-                          ),
-                          onPressed: () {
-                            globalController.animateToPage(
-                              2,
-                              duration: Duration(milliseconds: 1000),
-                              curve: Curves.fastLinearToSlowEaseIn,
-                            );
-                          },
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Container(),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),

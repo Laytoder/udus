@@ -110,7 +110,7 @@ class VendorInfoPage extends StatelessWidget {
                           //selected: true,
                           leading: Container(
                             height: (40 / 678) * height,
-                            width: (40 / 360) * width,
+                            width: (40 / 678) * height,
                             child: CircleAvatar(
                               backgroundImage: selectImageType(
                                   vendor.vegetables[index].imageUrl),

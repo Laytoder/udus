@@ -62,7 +62,7 @@ class _NamePageState extends State<NamePage> {
               key: formKey,
               child: TextFormField(
                 controller: controller,
-                autofocus: true,
+                autofocus: false,
                 decoration: InputDecoration(
                   hintText: 'Name',
                   border: InputBorder.none,

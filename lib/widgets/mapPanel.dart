@@ -12,6 +12,7 @@ import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/helpers/pidHelper.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:frute/assets/my_flutter_app_icons.dart';
 
 class MapPanel extends StatefulWidget {
   VendorInfo currentVendor;
@@ -20,6 +21,7 @@ class MapPanel extends StatefulWidget {
   StreamSubscription locationSubscription;
   AppState appState;
   double width, height;
+  PageController globalController;
   MapPanel({
     @required this.currentVendor,
     @required this.pidHelper,
@@ -28,6 +30,7 @@ class MapPanel extends StatefulWidget {
     @required this.appState,
     @required this.width,
     @required this.height,
+    @required this.globalController,
   });
 
   @override
@@ -439,6 +442,9 @@ class _MapPanelState extends State<MapPanel>
                                       ),*/
                                       child: GestureDetector(
                                         child: Neumorphic(
+                                          margin: EdgeInsets.only(
+                                            bottom: 30.0,
+                                          ),
                                           style: NeumorphicStyle(
                                             boxShape:
                                                 NeumorphicBoxShape.circle(),
@@ -449,6 +455,9 @@ class _MapPanelState extends State<MapPanel>
                                           child: Container(
                                             height: (50 / 678) * height,
                                             width: (50 / 678) * height,
+                                            margin: EdgeInsets.only(
+                                                //bottom: 10.0,
+                                                ),
                                             child: Icon(
                                               Icons.phone,
                                               color: Color.fromRGBO(
@@ -465,6 +474,112 @@ class _MapPanelState extends State<MapPanel>
                                     ),
                                   ],
                                 ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: (40 / 678) * height,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  IconButton(
+                                    icon: NeumorphicIcon(
+                                      MyFlutterApp.user,
+                                      style: NeumorphicStyle(
+                                        shape: NeumorphicShape.convex,
+                                        depth: 3,
+                                        lightSource: LightSource.topLeft,
+                                        intensity: 0.68,
+                                        border: NeumorphicBorder(
+                                          color: Colors.white,
+                                          width: 0.5,
+                                        ),
+                                        shadowDarkColor: Color(0xffA3B1C6),
+                                        shadowLightColor: Colors.white,
+                                        color: Color(0xffAFBBCA),
+                                      ),
+                                      size: 28,
+                                    ),
+                                    onPressed: () {
+                                      widget.globalController.animateToPage(
+                                        0,
+                                        duration: Duration(milliseconds: 1000),
+                                        curve: Curves.fastLinearToSlowEaseIn,
+                                      );
+                                    },
+                                  ),
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                  IconButton(
+                                    icon: NeumorphicIcon(
+                                      Icons.shopping_basket,
+                                      style: NeumorphicStyle(
+                                        shape: NeumorphicShape.convex,
+                                        depth: 3,
+                                        lightSource: LightSource.topLeft,
+                                        intensity: 0.68,
+                                        border: NeumorphicBorder(
+                                          color: Colors.white,
+                                          width: 0.5,
+                                        ),
+                                        shadowDarkColor: Color(0xffA3B1C6),
+                                        shadowLightColor: Colors.white,
+                                        color: Color(0xffAFBBCA),
+                                      ),
+                                      size: 32,
+                                    ),
+                                    onPressed: () {
+                                      widget.globalController.animateToPage(
+                                        2,
+                                        duration: Duration(milliseconds: 1000),
+                                        curve: Curves.fastLinearToSlowEaseIn,
+                                      );
+                                    },
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              ),
+                              /*Expanded(
+                                child: Container(),
+                              ),*/
+                              SizedBox(
+                                height: widget.height * 0.62,
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Container(),
+                                  ),
+                                  Container(
+                                    height: 7,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      color: Color(0xffAFBBCA),
+                                    ),
+                                    child: Neumorphic(
+                                      style: NeumorphicStyle(
+                                        boxShape: NeumorphicBoxShape.roundRect(
+                                          BorderRadius.circular(30.0),
+                                        ),
+                                        color: Color(0xffAFBBCA),
+                                        depth: -3,
+                                        shape: NeumorphicShape.flat,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(),
+                                  )
+                                ],
                               ),
                             ],
                           ),

@@ -323,18 +323,19 @@ class _VendorPageState extends State<VendorPage> {
                 } else {
                   return Padding(
                     padding: EdgeInsets.only(
-                        top: (10 / 667) * height,
-                        bottom: (10 / 667) * height,
-                        right: (10 / 375) * width,
-                        left: (10 / 375) * width),
+                      top: 10,
+                      bottom: 10,
+                      right: 10,
+                      left: 10,
+                    ),
                     child: Neumorphic(
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                          vertical: (10 / 667) * height,
+                          vertical: 10,
                         ),
                         child: ListTile(
                           leading: CircleAvatar(
-                            radius: ((30 / (667.0 * 375))) * height * width,
+                            radius: (30 / 667) * height,
                             backgroundImage: selectImageType(
                                 widget.vendor.vegetables[index - 1].imageUrl),
                             backgroundColor: Colors.transparent,
