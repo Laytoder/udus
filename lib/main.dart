@@ -13,6 +13,7 @@ import 'AppState.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_directions_api/google_directions_api.dart';
+import 'Pages/GettingStarted.dart';
 import 'tokens/googleMapsApiKey.dart';
 import 'helpers/authService.dart';
 import 'models/trip.dart';
@@ -122,10 +123,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       ),
       navigatorKey: messagingHelper.navigatorkey,
       //home: AuthService().handleAuth(appState),
-      home: SplashNav(
+      /*home: SplashNav(
         appState: appState,
-      ),
-      //home: HomeBuilder(appState),
+      ),*/
+      home: GettingStarted(),
       debugShowCheckedModeBanner: false,
     );
   }

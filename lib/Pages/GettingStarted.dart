@@ -1,119 +1,74 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:frute/Pages/GSdata.dart';
+import 'package:introduction_screen/introduction_screen.dart';
 
-class GettingStarted extends StatefulWidget {
-  @override
-  _GettingStartedState createState() => _GettingStartedState();
-}
-
-class _GettingStartedState extends State<GettingStarted> {
-  List<SliderModel> slides = new List<SliderModel>();
-  int currentIndex = 0;
-  PageController pageController = new PageController(initialPage: 0);
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    slides = getSlides();
-  }
-
-  Widget pageIndexIndicator(bool isCurrentPage) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 2),
-      height: isCurrentPage ? 10.0 : 60.0,
-      width: isCurrentPage ? 10.0 : 6.0,
-      decoration: BoxDecoration(
-        color: isCurrentPage ? Colors.grey : Colors.grey[300],
-        borderRadius: BorderRadius.circular(12),
+class GettingStarted extends StatelessWidget {
+  List<PageViewModel> getPages() {
+    return [
+      new PageViewModel(
+        image: Center(
+          child: Image.asset('assets/slide1.png'),
+        ),
+        title: "Call Vendor to your Doorstep",
+        body: "",
+        decoration: PageDecoration(
+          contentPadding: EdgeInsets.only(top: 80),
+        ),
       ),
-    );
+      new PageViewModel(
+        image: Center(
+          child: Image.asset('assets/slide2.png'),
+        ),
+        title: "30 mins guaranteed arrival",
+        body: "",
+        decoration: PageDecoration(
+          contentPadding: EdgeInsets.only(top: 80),
+        ),
+      ),
+      new PageViewModel(
+        image: Center(
+          child: Image.asset('assets/slide3.png'),
+        ),
+        title: "Track your Vendor live",
+        body: "",
+        decoration: PageDecoration(
+          contentPadding: EdgeInsets.only(top: 80),
+        ),
+      ),
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView.builder(
-          controller: pageController,
-          itemCount: slides.length,
-          onPageChanged: (val) {
-            setState(() {
-              currentIndex = val;
-            });
-          },
-          itemBuilder: (context, index) {
-            return SliderTile(
-              imageAssetPath: slides[index].getImageAssetPath(),
-              title: slides[index].getTitle(),
-              desc: slides[index].getDesc(),
-            );
-          }),
-      bottomSheet: currentIndex != slides.length - 1
-          ? Container(
-              height: Platform.isIOS ? 70 : 60,
-              padding: EdgeInsets.symmetric(horizontal: 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      pageController.animateToPage(slides.length - 1,
-                          duration: Duration(milliseconds: 400),
-                          curve: Curves.linear);
-                    },
-                    child: Text("SKIP"),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      for (int i = 0; i < slides.length; i++)
-                        currentIndex == i
-                            ? pageIndexIndicator(true)
-                            : pageIndexIndicator(false)
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      pageController.animateToPage(currentIndex + 1,
-                          duration: Duration(milliseconds: 400),
-                          curve: Curves.linear);
-                    },
-                    child: Text("NEXT"),
-                  ),
-                ],
-              ),
-            )
-          : Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width,
-              height: Platform.isIOS ? 70 : 60,
-              color: Color.fromRGBO(35, 205, 99, 1),
-              child: Text(
-                "GET STARTED NOW",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-    );
-  }
-}
-
-class SliderTile extends StatelessWidget {
-  String imageAssetPath, title, desc;
-  SliderTile({this.imageAssetPath, this.title, this.desc});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          Image.asset(imageAssetPath),
-          SizedBox(height: 20),
-          Text(title),
-          SizedBox(height: 12),
-          Text(desc),
-        ],
+      backgroundColor: Color(0xffE0E5EC),
+      body: IntroductionScreen(
+        next: Icon(Icons.arrow_forward_ios),
+        showSkipButton: true,
+        skip: Text(
+          "SKIP",
+          style: TextStyle(
+            color: Color.fromRGBO(35, 205, 99, 1.0),
+          ),
+        ),
+        onSkip: () {},
+        dotsDecorator: DotsDecorator(
+          size: const Size.square(10.0),
+          activeSize: const Size(20.0, 10.0),
+          activeColor: Color.fromRGBO(35, 205, 99, 1.0),
+          color: Colors.black26,
+          spacing: const EdgeInsets.symmetric(horizontal: 3.0),
+          activeShape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
+        ),
+        pages: getPages(),
+        onDone: () {},
+        globalBackgroundColor: Color(0xffE0E5EC),
+        done: Text(
+          "CONTINUE",
+          style: TextStyle(
+            color: Color.fromRGBO(35, 205, 99, 1.0),
+          ),
+        ),
       ),
     );
   }
