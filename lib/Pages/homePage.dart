@@ -855,7 +855,8 @@ class _HomePageState extends State<HomePage>
                                     scale: animation,
                                     child: CircleAvatar(
                                       radius: (103 / 678) * height,
-                                      backgroundColor: Color(0xff0083b0),
+                                      backgroundColor:
+                                          Color.fromRGBO(35, 205, 99, 1),
                                       child: CircleAvatar(
                                         radius: (100 / 678) * height,
                                         backgroundImage: AssetImage(

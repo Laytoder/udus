@@ -14,6 +14,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'Pages/GettingStarted.dart';
+import 'Pages/holdPage.dart';
 import 'tokens/googleMapsApiKey.dart';
 import 'helpers/authService.dart';
 import 'models/trip.dart';
@@ -126,7 +127,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       /*home: SplashNav(
         appState: appState,
       ),*/
-      home: GettingStarted(),
+      home: HoldPage(),
       debugShowCheckedModeBanner: false,
     );
   }

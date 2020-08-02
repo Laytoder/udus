@@ -109,9 +109,43 @@ class HoldPage extends StatelessWidget {
             },
           ),*/
         ),*/
+        backgroundColor: Color(0xffE0E5EC),
         body: Center(
-          child: Text(
-              '$vendorName is on another trip\nWill take approx $eta to start your trip'),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 100, left: 15),
+                child: Image.asset('assets/waiting_animation.gif'),
+              ),
+              SizedBox(height: 6),
+              Text(
+                'HOLD ON your Vendor is on another Trip',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 6),
+              Text(
+                'It may take Some Time for him',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 6),
+              Text(
+                'To Get Back to you.',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
