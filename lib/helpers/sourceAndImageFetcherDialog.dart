@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -7,55 +8,59 @@ import 'package:permission_handler/permission_handler.dart';
 
 Future<File> alertForSourceAndGetImage(context) {
   return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Select'),
-          ),
-          content: SingleChildScrollView(
-              child: ListBody(children: <Widget>[
-            InkWell(
-              child: Container(
-                height: 50,
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.camera_alt),
-                    SizedBox(width: 10),
-                    Text('Camera')
-                  ],
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        backgroundColor: Color(0xffE0E5EC),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('Select'),
+        ),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              InkWell(
+                child: Container(
+                  height: 50,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.camera_alt),
+                      SizedBox(width: 10),
+                      Text('Camera')
+                    ],
+                  ),
                 ),
-              ),
-              onTap: () async {
-                var img = await openCamera();
+                onTap: () async {
+                  var img = await openCamera();
 
-                Navigator.of(context).pop(img);
-              },
-            ),
-            SizedBox(height: 10),
-            InkWell(
-              child: Container(
-                height: 50,
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.album),
-                    SizedBox(width: 10),
-                    Text('Gallery')
-                  ],
-                ),
+                  Navigator.of(context).pop(img);
+                },
               ),
-              onTap: () async {
-                var img = await openGallery();
-                if (img == "nul" || img == "" || img == null) img = null;
-                Navigator.of(context).pop(img);
-              },
-            )
-          ])),
-        );
-      });
+              SizedBox(height: 10),
+              InkWell(
+                child: Container(
+                  height: 50,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.album),
+                      SizedBox(width: 10),
+                      Text('Gallery')
+                    ],
+                  ),
+                ),
+                onTap: () async {
+                  var img = await openGallery();
+                  if (img == "nul" || img == "" || img == null) img = null;
+                  Navigator.of(context).pop(img);
+                },
+              )
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
 
 openGallery() async {

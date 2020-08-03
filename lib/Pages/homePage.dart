@@ -462,13 +462,15 @@ class _HomePageState extends State<HomePage>
                                                           BorderRadius.circular(
                                                               (10 / 678) *
                                                                   height)),
-                                                  title: Text(
-                                                    'Sorry, you can only call one vendor at a time',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize:
-                                                          (14 / 678) * height,
+                                                  title: Center(
+                                                    child: Text(
+                                                      'Sorry, you can only call one vendor at a time',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize:
+                                                            (14 / 678) * height,
+                                                      ),
                                                     ),
                                                   ),
                                                 );
@@ -671,34 +673,37 @@ class _HomePageState extends State<HomePage>
                       ),
                       Center(
                         child: Center(
-                          child: Column(
-                            children: <Widget>[
-                              Expanded(
-                                child: Container(),
-                              ),
-                              Container(
-                                child: Image(
-                                  image: AssetImage('assets/comingsoon.png'),
-                                  height: 200,
-                                  width: 200,
+                          child: Center(
+                            child: Column(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Container(),
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: 30,
-                                ),
-                                child: Text(
-                                  'Coming Soon!',
-                                  style: TextStyle(
-                                    fontSize: 35,
-                                    color: Color(0xff58616e),
+                                Container(
+                                  child: Image(
+                                    image: AssetImage('assets/comingsoon.png'),
+                                    height: 120,
+                                    width: 120,
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Container(),
-                              ),
-                            ],
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 30,
+                                    left: 10,
+                                  ),
+                                  child: Text(
+                                    'Coming Soon!',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color(0xff58616e),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

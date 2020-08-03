@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/widgets/pageHeading.dart';
 import 'phoneNumPage.dart';
@@ -39,19 +40,26 @@ class _EditPhoneLayoutState extends State<EditPhoneLayout> {
                         (30 / 678) * height,
                       ),
                     ),
-                    child: ListTile(
-                      title: Text(
-                        'Current Phone Number',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: (16 / 678) * height,
-                        ),
+                    child: Neumorphic(
+                      style: NeumorphicStyle(
+                        boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(30)),
+                        depth: -3,
                       ),
-                      subtitle: Text(
-                        widget.appState.phoneNumber,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: (14 / 678) * height,
+                      child: ListTile(
+                        title: Text(
+                          'Current Phone Number',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: (16 / 678) * height,
+                          ),
+                        ),
+                        subtitle: Text(
+                          widget.appState.phoneNumber,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: (14 / 678) * height,
+                          ),
                         ),
                       ),
                     ),
@@ -59,12 +67,12 @@ class _EditPhoneLayoutState extends State<EditPhoneLayout> {
                   SizedBox(
                     height: (30 / 678) * height,
                   ),
-                  Text('Will Need Verification'),
+                  Text('This Will Require Verification'),
                   SizedBox(
                     height: (20 / 678) * height,
                   ),
-                  RaisedButton(
-                    onPressed: () {
+                  GestureDetector(
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -75,13 +83,25 @@ class _EditPhoneLayoutState extends State<EditPhoneLayout> {
                         ),
                       );
                     },
-                    child: Text('Continue'),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        (80 / 678) * height,
+                    child: Container(
+                      height: 30,
+                      width: 100,
+                      child: Neumorphic(
+                        style: NeumorphicStyle(
+                          boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(30)),
+                          depth: 3,
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Continue',
+                            style: TextStyle(
+                              color: Color.fromRGBO(35, 205, 99, 1),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    color: Color(0xff25d368),
                   ),
                 ],
               ),
