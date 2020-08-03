@@ -6,82 +6,82 @@ import 'package:introduction_screen/introduction_screen.dart';
 class GettingStarted extends StatelessWidget {
   AppState appState;
   GettingStarted({
-    this.appState,
+    @required this.appState,
   });
 
-  List<PageViewModel> getPages() {
-    return [
-      new PageViewModel(
-        image: Center(
-          child: Image.asset('assets/slide1.png'),
-        ),
-        title: "Call Vendor to your Doorstep",
-        body: "",
-        decoration: PageDecoration(
-          contentPadding: EdgeInsets.only(top: 80),
-        ),
+  final introKey = GlobalKey<IntroductionScreenState>();
+
+  void _onIntroEnd(context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => NamePage(appState),
       ),
-      new PageViewModel(
-        image: Center(
-          child: Image.asset('assets/slide2.png'),
-        ),
-        title: "30 mins guaranteed arrival",
-        body: "",
-        decoration: PageDecoration(
-          contentPadding: EdgeInsets.only(top: 80),
-        ),
-      ),
-      new PageViewModel(
-        image: Center(
-          child: Image.asset('assets/slide3.png'),
-        ),
-        title: "Track your Vendor live",
-        body: "",
-        decoration: PageDecoration(
-          contentPadding: EdgeInsets.only(top: 80),
-        ),
-      ),
-    ];
+    );
+  }
+
+  Widget _buildImage(String assetName) {
+    return Align(
+      child: Image.asset('assets/$assetName.png', width: 300.0),
+      alignment: Alignment.bottomCenter,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xffE0E5EC),
-      body: IntroductionScreen(
-        next: Icon(Icons.arrow_forward_ios),
-        showSkipButton: true,
-        skip: Text(
-          "SKIP",
-          style: TextStyle(
-            color: Color.fromRGBO(35, 205, 99, 1.0),
-          ),
+    const bodyStyle = TextStyle(fontSize: 15.0);
+    const pageDecoration = const PageDecoration(
+      titleTextStyle: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w700),
+      bodyTextStyle: bodyStyle,
+      descriptionPadding: EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 18.0),
+      pageColor: Colors.white,
+      imagePadding: EdgeInsets.zero,
+    );
+
+    return IntroductionScreen(
+      key: introKey,
+      globalBackgroundColor: Color(0xffE0E5EC),
+      pages: [
+        PageViewModel(
+          title: "Call Vendors",
+          body: "Just a swipe away!",
+          image: _buildImage('slide1'),
+          decoration: pageDecoration,
         ),
-        onSkip: () {},
-        dotsDecorator: DotsDecorator(
-          size: const Size.square(10.0),
-          activeSize: const Size(20.0, 10.0),
-          activeColor: Color.fromRGBO(35, 205, 99, 1.0),
-          color: Colors.black26,
-          spacing: const EdgeInsets.symmetric(horizontal: 3.0),
-          activeShape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
+        PageViewModel(
+          title: "Always on time",
+          image: _buildImage('slide2'),
+          body: "30 mins guaranteed arrival",
+          decoration: pageDecoration,
         ),
-        pages: getPages(),
-        onDone: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NamePage(appState),
-            ),
-          );
-        },
-        globalBackgroundColor: Color(0xffE0E5EC),
-        done: Text(
-          "CONTINUE",
-          style: TextStyle(
-            color: Color.fromRGBO(35, 205, 99, 1.0),
-          ),
+        PageViewModel(
+          title: "Live Tracking",
+          body: "Get to know when your vendor is arriving",
+          image: _buildImage('slide3'),
+          decoration: pageDecoration,
+        ),
+      ],
+      onDone: () => _onIntroEnd(context),
+      onSkip: () => _onIntroEnd(context),
+      showSkipButton: true,
+      skipFlex: 0,
+      nextFlex: 0,
+      skip: const Text('Skip'),
+      next: const Icon(Icons.keyboard_arrow_right),
+      done: const Text(
+        'Get started',
+        style: TextStyle(
+          fontWeight: FontWeight.w800,
+          color: Color.fromRGBO(35, 205, 99, 1.0),
+        ),
+      ),
+      dotsDecorator: const DotsDecorator(
+        spacing: EdgeInsets.symmetric(horizontal: 4),
+        size: Size(7.0, 7.0),
+        color: Color(0xFFBDBDBD),
+        activeSize: Size(16.0, 7.0),
+        activeColor: Color.fromRGBO(35, 205, 99, 1.0),
+        activeShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
         ),
       ),
     );

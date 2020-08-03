@@ -65,6 +65,26 @@ class _HomeBuilderState extends State<HomeBuilder> {
                 ),
               ),
             );
+          } else if (snapshot.data ==
+              NearbyVendorQueryHelper.NO_NEARBY_VENDORS) {
+            return WillPopScope(
+              onWillPop: () async => false,
+              child: Scaffold(
+                body: Center(
+                    child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 30),
+                      child: Image.asset('assets/novendor.png'),
+                    ),
+                    Text(
+                      "Sorry no Vendors Nearby !",
+                      style: TextStyle(fontSize: 25),
+                    )
+                  ],
+                )),
+              ),
+            );
           } else {
             print('returned from here');
             return FutureBuilder(

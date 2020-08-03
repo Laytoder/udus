@@ -7,6 +7,7 @@ Future<bool> getSurity(context, {String text = 'Are you sure?'}) async {
       context: context,
       builder: (context) {
         return AlertDialog(
+            backgroundColor: Color(0xffE0E5EC),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             title: Text(text),

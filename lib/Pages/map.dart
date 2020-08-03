@@ -337,13 +337,12 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
                     ? Container(
                         height: height,
                         width: width,
+                        color: Color(0xffE0E5EC),
                         child: Center(
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            child: Image(
-                              image: AssetImage('assets/loading.gif'),
-                            ),
+                          child: Image(
+                            height: 200,
+                            width: 200,
+                            image: AssetImage('assets/loading.gif'),
                           ),
                         ),
                       )

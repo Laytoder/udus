@@ -127,7 +127,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       home: SplashNav(
         appState: appState,
       ),
-      //home: HoldPage(),
+      /*home: HoldPage(
+        appState: appState,
+        eta: '10 mins',
+        preferences: preferences,
+        vendorName: 'Ramu Kaka',
+      ),*/
       debugShowCheckedModeBanner: false,
     );
   }

@@ -2,24 +2,26 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
-import 'package:frute/Pages/homePage.dart';
-import 'package:frute/Pages/homebuilder.dart';
+import 'package:frute/Pages/billHistory.dart';
+import 'package:frute/Pages/profilePage.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/helpers/messageGetters.dart';
 import 'package:frute/helpers/messagingHelper.dart';
-import 'package:frute/models/trip.dart';
 import 'package:frute/routes/fadeRoute.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'map.dart' as map;
+import 'package:frute/assets/my_flutter_app_icons.dart';
 
 class HoldPage extends StatelessWidget {
   String eta, vendorName;
   AppState appState;
   MessagingHelper messagingHelper = MessagingHelper();
   SharedPreferences preferences;
+  double height, width;
+  PageController globalController = PageController(initialPage: 1);
   HoldPage({
     @required this.eta,
     @required this.vendorName,
@@ -28,34 +30,6 @@ class HoldPage extends StatelessWidget {
   });
 
   launchOnReply(BuildContext context) async {
-    /*Map<String, dynamic> reply = await messagingHelper.getReply();
-    DirectionApiHelper directionApiHelper = DirectionApiHelper();
-    GeoCoord destination = GeoCoord.fromJson(jsonDecode(reply['destination']));
-    GeoCoord origin = GeoCoord.fromJson(jsonDecode(reply['origin']));
-    await directionApiHelper.populateData(origin, destination);
-    List<Trip> trips = [];
-    for (Trip trip in appState.pendingTrips) {
-      if (trip.vendorId == appState.activeVendorId) {
-        trip.state = reply['state'];
-        trip.directionApiHelper = directionApiHelper;
-        trip.origin = origin;
-        trip.destination = destination;
-      }
-      trips.add(trip);
-    }
-    appState.pendingTrips = trips;
-    List<String> jsonTrips = [];
-    for (Trip trip in trips) jsonTrips.add(jsonEncode(trip.toJson()));
-    preferences.setStringList('pendingTrips', jsonTrips);
-    Navigator.push(
-      context,
-      FadeRoute(
-        page: map.Map(
-          directionApiHelper: directionApiHelper,
-          appState: appState,
-        ),
-      ),
-    );*/
     appState.messages = StreamController();
     Map<String, dynamic> reply = await getReply(appState);
     DirectionApiHelper directionApiHelper = DirectionApiHelper();
@@ -83,71 +57,143 @@ class HoldPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
     launchOnReply(context);
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        /*appBar: AppBar(
-          /*leading: IconButton(
-            icon: Container(
-              child: SvgPicture.asset(
-                'assets/home.svg',
-                height: 25,
-                width: 25,
-                color: Color(0xff58f8f8f),
-              ),
+    return PageView(
+      allowImplicitScrolling: false,
+      physics: NeverScrollableScrollPhysics(),
+      controller: globalController,
+      children: <Widget>[
+        ProfilePage(
+          controller: globalController,
+          appState: appState,
+        ),
+        WillPopScope(
+          onWillPop: () async => false,
+          child: Scaffold(
+            backgroundColor: Color(0xffE0E5EC),
+            body: Stack(
+              children: <Widget>[
+                Center(
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 4,
+                        child: Container(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0, left: 15),
+                        child: Image.asset('assets/waiting_animation.gif'),
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        'HOLD ON! $vendorName is on another Trip',
+                        style: TextStyle(
+                          color: Color(0xff58616e),
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(height: 6),
+                      Text(
+                        'It may take approx. $eta to start your trip',
+                        style: TextStyle(
+                          color: Color(0xff58616e),
+                          fontSize: 12,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 5,
+                        child: Container(),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: (40 / 678) * height,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 10,
+                        ),
+                        IconButton(
+                          icon: NeumorphicIcon(
+                            MyFlutterApp.user,
+                            style: NeumorphicStyle(
+                              shape: NeumorphicShape.convex,
+                              depth: 3,
+                              lightSource: LightSource.topLeft,
+                              intensity: 0.68,
+                              border: NeumorphicBorder(
+                                color: Colors.white,
+                                width: 0.5,
+                              ),
+                              shadowDarkColor: Color(0xffA3B1C6),
+                              shadowLightColor: Colors.white,
+                              color: Color(0xffAFBBCA),
+                            ),
+                            size: 28,
+                          ),
+                          onPressed: () {
+                            globalController.animateToPage(
+                              0,
+                              duration: Duration(milliseconds: 1000),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                            );
+                          },
+                        ),
+                        Expanded(
+                          child: Container(),
+                        ),
+                        IconButton(
+                          icon: NeumorphicIcon(
+                            Icons.shopping_basket,
+                            style: NeumorphicStyle(
+                              shape: NeumorphicShape.convex,
+                              depth: 3,
+                              lightSource: LightSource.topLeft,
+                              intensity: 0.68,
+                              border: NeumorphicBorder(
+                                color: Colors.white,
+                                width: 0.5,
+                              ),
+                              shadowDarkColor: Color(0xffA3B1C6),
+                              shadowLightColor: Colors.white,
+                              color: Color(0xffAFBBCA),
+                            ),
+                            size: 32,
+                          ),
+                          onPressed: () {
+                            globalController.animateToPage(
+                              2,
+                              duration: Duration(milliseconds: 1000),
+                              curve: Curves.fastLinearToSlowEaseIn,
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            onPressed: () {
-              appState.active = false;
-              appState.messages = StreamController();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomeBuilder(appState),
-                ),
-              );
-            },
-          ),*/
-        ),*/
-        backgroundColor: Color(0xffE0E5EC),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 100, left: 15),
-                child: Image.asset('assets/waiting_animation.gif'),
-              ),
-              SizedBox(height: 6),
-              Text(
-                'HOLD ON your Vendor is on another Trip',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 6),
-              Text(
-                'It may take Some Time for him',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 6),
-              Text(
-                'To Get Back to you.',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
           ),
         ),
-      ),
+        BillHistory(
+          globalController,
+          appState,
+          preferences,
+        ),
+      ],
     );
   }
 }

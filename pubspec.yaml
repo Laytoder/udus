@@ -118,6 +118,7 @@ flutter:
     - assets/slide2.png
     - assets/slide1.png
     - assets/comingsoon.png
+    - assets/nobill.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

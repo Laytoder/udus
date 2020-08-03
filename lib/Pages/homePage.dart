@@ -671,10 +671,35 @@ class _HomePageState extends State<HomePage>
                       ),
                       Center(
                         child: Center(
-                          child: Container(
-                              child: Image(
-                            image: AssetImage('assets/comingsoon.png'),
-                          )),
+                          child: Column(
+                            children: <Widget>[
+                              Expanded(
+                                child: Container(),
+                              ),
+                              Container(
+                                child: Image(
+                                  image: AssetImage('assets/comingsoon.png'),
+                                  height: 200,
+                                  width: 200,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: 30,
+                                ),
+                                child: Text(
+                                  'Coming Soon!',
+                                  style: TextStyle(
+                                    fontSize: 35,
+                                    color: Color(0xff58616e),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

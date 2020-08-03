@@ -171,13 +171,36 @@ class _BillHistoryState extends State<BillHistory> {
                         if (snapshot.data == null ||
                             snapshot.data.length == 0) {
                           return Center(
-                            child: Text(
-                              'No Bills in History',
-                              style: TextStyle(
-                                fontFamily: 'Ubuntu',
-                                fontSize: (14 / 678) * height,
-                                fontWeight: FontWeight.w400,
-                              ),
+                            child: Column(
+                              children: <Widget>[
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(),
+                                ),
+                                Container(
+                                  child: Image(
+                                    image: AssetImage('assets/nobill.png'),
+                                    height: 200,
+                                    width: 200,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 30,
+                                  ),
+                                  child: Text(
+                                    'No Bills On Record!',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color(0xff8c8c8c),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 7,
+                                  child: Container(),
+                                ),
+                              ],
                             ),
                           );
                         } else {
