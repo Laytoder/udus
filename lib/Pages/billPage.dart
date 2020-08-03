@@ -187,8 +187,8 @@ class _BillPageState extends State<BillPage> {
                       widget.state == 'Verification'
                           ? Text(
                               DateFormat('dd-MM-yyyy')
-                                              .format(DateTime.now())
-                                              .toString(),
+                                  .format(DateTime.now())
+                                  .toString(),
                               style: TextStyle(
                                 color: Colors.grey[600],
                               ),
@@ -312,8 +312,10 @@ class _BillPageState extends State<BillPage> {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              HomeBuilder(widget.appState)),
+                                          builder: (context) => HomeBuilder(
+                                                widget.appState,
+                                                state: 'tripJustEnded',
+                                              )),
                                     );
                                   },
                                   dismissible: false,

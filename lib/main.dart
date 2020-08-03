@@ -13,6 +13,7 @@ import 'AppState.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_directions_api/google_directions_api.dart';
+import 'package:frute/Pages/noConnectionPage.dart';
 import 'Pages/GettingStarted.dart';
 import 'Pages/holdPage.dart';
 import 'tokens/googleMapsApiKey.dart';
@@ -21,6 +22,7 @@ import 'models/trip.dart';
 import 'dart:convert';
 import 'helpers/directionApiHelper.dart';
 import 'Pages/pendingTripBuilder.dart';
+import 'package:connectivity/connectivity.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +50,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   static const String MESSAGING_TOKEN = 'firbase_messaging_token';
   String messagingToken;
   MessagingHelper messagingHelper = MessagingHelper();
+  bool isConnectivityPageThere = false;
 
   @override
   void initState() {
@@ -55,6 +58,19 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     if (widget.appState != null) {
       appState = widget.appState;
     }
+    Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) async {
+      if (result == ConnectivityResult.none && !isConnectivityPageThere) {
+        isConnectivityPageThere = true;
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NoConnection(),
+          ),
+        );
+      }
+    });
     initializeAppStateAndStartMessagingService();
     WidgetsBinding.instance.addObserver(this);
   }

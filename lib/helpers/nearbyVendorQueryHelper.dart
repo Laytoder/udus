@@ -37,7 +37,12 @@ class NearbyVendorQueryHelper {
       LatLng location;
       if (state == 'normal') {
         print(appState.userLocation);
-        if (appState.userLocation == null && appState.pendingTrip == null) {
+        if (appState.userLocation == null &&
+            appState.pendingTrip == null &&
+            state != 'tripJustEnded') {
+          LocationData locationData = locationHelper.getLocation();
+          LatLng initLocation =
+              LatLng(locationData.latitude, locationData.longitude);
           location = (await showLocationPicker(
             context,
             gmapsApiKey,
@@ -45,6 +50,7 @@ class NearbyVendorQueryHelper {
             searchHeight: (50 / 678) * 678,
             searchWidth: 360,
             searchPadding: 20,
+            initialCenter: initLocation,
             markerIcon: Container(
               child: SvgPicture.asset(
                 'assets/marker.svg',

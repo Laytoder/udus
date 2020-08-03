@@ -281,9 +281,11 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
                         compassEnabled: false,
                         mapToolbarEnabled: false,
                         trafficEnabled: false,
+
                         initialCameraPosition: CameraPosition(
-                          target: widget.directionApiHelper.initCamera,
+                          //target: widget.directionApiHelper.initCamera,
                           zoom: 17,
+                          target: currentPos,
                           //bearing: 30,
                           //tilt: 45,
                         ),
