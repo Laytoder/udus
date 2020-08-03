@@ -71,18 +71,11 @@ class _HomeBuilderState extends State<HomeBuilder> {
               onWillPop: () async => false,
               child: Scaffold(
                 body: Center(
-                    child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 30),
-                      child: Image.asset('assets/novendor.png'),
-                    ),
-                    Text(
-                      "Sorry no Vendors Nearby !",
-                      style: TextStyle(fontSize: 25),
-                    )
-                  ],
-                )),
+                  child: Text(
+                    "Sorry no Vendors Nearby !",
+                    style: TextStyle(fontSize: 25),
+                  ),
+                ),
               ),
             );
           }*/
@@ -98,19 +91,20 @@ class _HomeBuilderState extends State<HomeBuilder> {
                     return WillPopScope(
                       onWillPop: () async => false,
                       child: Scaffold(
-                        body: Center(
-                            child: Column(
+                        body: Column(
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(top: 30),
-                              child: Image.asset('assets/novendor.png'),
+                              padding: const EdgeInsets.only(top: 100),
+                              child: Center(
+                                child: Image.asset('assets/novendor.png'),
+                              ),
                             ),
                             Text(
-                              "Sorry no Vendors Nearby !",
-                              style: TextStyle(fontSize: 25),
-                            )
+                              'Sorry, There Are No Nearby Vendors',
+                              style: TextStyle(fontSize: 20),
+                            ),
                           ],
-                        )),
+                        ),
                       ),
                     );
                   } else {

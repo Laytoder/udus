@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/widgets/pageHeading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,46 +42,51 @@ class _EditNameLayoutState extends State<EditNameLayout>
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(
-                      left: (20 / 360) * width,
-                      right: (20 / 360) * width,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(
-                        (30 / 678) * height,
+                      margin: EdgeInsets.only(
+                        left: (20 / 360) * width,
+                        right: (20 / 360) * width,
                       ),
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        'Current Name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: (16 / 678) * height,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(
+                          (30 / 678) * height,
                         ),
                       ),
-                      subtitle: Text(
-                        widget.appState.clientName,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: (14 / 678) * height,
+                      child: Neumorphic(
+                        style: NeumorphicStyle(
+                          boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(30)),
+                          depth: -3,
                         ),
-                      ),
-                    ),
-                  ),
+                        child: ListTile(
+                          title: Text(
+                            'Current Name',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: (16 / 678) * height,
+                            ),
+                          ),
+                          subtitle: Text(
+                            widget.appState.clientName,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: (14 / 678) * height,
+                            ),
+                          ),
+                        ),
+                      )),
                   SizedBox(
                     height: (30 / 678) * height,
                   ),
-                  Container(
+                  Neumorphic(
+                    style: NeumorphicStyle(
+                      boxShape: NeumorphicBoxShape.roundRect(
+                          BorderRadius.circular(30)),
+                      depth: -3,
+                    ),
                     margin: EdgeInsets.only(
                       left: (20 / 360) * width,
                       right: (20 / 360) * width,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(
-                        (30 / 678) * height,
-                      ),
                     ),
                     padding: EdgeInsets.only(
                       left: (20 / 360) * width,
@@ -92,7 +98,7 @@ class _EditNameLayoutState extends State<EditNameLayout>
                         controller: controller,
                         autofocus: true,
                         decoration: InputDecoration(
-                          labelText: 'New Name',
+                          hintText: 'New Name',
                           border: InputBorder.none,
                           errorStyle: TextStyle(
                             color: Colors.red,
