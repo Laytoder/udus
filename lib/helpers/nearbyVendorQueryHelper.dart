@@ -40,7 +40,7 @@ class NearbyVendorQueryHelper {
         if (appState.userLocation == null &&
             appState.pendingTrip == null &&
             state != 'tripJustEnded') {
-          LocationData locationData = locationHelper.getLocation();
+          LocationData locationData = await locationHelper.getLocation();
           LatLng initLocation =
               LatLng(locationData.latitude, locationData.longitude);
           location = (await showLocationPicker(
