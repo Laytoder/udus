@@ -66,7 +66,7 @@ class _VendorPageState extends State<VendorPage> {
     width = MediaQuery.of(context).size.width;
     print(width);
     return Scaffold(
-      backgroundColor: Color(0xffE0E5EB),
+      backgroundColor: Color(0xffE0E5EC),
       body: Container(
         height: (700 / 667) * height,
         width: (700 / 375) * width,
@@ -240,7 +240,7 @@ class _VendorPageState extends State<VendorPage> {
                             NeumorphicCurvePath(),
                           ),
                           border: NeumorphicBorder(
-                            color: Colors.white,
+                            color: Color(0xffE0E5EC),
                             width: 2,
                           ),
                           depth: 8,

@@ -139,10 +139,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         fontFamily: 'Ubuntu',
       ),
       navigatorKey: messagingHelper.navigatorkey,
-      home: HomeBuilder(appState),
-      /*home: SplashNav(
+      //home: HomeBuilder(appState),
+      home: SplashNav(
         appState: appState,
-      ),*/
+      ),
       /*home: HoldPage(
         appState: appState,
         eta: '10 mins',

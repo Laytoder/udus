@@ -33,7 +33,7 @@ class GettingStarted extends StatelessWidget {
       titleTextStyle: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       descriptionPadding: EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 18.0),
-      pageColor: Colors.white,
+      pageColor: Color(0xffE0E5EC),
       imagePadding: EdgeInsets.zero,
     );
 
