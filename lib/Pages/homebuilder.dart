@@ -94,7 +94,12 @@ class _HomeBuilderState extends State<HomeBuilder> {
                         body: Column(
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.only(top: 100),
+                              padding: const EdgeInsets.only(
+                                top: 120,
+                                left: 50,
+                                right: 50,
+                                bottom: 50,
+                              ),
                               child: Center(
                                 child: Image.asset('assets/novendor.png'),
                               ),

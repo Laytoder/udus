@@ -200,7 +200,7 @@ class _SplashNavState extends State<SplashNav> {
                     }
                   } else {
                     return Scaffold(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Color(0xffE0E5EC),
                       body: Center(
                         child: Image(
                           image: AssetImage('assets/HL.png'),
