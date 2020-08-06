@@ -155,17 +155,29 @@ class _MapPanelState extends State<MapPanel>
                                   alignment: Alignment.topCenter,
                                   child: Column(
                                     children: <Widget>[
+                                      SizedBox(
+                                        height: 40,
+                                      ),
+                                      Text(
+                                        'Track your vendor',
+                                        style: TextStyle(
+                                          fontFamily: 'Ubuntu',
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey[500],
+                                          fontSize: 18,
+                                        ),
+                                      ),
                                       CachedNetworkImage(
                                         imageUrl: widget.currentVendor.imageUrl,
                                         imageBuilder:
                                             (context, imageProvider) =>
                                                 Container(
                                           margin: EdgeInsets.only(
-                                            top: (50 / 678) * height,
-                                            bottom: (15 / 678) * height,
+                                            top: (20 / 678) * height,
+                                            bottom: (10 / 678) * height,
                                           ),
-                                          width: width * 0.25,
-                                          height: width * 0.25,
+                                          width: width * 0.2,
+                                          height: width * 0.2,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                             image: DecorationImage(

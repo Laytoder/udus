@@ -66,7 +66,7 @@ class _VendorPageState extends State<VendorPage> {
     width = MediaQuery.of(context).size.width;
     print(width);
     return Scaffold(
-      backgroundColor: Color(0xffE0E5EB),
+      backgroundColor: Color(0xffE0E5EC),
       body: Container(
         height: (700 / 667) * height,
         width: (700 / 375) * width,
@@ -231,93 +231,86 @@ class _VendorPageState extends State<VendorPage> {
                     padding: EdgeInsets.only(
                       bottom: 50,
                     ),
-                    child: Material(
-                      //color: Colors.transparent,
-                      shadowColor: Colors.black,
-                      child: Neumorphic(
-                        style: NeumorphicStyle(
-                          boxShape: NeumorphicBoxShape.path(
-                            NeumorphicCurvePath(),
-                          ),
-                          border: NeumorphicBorder(
-                            color: Colors.white,
-                            width: 2,
-                          ),
-                          depth: 8,
-                          shape: NeumorphicShape.convex,
-                        ),
-                        child: ClipPath(
-                          clipper: OvalBottomBorderClipper(),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/BG.png',
-                                ),
-                                fit: BoxFit.fill,
+                    child: Column(
+                      children: <Widget>[
+                        Material(
+                          //color: Colors.transparent,
+                          shadowColor: Colors.black,
+                          color: Color(0xffE0E5EC),
+                          child: Neumorphic(
+                            style: NeumorphicStyle(
+                              boxShape: NeumorphicBoxShape.path(
+                                NeumorphicCurvePath(),
                               ),
+                              border: NeumorphicBorder(
+                                color: Colors.white,
+                                width: 2,
+                              ),
+                              depth: 8,
+                              shape: NeumorphicShape.convex,
                             ),
-                            height: (250 / 667) * height,
-                            //color: Colors.white54,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                      bottom: (40 / 667),
-                                    ) *
-                                    height,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                      child: Padding(
-                                          padding: const EdgeInsets.only(
-                                                  top: (140 / 667)) *
-                                              height),
-                                      radius: ((50 / (667.0 * 375))) *
-                                          height *
-                                          width,
-                                      backgroundImage: NetworkImage(
-                                        widget.vendor.imageUrl,
-                                      ),
-                                      backgroundColor: Colors.green,
+                            child: ClipPath(
+                              clipper: OvalBottomBorderClipper(),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      'assets/BG.png',
                                     ),
-                                    SizedBox(
-                                      height: (10 / 667) * height,
-                                    ),
-                                    Card(
-                                      elevation: 5,
-                                      //shadowColor: Color.fromRGBO(35, 205, 99, 0.1),
-                                      shadowColor:
-                                          Color.fromRGBO(13, 47, 61, 1),
-                                      color: Color(0xffE0E5EB),
-                                      //color: Color.fromRGBO(160, 214, 180, 1.0),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          (15 / 678) * height,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                height: (150 / 667) * height,
+                                //color: Colors.white54,
+                                child: Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                          bottom: (40 / 667),
+                                        ) *
+                                        height,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height: 20,
                                         ),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(10.0),
-                                        child: Text(
-                                          widget.vendor.name,
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'Ubuntu',
-                                            //fontWeight: FontWeight.bold,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: ((20 / (667.0))) * height,
+                                        CircleAvatar(
+                                          child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                      top: (140 / 667)) *
+                                                  height),
+                                          radius: ((50 / (667.0 * 375))) *
+                                              height *
+                                              width,
+                                          backgroundImage: NetworkImage(
+                                            widget.vendor.imageUrl,
                                           ),
+                                          backgroundColor: Colors.green,
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          height: (20 / 678) * height,
+                        ),
+                        Text(
+                          'Choose from ${widget.vendor.name}\'s Catalogue',
+                          style: TextStyle(
+                            fontFamily: 'Ubuntu',
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 } else {
@@ -335,7 +328,7 @@ class _VendorPageState extends State<VendorPage> {
                         ),
                         child: ListTile(
                           leading: CircleAvatar(
-                            radius: (30 / 667) * height,
+                            radius: 30,
                             backgroundImage: selectImageType(
                                 widget.vendor.vegetables[index - 1].imageUrl),
                             backgroundColor: Colors.transparent,

@@ -81,6 +81,17 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
     });
   }
 
+  getDestinationMarker() {
+    LatLng destination;
+    var len = widget.directionApiHelper.points.length;
+    destination = widget.directionApiHelper.points[len - 1];
+    return Marker(
+      markerId: MarkerId('destination'),
+      position: destination,
+      draggable: false,
+    );
+  }
+
   double getBearing(LatLng begin, LatLng end) {
     double lat = (begin.latitude - end.latitude).abs();
     double lng = (begin.longitude - end.longitude).abs();
@@ -298,7 +309,9 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
                           _controller.animateCamera(u2);
                         },
                         mapType: MapType.normal,
-                        markers: Set<Marker>.of(marker == null ? [] : [marker]),
+                        markers: Set<Marker>.of(marker == null
+                            ? [getDestinationMarker()]
+                            : [marker, getDestinationMarker()]),
                         polylines: Set<Polyline>.of([
                           Polyline(
                             polylineId: PolylineId('poly'),

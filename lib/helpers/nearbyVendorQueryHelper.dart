@@ -59,7 +59,7 @@ class NearbyVendorQueryHelper {
               ),
             ),
             title: const Text(
-              'Where Should Hawfer Come?',
+              'Where Should Our Hawfer Come?',
               style: TextStyle(
                 color: Color.fromRGBO(13, 47, 61, 1),
                 fontFamily: 'Ubuntu',

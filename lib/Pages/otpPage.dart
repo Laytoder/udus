@@ -116,6 +116,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
         Scaffold(
           backgroundColor: Color(0xffE0E5EC),
           appBar: AppBar(
+            backgroundColor: Color(0xffE0E5EC),
             title: invalidState
                 ? Text(
                     'Invalid OTP',

@@ -301,55 +301,46 @@ class _HomePageState extends State<HomePage>
                     physics: NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     children: <Widget>[
-                      RefreshIndicator(
-                        backgroundColor: Color.fromRGBO(35, 205, 99, 1.0),
-                        color: Colors.white,
-                        displacement: 100,
-                        onRefresh: () async {
-                          return (await widget.refreshVendors());
-                        },
-                        child: SingleChildScrollView(
-                          physics: AlwaysScrollableScrollPhysics(),
-                          child: Stack(
-                            children: <Widget>[
-                              /*SizedBox(
+                      Stack(
+                        children: <Widget>[
+                          /*SizedBox(
                                 height: (80 / 678) * height,
                               ),*/
-                              CarouselSlider.builder(
-                                itemCount: appState.userId.length,
-                                itemBuilder: (context, index) {
-                                  String key = appState.userId[index];
-                                  VendorInfo vendor = appState.vendors[key];
-                                  return VendorInfoPage(
-                                    vendor,
-                                    widget.appState,
-                                  );
-                                },
-                                options: CarouselOptions(
-                                  autoPlay: false,
-                                  enableInfiniteScroll: true,
-                                  height: height * 0.94,
-                                  enlargeCenterPage: true,
-                                  onPageChanged: (index, _) {
-                                    String key = appState.userId[index];
-                                    VendorInfo vendor = appState.vendors[key];
-                                    currentVendorInfo = vendor;
-                                    currVendorToken = vendor.token;
-                                    currVendorId = key;
-                                  },
+                          CarouselSlider.builder(
+                            itemCount: appState.userId.length,
+                            itemBuilder: (context, index) {
+                              String key = appState.userId[index];
+                              VendorInfo vendor = appState.vendors[key];
+                              return VendorInfoPage(
+                                vendor,
+                                widget.appState,
+                              );
+                            },
+                            options: CarouselOptions(
+                              autoPlay: false,
+                              enableInfiniteScroll: true,
+                              height: height * 0.94,
+                              enlargeCenterPage: true,
+                              onPageChanged: (index, _) {
+                                String key = appState.userId[index];
+                                VendorInfo vendor = appState.vendors[key];
+                                currentVendorInfo = vendor;
+                                currVendorToken = vendor.token;
+                                currVendorId = key;
+                              },
+                            ),
+                          ),
+                          Align(
+                            //alignment: Alignment.bottomRight,
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: height * 0.9,
                                 ),
-                              ),
-                              Align(
-                                //alignment: Alignment.bottomRight,
-                                child: Column(
-                                  children: <Widget>[
-                                    SizedBox(
-                                      height: height * 0.9,
-                                    ),
-                                    SliderButton(
-                                      width: width * 0.77,
-                                      height: height * 0.08,
-                                      /*child: Neumorphic(
+                                SliderButton(
+                                  width: width * 0.77,
+                                  height: height * 0.08,
+                                  /*child: Neumorphic(
                                         style: NeumorphicStyle(
                                           boxShape:
                                               NeumorphicBoxShape.roundRect(
@@ -388,21 +379,20 @@ class _HomePageState extends State<HomePage>
                                           ),
                                         ),
                                       ),*/
-                                      child: Container(
-                                        height: height * 0.077,
-                                        width: height * 0.077,
-                                        decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black,
-                                              blurRadius: 4,
-                                            ),
-                                          ],
-                                          color: Color.fromRGBO(35, 205, 99, 1),
-                                          borderRadius:
-                                              BorderRadius.circular(100),
+                                  child: Container(
+                                    height: height * 0.077,
+                                    width: height * 0.077,
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black,
+                                          blurRadius: 4,
                                         ),
-                                        /*child: Center(
+                                      ],
+                                      color: Color.fromRGBO(35, 205, 99, 1),
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                    /*child: Center(
                                           child: Container(
                                             child: SvgPicture.asset(
                                               'assets/truck.svg',
@@ -414,95 +404,89 @@ class _HomePageState extends State<HomePage>
                                             ),
                                           ),
                                         ),*/
-                                        child: Neumorphic(
-                                          style: NeumorphicStyle(
-                                            boxShape:
-                                                NeumorphicBoxShape.roundRect(
-                                              BorderRadius.circular(100),
-                                            ),
-                                            border: NeumorphicBorder(
-                                              width: 0.5,
-                                              //color: Colors.white,
-                                            ),
-                                            shadowLightColor:
-                                                Colors.transparent,
-                                            shape: NeumorphicShape.concave,
+                                    child: Neumorphic(
+                                      style: NeumorphicStyle(
+                                        boxShape: NeumorphicBoxShape.roundRect(
+                                          BorderRadius.circular(100),
+                                        ),
+                                        border: NeumorphicBorder(
+                                          width: 0.5,
+                                          //color: Colors.white,
+                                        ),
+                                        shadowLightColor: Colors.transparent,
+                                        shape: NeumorphicShape.concave,
+                                        color: Color.fromRGBO(35, 205, 99, 1),
+                                        depth: 20,
+                                      ),
+                                      child: Center(
+                                        child: Container(
+                                          child: SvgPicture.asset(
+                                            'assets/truck.svg',
+                                            height: 32.5,
+                                            width: 32.5,
                                             color:
-                                                Color.fromRGBO(35, 205, 99, 1),
-                                            depth: 20,
-                                          ),
-                                          child: Center(
-                                            child: Container(
-                                              child: SvgPicture.asset(
-                                                'assets/truck.svg',
-                                                height: 32.5,
-                                                width: 32.5,
-                                                color: Color.fromRGBO(
-                                                    13, 47, 61, 1),
-                                                //color: Color(0xffE0E5EC),
-                                              ),
-                                            ),
+                                                Color.fromRGBO(13, 47, 61, 1),
+                                            //color: Color(0xffE0E5EC),
                                           ),
                                         ),
                                       ),
-                                      vibrationFlag: false,
-                                      action: () async {
-                                        //appState.pendingTrip != null
-                                        bool surity = await getSurity(context);
-                                        if (surity) {
-                                          if (appState.pendingTrip != null &&
-                                              appState.pendingTrip.state !=
-                                                  'requested') {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              (10 / 678) *
-                                                                  height)),
-                                                  title: Center(
-                                                    child: Text(
-                                                      'Sorry, you can only call one vendor at a time',
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize:
-                                                            (14 / 678) * height,
-                                                      ),
-                                                    ),
+                                    ),
+                                  ),
+                                  vibrationFlag: false,
+                                  action: () async {
+                                    //appState.pendingTrip != null
+                                    bool surity = await getSurity(context);
+                                    if (surity) {
+                                      if (appState.pendingTrip != null &&
+                                          appState.pendingTrip.state !=
+                                              'requested') {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          (10 / 678) * height)),
+                                              title: Center(
+                                                child: Text(
+                                                  'Sorry, you can only call one vendor at a time',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize:
+                                                        (14 / 678) * height,
                                                   ),
-                                                );
-                                              },
+                                                ),
+                                              ),
                                             );
-                                          } else {
-                                            manageTrip(
-                                                context, false, setState);
-                                          }
-                                        }
-                                      },
-                                      dismissible: false,
-                                      buttonSize: height * 0.077,
-                                      startPercent: 1,
-                                      //radius: 10,
-                                      baseColor: Color.fromRGBO(13, 47, 61, 1),
-                                      /*backgroundColor:
+                                          },
+                                        );
+                                      } else {
+                                        manageTrip(context, false, setState);
+                                      }
+                                    }
+                                  },
+                                  dismissible: false,
+                                  buttonSize: height * 0.077,
+                                  startPercent: 1,
+                                  //radius: 10,
+                                  baseColor: Color.fromRGBO(13, 47, 61, 1),
+                                  /*backgroundColor:
                                           Color.fromRGBO(13, 47, 61, 1),*/
-                                      backgroundColor: Color(0xffE0E5EC),
-                                      highlightedColor:
-                                          Color.fromRGBO(35, 205, 99, 1),
-                                      /*buttonColor:
+                                  backgroundColor: Color(0xffE0E5EC),
+                                  highlightedColor:
+                                      Color.fromRGBO(35, 205, 99, 1),
+                                  /*buttonColor:
                                           Color.fromRGBO(35, 205, 99, 1),*/
-                                      label: Text(
-                                        "Slide to Call Vendor",
-                                        style: TextStyle(
-                                            fontFamily: 'Ubuntu',
-                                            //color: Colors.white,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 15),
-                                      ),
-                                      /*icon: Container(
+                                  label: Text(
+                                    "Slide to Request Vendor",
+                                    style: TextStyle(
+                                        fontFamily: 'Ubuntu',
+                                        //color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 15),
+                                  ),
+                                  /*icon: Container(
                                         child: SvgPicture.asset(
                                           'assets/truck.svg',
                                           height: 32.5,
@@ -511,11 +495,11 @@ class _HomePageState extends State<HomePage>
                                           //color: Color(0xffE0E5EC),
                                         ),
                                       ),*/
-                                    ),
-                                    SizedBox(
-                                      height: 40,
-                                    )
-                                    /*Container(
+                                ),
+                                /*SizedBox(
+                                  height: 40,
+                                )*/
+                                /*Container(
                                       width: width,
                                       color: Colors.transparent,
                                       height: (60 / 678) * height,
@@ -631,10 +615,10 @@ class _HomePageState extends State<HomePage>
                                         ),
                                       ),
                                     ),*/
-                                  ],
-                                ),
-                              ),
-                              /*NeumorphicButton(
+                              ],
+                            ),
+                          ),
+                          /*NeumorphicButton(
                               onPressed: () {
                                 print("onClick");
                               },
@@ -648,7 +632,7 @@ class _HomePageState extends State<HomePage>
                                 color: Colors.black,
                               ),
                             ),*/
-                              /*neu.NeuButton(
+                          /*neu.NeuButton(
                               decoration: neu.NeumorphicDecoration(
                                 color: Color.fromRGBO(13, 47, 61, 1),
                                 borderRadius:
@@ -667,9 +651,7 @@ class _HomePageState extends State<HomePage>
                                 ),
                               ),
                             ),*/
-                            ],
-                          ),
-                        ),
+                        ],
                       ),
                       Center(
                         child: Center(

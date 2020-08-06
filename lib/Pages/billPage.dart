@@ -234,8 +234,9 @@ class _BillPageState extends State<BillPage> {
                               ),
                               trailing: Text(
                                 '\u20B9' +
-                                    widget.vegetables[index].price.toString() +
-                                    '/kg',
+                                    (widget.vegetables[index].price *
+                                            widget.vegetables[index].quantity)
+                                        .toString(),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: (14 / 678) * height,
