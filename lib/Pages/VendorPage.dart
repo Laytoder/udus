@@ -341,17 +341,27 @@ class _VendorPageState extends State<VendorPage> {
                             backgroundColor: Colors.transparent,
                           ),
                           title: Text(widget.vendor.vegetables[index - 1].name),
-                          trailing: Text(
+                          /*trailing: Text(
+                            '\u20B9' +
+                                widget.vendor.vegetables[index - 1].price
+                                    .toString() +
+                                '/kg',
+                          ),*/
+                          /*subtitle: Text(
+                            'Avl Qty : ' +
+                                widget.vendor.vegetables[index - 1].quantity
+                                    .toString() +
+                                'kg',
+                          ),*/
+                          subtitle: Text(
                             '\u20B9' +
                                 widget.vendor.vegetables[index - 1].price
                                     .toString() +
                                 '/kg',
                           ),
-                          subtitle: Text(
-                            'Avl Qty : ' +
-                                widget.vendor.vegetables[index - 1].quantity
-                                    .toString() +
-                                'kg',
+                          trailing: IconButton(
+                            icon: Icon(Icons.add_box),
+                            onPressed: () {},
                           ),
                         ),
                       ),

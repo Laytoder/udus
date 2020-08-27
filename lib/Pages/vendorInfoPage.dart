@@ -102,49 +102,96 @@ class VendorInfoPage extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: vendor.vegetables.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          dense: true,
-                          /*contentPadding: EdgeInsets.only(
-                              bottom: 0,
-                            ),*/
-                          //selected: true,
-                          leading: Container(
-                            height: (40 / 678) * height,
-                            width: (40 / 678) * height,
-                            child: CircleAvatar(
-                              backgroundImage: selectImageType(
-                                  vendor.vegetables[index].imageUrl),
-                              radius: (10 / 678) * height,
-                            ),
+                        return Neumorphic(
+                          margin: EdgeInsets.only(
+                            left: 10.0,
+                            right: 10.0,
+                            top: 10.0,
                           ),
-                          title: Wrap(
-                            direction: Axis.horizontal,
-                            children: <Widget>[
-                              Text(
-                                vendor.vegetables[index].name,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: (14 / 678) * height,
+                          style: NeumorphicStyle(
+                            shape: NeumorphicShape.concave,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(15.0),
+                            ),
+                            depth: 3,
+                            lightSource: LightSource.topLeft,
+                            border: NeumorphicBorder(
+                              color: Colors.white,
+                              width: 0.5,
+                            ),
+                            //color: Colors.white,
+                            color: Color(0xffE0E5EC),
+                          ),
+                          child: Container(
+                            //color: Colors.amber,
+                            /*margin: EdgeInsets.only(
+                              left: 10.0,
+                              right: 10.0,
+                              top: 10.0,
+                            ),*/
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              //color: Colors.amber,
+                            ),
+                            child: ListTile(
+                              dense: true,
+                              /*contentPadding: EdgeInsets.only(
+                                bottom: 0,
+                              ),*/
+                              //selected: true,
+                              leading: Container(
+                                height: (40 / 678) * height,
+                                width: (40 / 678) * height,
+                                child: CircleAvatar(
+                                  backgroundImage: selectImageType(
+                                      vendor.vegetables[index].imageUrl),
+                                  radius: (10 / 678) * height,
                                 ),
                               ),
-                            ],
-                          ),
-                          subtitle: Text(
-                            'Avl Qty : ' +
-                                vendor.vegetables[index].quantity.toString() +
-                                'kg',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: (10 / 678) * height,
+                              title: Wrap(
+                                direction: Axis.horizontal,
+                                children: <Widget>[
+                                  Text(
+                                    vendor.vegetables[index].name,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: (14 / 678) * height,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              /*subtitle: Text(
+                              'Avl Qty : ' +
+                                  vendor.vegetables[index].quantity.toString() +
+                                  'kg',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: (10 / 678) * height,
+                              ),
                             ),
-                          ),
-                          trailing: Text(
-                            '\u20B9' +
-                                vendor.vegetables[index].price.toString() +
-                                '/kg',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: (12 / 678) * height,
+                            trailing: Text(
+                              '\u20B9' +
+                                  vendor.vegetables[index].price.toString() +
+                                  '/kg',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: (12 / 678) * height,
+                              ),
+                            ),*/
+                              subtitle: Text(
+                                '\u20B9' +
+                                    vendor.vegetables[index].price.toString() +
+                                    '/kg',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: (12 / 678) * height,
+                                ),
+                              ),
+                              trailing: Icon(
+                                Icons.add_box,
+                                color: Colors.blue[600],
+                                size: 23,
+                              ),
                             ),
                           ),
                         );

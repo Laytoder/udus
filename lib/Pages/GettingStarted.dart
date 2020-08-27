@@ -70,7 +70,7 @@ class GettingStarted extends StatelessWidget {
       done: const Text(
         'Get started',
         style: TextStyle(
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w400,
           color: Color.fromRGBO(35, 205, 99, 1.0),
         ),
       ),
