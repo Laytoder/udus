@@ -1,26 +1,34 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:frute/AppState.dart';
+import 'package:frute/models/client.dart';
+import 'package:frute/models/order.dart';
 import 'vegetable.dart';
 
 class VendorInfo {
-  String name, location, token, imageUrl, phoneNumber;
+  String name, location, token, imageUrl, phoneNumber, id;
   GeoPoint coords;
   List<Vegetable> vegetables;
+  HashMap<String, double> vegMap;
   double distance, eta, rating;
 
-  VendorInfo(
-      {this.name = '',
-      this.location = '',
-      @required this.phoneNumber,
-      this.coords,
-      this.vegetables,
-      this.distance = 0.0,
-      this.eta = 0.0,
-      this.rating = 0.0,
-      this.imageUrl = '',
-      this.token});
+  VendorInfo({
+    this.name = '',
+    this.location = '',
+    @required this.phoneNumber,
+    this.coords,
+    this.vegetables,
+    this.distance = 0.0,
+    this.eta = 0.0,
+    this.rating = 0.0,
+    this.imageUrl = '',
+    this.token,
+    @required this.id,
+    @required this.vegMap,
+  });
 
   Map toJson() {
     List<dynamic> jsonVegs = [];
@@ -64,5 +72,31 @@ class VendorInfo {
         ),
       );
     }
+  }
+
+  Order createOrder(AppState appState) {
+    Client client = Client(
+      name: appState.clientName,
+      phone: appState.phoneNumber,
+      token: appState.messagingToken,
+    );
+    List<Vegetable> purchasedVegetables = [];
+    double total = 0.0;
+    for (Vegetable vegetable in vegetables) {
+      if (vegetable.quantity != null) {
+        purchasedVegetables.add(vegetable);
+        total = total + (vegetable.price * vegetable.quantity);
+      }
+    }
+    Order order = Order(
+      client: client,
+      purchasedVegetables: purchasedVegetables,
+      total: total,
+      responded: false,
+      state: 'unresponded',
+      to: token,
+    );
+
+    return order;
   }
 }

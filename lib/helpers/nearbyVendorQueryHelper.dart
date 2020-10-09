@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -130,148 +131,6 @@ class NearbyVendorQueryHelper {
     }
   }
 
-  /*Future<dynamic> getNearbyVendors(BuildContext context, String state) async {
-    print('reached');
-    try {
-      await locationHelper.enableLocationService();
-    } catch (e) {
-      return LOCATION_SERVICE_DISABLED;
-    }
-    if (await locationHelper.requestLocationPermission() ==
-        LocationHelper.PERMISSION_GRANTED) {
-      /*final RenderBox renderBox = context.findRenderObject();
-      Size size = renderBox.size;*/
-      //print('updated user location');
-      LatLng location;
-      /*LocationData locationData;
-      locationData = await locationHelper.getLocation();
-      location = LatLng(
-        locationData.latitude,
-        locationData.longitude,
-      );*/
-      if (state == 'normal') {
-        print(appState.userLocation);
-        if (appState.userLocation == null && appState.pendingTrip == null) {
-          location = (await showLocationPicker(
-            context,
-            gmapsApiKey,
-            resultCardPadding: EdgeInsets.all(0.0),
-            searchHeight: (50 / 678) * 678,
-            //initialCenter: location,
-            searchWidth: 360,
-            searchPadding: 20,
-            markerIcon: Container(
-              child: SvgPicture.asset(
-                'assets/marker.svg',
-                height: 52,
-                width: 52,
-                //color: Color.fromRGBO(13, 47, 61, 1),
-                //color: Color(0xffE0E5EC),
-              ),
-            ),
-            title: const Text(
-              'Where Should Hawfer Come?',
-              style: TextStyle(
-                color: Color.fromRGBO(13, 47, 61, 1),
-                fontFamily: 'Ubuntu',
-                fontSize: 20,
-              ),
-            ),
-            hintText: 'Search Location',
-            appBarColor: Color(0xffE0E5EC),
-            myLocationButtonEnabled: false,
-            automaticallyImplyLeading: false,
-            automaticallyAnimateToCurrentLocation: false,
-          ))
-              .latLng;
-          print('reached after map');
-          appState.userLocation =
-              GeoCoord(location.latitude, location.longitude);
-        } else {
-          /*LocationData newLocation = await locationHelper.getLocation();
-          location = LatLng(newLocation.latitude, newLocation.longitude);*/
-          location = LatLng(
-            appState.userLocation.latitude,
-            appState.userLocation.longitude,
-          );
-        }
-        //appState.userLocation = GeoCoord(location.latitude, location.longitude);
-      } else {
-        location = LatLng(
-          appState.userLocation.latitude,
-          appState.userLocation.longitude,
-        );
-        LocationResult locationResult = await showLocationPicker(
-          context,
-          gmapsApiKey,
-          resultCardPadding: EdgeInsets.all(0.0),
-          searchHeight: (50 / 678) * 678,
-          initialCenter: location,
-          searchWidth: 360,
-          searchPadding: 20,
-          markerIcon: Container(
-            child: SvgPicture.asset(
-              'assets/marker.svg',
-              height: 52,
-              width: 52,
-              //color: Color.fromRGBO(13, 47, 61, 1),
-              //color: Color(0xffE0E5EC),
-            ),
-          ),
-          title: const Text(
-            'Where Should Hawfer Come?',
-            style: TextStyle(
-              color: Color.fromRGBO(13, 47, 61, 1),
-              fontFamily: 'Ubuntu',
-              fontSize: 20,
-            ),
-          ),
-          hintText: 'Search Location',
-          appBarColor: Color(0xffE0E5EC),
-          myLocationButtonEnabled: false,
-          automaticallyImplyLeading: true,
-          automaticallyAnimateToCurrentLocation: false,
-        );
-        if (locationResult != null) {
-          double lat = locationResult.latLng.latitude;
-          double lon = locationResult.latLng.longitude;
-          GeoCoord newLoc = GeoCoord(lat, lon);
-          appState.userLocation = newLoc;
-          location = locationResult.latLng;
-        }
-      }
-      /*LatLng location;
-    if (locationResult != null) {
-      location = locationResult.latLng;
-      appState.userLocation = GeoCoord(location.latitude, location.longitude);
-    } else {
-      location = LatLng(
-          appState.userLocation.latitude, appState.userLocation.longitude);
-    }*/
-      GeoFirePoint center =
-          geo.point(latitude: location.latitude, longitude: location.longitude);
-      var fireRef = firestoreInstance
-          .collection('vendor_live_data')
-          .where('active', isEqualTo: true);
-      List<DocumentSnapshot> vendorDocs = await geo
-          .collection(collectionRef: fireRef)
-          .within(
-            center: center,
-            radius: 10.0,
-            field: 'position',
-            strictMode: true,
-          )
-          .first;
-      if (vendorDocs == null || vendorDocs.length == 0) {
-        return NO_NEARBY_VENDORS;
-      }
-      //print('returning appState herer');
-      return getAppState(vendorDocs);
-    } else {
-      return PERMISSION_DENIED;
-    }
-  }*/
-
   Future<dynamic> getNearbyVendors(
       BuildContext context, LatLng location) async {
     GeoFirePoint center =
@@ -295,6 +154,7 @@ class NearbyVendorQueryHelper {
   }
 
   AppState getAppState(List<DocumentSnapshot> documents) {
+    List<Vegetable> avlVegs = [];
     for (DocumentSnapshot document in documents) {
       GeoPoint location = document['position']['geopoint'];
       String name = document['username'];
@@ -305,28 +165,35 @@ class NearbyVendorQueryHelper {
       print(token);
       String userId = document.documentID;
       List<dynamic> jsonNormalVegetables = document['normalVegetables'];
-      List<dynamic> jsonSpecialVegetables = document['specialVegetables'];
       List<Vegetable> vegetables = [];
       for (dynamic jsonNormalVegetable in jsonNormalVegetables) {
         if (jsonNormalVegetable['quantity'] != 0.0)
           vegetables.add(Vegetable.fromJson(jsonNormalVegetable));
       }
-      for (dynamic jsonSpecialVegetable in jsonSpecialVegetables) {
-        if (jsonSpecialVegetable['quantity'] != 0.0)
-          vegetables.add(Vegetable.fromJson(jsonSpecialVegetable));
+      //create a vegMap
+      HashMap<String, double> vegMap = HashMap<String, double>();
+      for (Vegetable vegetable in vegetables) {
+        String name = vegetable.name;
+        double price = vegetable.price;
+        vegMap[name] = price;
+        avlVegs.add(vegetable);
       }
       print('this is image url $imageUrl');
       VendorInfo vendorInfo = VendorInfo(
-          coords: location,
-          name: name,
-          phoneNumber: phoneNumber,
-          imageUrl: imageUrl,
-          vegetables: vegetables,
-          token: token);
+        coords: location,
+        name: name,
+        phoneNumber: phoneNumber,
+        imageUrl: imageUrl,
+        vegetables: vegetables,
+        token: token,
+        id: userId,
+        vegMap: vegMap,
+      );
 
       if (!appState.vendors.containsKey(userId)) appState.userId.add(userId);
       appState.vendors[userId] = vendorInfo;
     }
+    appState.avlVegs = avlVegs;
     return appState;
   }
 

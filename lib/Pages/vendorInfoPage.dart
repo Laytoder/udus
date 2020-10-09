@@ -7,17 +7,25 @@ import 'package:frute/AppState.dart';
 import 'package:frute/Pages/homebuilder.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:frute/tokens/googleMapsApiKey.dart';
+import 'package:frute/widgets/inputModal.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rating_bar/rating_bar.dart';
 import 'package:frute/Animations/FadeAnimations.dart';
 
-class VendorInfoPage extends StatelessWidget {
+class VendorInfoPage extends StatefulWidget {
   VendorInfo vendor;
   AppState appState;
-  String state;
+
   VendorInfoPage(this.vendor, this.appState);
+
+  @override
+  _VendorInfoPageState createState() => _VendorInfoPageState();
+}
+
+class _VendorInfoPageState extends State<VendorInfoPage> {
+  String state;
 
   selectImageType(String link) {
     if (link.startsWith('https'))
@@ -50,27 +58,11 @@ class VendorInfoPage extends StatelessWidget {
             ),
             shape: NeumorphicShape.convex,
             lightSource: LightSource.topLeft,
-            //shadowDarkColor: Colors.grey[400],
             shadowDarkColor: Color(0xffA3B1C6),
             shadowLightColor: Colors.white,
-            //shadowDarkColorEmboss: Colors.grey[400],
             intensity: 1.0,
-            //color: Color(0xffE9F2F9),
-            //color: Colors.white,
-            //color: Color(0xffE9F2F9),
             color: Color(0xffE0E5EC),
           ),
-          /*child: Card(
-            //elevation: (7 / 678) * height,
-            //shadowColor: Color.fromRGBO(35, 205, 99, 0.7),
-            //shadowColor: Color.fromRGBO(13, 47, 61, 1),
-            //color: Colors.white,
-            //color: Color(0xffE9F2F9),
-            /*shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular((24 / 678) * height),
-            ),*/
-            child: ,
-          ),*/
           child: Stack(
             children: <Widget>[
               Column(
@@ -81,120 +73,166 @@ class VendorInfoPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius:
                             BorderRadius.circular((24 / 678) * height),
-                        //color: Color(0xffdd4f41),
                         image: DecorationImage(
                           image: AssetImage('assets/BG-img.png'),
                           fit: BoxFit.cover,
                         ),
                       ),
-                      /*child: ClipRRect(
-                        borderRadius:
-                            BorderRadius.circular((24 / 678) * height),
-                        child: SvgPicture.asset(
-                          'assets/mapBack.svg',
-                          fit: BoxFit.cover,
-                        ),
-                      ),*/
                     ),
                   ),
                   Expanded(
                     flex: 12,
                     child: ListView.builder(
-                      itemCount: vendor.vegetables.length,
+                      itemCount: widget.vendor.vegetables.length,
                       itemBuilder: (context, index) {
-                        return Neumorphic(
-                          margin: EdgeInsets.only(
-                            left: 10.0,
-                            right: 10.0,
-                            top: 10.0,
-                          ),
-                          style: NeumorphicStyle(
-                            shape: NeumorphicShape.concave,
-                            boxShape: NeumorphicBoxShape.roundRect(
-                              BorderRadius.circular(15.0),
-                            ),
-                            depth: 3,
-                            lightSource: LightSource.topLeft,
-                            border: NeumorphicBorder(
-                              color: Colors.white,
-                              width: 0.5,
-                            ),
-                            //color: Colors.white,
-                            color: Color(0xffE0E5EC),
-                          ),
-                          child: Container(
-                            //color: Colors.amber,
-                            /*margin: EdgeInsets.only(
+                        if (widget.vendor.vegetables[index].isSelected) {
+                          return Neumorphic(
+                            margin: EdgeInsets.only(
                               left: 10.0,
                               right: 10.0,
                               top: 10.0,
-                            ),*/
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              //color: Colors.amber,
                             ),
-                            child: ListTile(
-                              dense: true,
-                              /*contentPadding: EdgeInsets.only(
-                                bottom: 0,
-                              ),*/
-                              //selected: true,
-                              leading: Container(
-                                height: (40 / 678) * height,
-                                width: (40 / 678) * height,
-                                child: CircleAvatar(
-                                  backgroundImage: selectImageType(
-                                      vendor.vegetables[index].imageUrl),
-                                  radius: (10 / 678) * height,
+                            style: NeumorphicStyle(
+                              shape: NeumorphicShape.concave,
+                              boxShape: NeumorphicBoxShape.roundRect(
+                                BorderRadius.circular(15.0),
+                              ),
+                              depth: -3,
+                              lightSource: LightSource.topLeft,
+                              border: NeumorphicBorder(
+                                color: Colors.white,
+                                width: 0.5,
+                              ),
+                              color: Color(0xffE0E5EC),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              child: ListTile(
+                                dense: true,
+                                leading: Container(
+                                  height: (40 / 678) * height,
+                                  width: (40 / 678) * height,
+                                  child: CircleAvatar(
+                                    backgroundImage: selectImageType(widget
+                                        .vendor.vegetables[index].imageUrl),
+                                    radius: (10 / 678) * height,
+                                  ),
+                                ),
+                                title: Wrap(
+                                  direction: Axis.horizontal,
+                                  children: <Widget>[
+                                    Text(
+                                      widget.vendor.vegetables[index].name,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: (14 / 678) * height,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Text(
+                                  '\u20B9' +
+                                      widget.vendor.vegetables[index].price
+                                          .toString() +
+                                      '/kg',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: (12 / 678) * height,
+                                  ),
+                                ),
+                                trailing: GestureDetector(
+                                  child: Icon(
+                                    Icons.add_box,
+                                    color: Colors.blue[600],
+                                    size: 23,
+                                  ),
+                                  onTap: () async {
+                                    if (!widget
+                                        .vendor.vegetables[index].isSelected) {
+                                      double quantity = await showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return InputModal();
+                                          });
+                                      if (quantity == null) return;
+                                      widget.vendor.vegetables[index].quantity =
+                                          quantity;
+                                      setState(() => widget.vendor
+                                          .vegetables[index].isSelected = true);
+                                    } else {
+                                      setState(() => widget
+                                          .vendor
+                                          .vegetables[index]
+                                          .isSelected = false);
+                                    }
+                                  },
                                 ),
                               ),
-                              title: Wrap(
-                                direction: Axis.horizontal,
-                                children: <Widget>[
-                                  Text(
-                                    vendor.vegetables[index].name,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: (14 / 678) * height,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              /*subtitle: Text(
-                              'Avl Qty : ' +
-                                  vendor.vegetables[index].quantity.toString() +
-                                  'kg',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: (10 / 678) * height,
+                            ),
+                          );
+                        } else {
+                          return ListTile(
+                            dense: true,
+                            leading: Container(
+                              height: (40 / 678) * height,
+                              width: (40 / 678) * height,
+                              child: CircleAvatar(
+                                backgroundImage: selectImageType(
+                                    widget.vendor.vegetables[index].imageUrl),
+                                radius: (10 / 678) * height,
                               ),
                             ),
-                            trailing: Text(
+                            title: Wrap(
+                              direction: Axis.horizontal,
+                              children: <Widget>[
+                                Text(
+                                  widget.vendor.vegetables[index].name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: (14 / 678) * height,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            subtitle: Text(
                               '\u20B9' +
-                                  vendor.vegetables[index].price.toString() +
+                                  widget.vendor.vegetables[index].price
+                                      .toString() +
                                   '/kg',
                               style: TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: (12 / 678) * height,
                               ),
-                            ),*/
-                              subtitle: Text(
-                                '\u20B9' +
-                                    vendor.vegetables[index].price.toString() +
-                                    '/kg',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: (12 / 678) * height,
-                                ),
-                              ),
-                              trailing: Icon(
+                            ),
+                            trailing: GestureDetector(
+                              child: Icon(
                                 Icons.add_box,
                                 color: Colors.blue[600],
                                 size: 23,
                               ),
+                              onTap: () async {
+                                if (!widget
+                                    .vendor.vegetables[index].isSelected) {
+                                  double quantity = await showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return InputModal();
+                                      });
+                                  if (quantity == null) return;
+                                  widget.vendor.vegetables[index].quantity =
+                                      quantity;
+                                  setState(() => widget.vendor.vegetables[index]
+                                      .isSelected = true);
+                                } else {
+                                  setState(() => widget.vendor.vegetables[index]
+                                      .isSelected = false);
+                                }
+                              },
                             ),
-                          ),
-                        );
+                          );
+                        }
                       },
                     ),
                   ),
@@ -210,7 +248,7 @@ class VendorInfoPage extends StatelessWidget {
                         Align(
                           alignment: Alignment.topCenter,
                           child: CachedNetworkImage(
-                            imageUrl: vendor.imageUrl,
+                            imageUrl: widget.vendor.imageUrl,
                             imageBuilder: (context, imageProvider) => Container(
                               margin: EdgeInsets.only(
                                 top: (40 / 678) * height,
@@ -219,7 +257,7 @@ class VendorInfoPage extends StatelessWidget {
                               width: width * 0.20,
                               height: width * 0.20,
                               child: CircularProfileAvatar(
-                                vendor.imageUrl,
+                                widget.vendor.imageUrl,
                                 radius: 100,
                                 backgroundColor: Colors.green,
                                 borderColor: Colors.white,
@@ -322,10 +360,10 @@ class VendorInfoPage extends StatelessWidget {
                                         bottom: (1.5 / 678) * height,
                                       ),
                                       child: Text(
-                                        vendor.name
+                                        widget.vendor.name
                                                 .substring(0, 1)
                                                 .toUpperCase() +
-                                            vendor.name.substring(1),
+                                            widget.vendor.name.substring(1),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w400,
@@ -431,7 +469,7 @@ class VendorInfoPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => HomeBuilder(
-                            appState,
+                            widget.appState,
                             state: 'edit',
                           ),
                         ),

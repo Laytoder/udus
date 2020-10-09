@@ -41,7 +41,7 @@ dependencies:
   pin_code_fields: ^3.1.2
   cached_network_image: ^2.2.0+1
   rating_bar: ^0.2.0
-  flutter_svg: ^0.17.4
+  flutter_svg: ^0.19.0
   page_transition: ^1.1.5
   google_map_location_picker: ^3.3.3
   image_picker: ^0.6.7+2
@@ -60,6 +60,7 @@ dependencies:
   flutter_custom_clippers: ^1.1.1
   introduction_screen: ^1.0.9
   connectivity: ^0.4.9
+  flutter_swiper: ^1.1.6
 
 dev_dependencies:
   flutter_test:
@@ -77,50 +78,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/car_icon.png
-    - assets/beetroot.jpg
-    - assets/bitterground.jpg
-    - assets/brinjal.jpg
-    - assets/cabbagesmall.jpg
-    - assets/capsicum.jpg
-    - assets/capsicumorange.jpg
-    - assets/capsicumred.jpg
-    - assets/ladiesfinger.jpg
-    - assets/mushroom.jpg
-    - assets/onion.jpg
-    - assets/potato.jpg
-    - assets/pumpkingreen.jpg
-    - assets/raddish.jpg
-    - assets/tomato.jpg
-    - assets/locating_anim.gif
-    - assets/user.svg
-    - assets/bill.svg
-    - assets/home.svg
-    - assets/home.svg
-    - assets/person.png
-    - assets/BG-img.png
-    - assets/veg_box.jpg
-    - assets/medal.svg
-    - assets/mapBack.svg
-    - assets/truck.svg
-    - assets/BG.png
-    - assets/marker.svg
-    - assets/loading.gif
-    - assets/ripple.gif
-    - assets/waiting_animation.gif
-    - assets/HL.png
-    - assets/coming_soon.svg
-    - assets/coming_soon2.svg
-    - assets/coming_soon2.png
-    - assets/slide3.svg
-    - assets/slide2.svg
-    - assets/slide1.svg
-    - assets/slide3.png
-    - assets/slide2.png
-    - assets/slide1.png
-    - assets/comingsoon.png
-    - assets/nobill.png
-    - assets/novendor.png
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

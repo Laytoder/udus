@@ -12,6 +12,8 @@ import 'package:frute/Pages/profilePage.dart';
 import 'package:frute/Pages/vendorInfoPage.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/helpers/messagingHelper.dart';
+import 'package:frute/homePage/homepageupdated.dart';
+import 'package:frute/models/order.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:frute/routes/fadeRoute.dart';
 import 'package:frute/widgets/dualButton.dart';
@@ -50,6 +52,8 @@ class _HomePageState extends State<HomePage>
   PageController globalController;
   SharedPreferences preferences;
   bool isIncomingTripManaged = false;
+  bool dropInActive = false;
+  GlobalKey<HomePageUpdatedState> globalKey = GlobalKey<HomePageUpdatedState>();
   @override
   void initState() {
     super.initState();
@@ -124,13 +128,13 @@ class _HomePageState extends State<HomePage>
         ),
       );
       //send message to vendor
-      await messagingHelper.sendMessage(
+      /*await messagingHelper.sendMessage(
         currVendorToken,
         appState.messagingToken,
         appState.userLocation,
         appState.clientName,
         appState.phoneNumber,
-      );
+      );*/
     }
     appState.active = true;
     appState.messages = StreamController();
@@ -270,29 +274,12 @@ class _HomePageState extends State<HomePage>
         WillPopScope(
           onWillPop: () async => false,
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             backgroundColor: Color(0xffE0E5EC),
             //backgroundColor: Colors.white,
             //backgroundColor: Colors.amberAccent,
             body: Container(
-              decoration: BoxDecoration(
-                  /*gradient: LinearGradient(
-                  colors: [
-                    //Color.fromRGBO(13, 47, 61, 1),
-                    //Color.fromRGBO(35, 205, 99, 1.0),
-                    Color(0xffE9F2F9),
-                    Color(0xffE5EFF8),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.5, 1],
-                ),*/
-                  //color: Color(0xffdee8f4),
-                  /*image: DecorationImage(
-                  image: AssetImage('assets/Vegetable_back.jpg'),
-                  fit: BoxFit.fill,
-                ),*/
-                  //color: Colors.white,
-                  ),
+              decoration: BoxDecoration(),
               child: Stack(
                 children: <Widget>[
                   PageView(
@@ -301,11 +288,17 @@ class _HomePageState extends State<HomePage>
                     physics: NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     children: <Widget>[
+                      HomePageUpdated(
+                        key: globalKey,
+                        globalController: globalController,
+                        pageController: pageController,
+                        initDualButtonState: dropInActive,
+                        onDropInClicked: () {
+                          setState(() => dropInActive = true);
+                        },
+                      ),
                       Stack(
                         children: <Widget>[
-                          /*SizedBox(
-                                height: (80 / 678) * height,
-                              ),*/
                           CarouselSlider.builder(
                             itemCount: appState.userId.length,
                             itemBuilder: (context, index) {
@@ -331,7 +324,6 @@ class _HomePageState extends State<HomePage>
                             ),
                           ),
                           Align(
-                            //alignment: Alignment.bottomRight,
                             child: Column(
                               children: <Widget>[
                                 SizedBox(
@@ -340,45 +332,6 @@ class _HomePageState extends State<HomePage>
                                 SliderButton(
                                   width: width * 0.77,
                                   height: height * 0.08,
-                                  /*child: Neumorphic(
-                                        style: NeumorphicStyle(
-                                          boxShape:
-                                              NeumorphicBoxShape.roundRect(
-                                            BorderRadius.circular(100),
-                                          ),
-                                          shape: NeumorphicShape.concave,
-                                          color: Color.fromRGBO(35, 205, 99, 1),
-                                          depth: 5,
-                                        ),
-                                        child: Container(
-                                          height: height * 0.077,
-                                          width: height * 0.077,
-                                          decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black,
-                                                blurRadius: 4,
-                                              ),
-                                            ],
-                                            color:
-                                                Color.fromRGBO(35, 205, 99, 1),
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                          ),
-                                          child: Center(
-                                            child: Container(
-                                              child: SvgPicture.asset(
-                                                'assets/truck.svg',
-                                                height: 32.5,
-                                                width: 32.5,
-                                                color: Color.fromRGBO(
-                                                    13, 47, 61, 1),
-                                                //color: Color(0xffE0E5EC),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),*/
                                   child: Container(
                                     height: height * 0.077,
                                     width: height * 0.077,
@@ -392,18 +345,6 @@ class _HomePageState extends State<HomePage>
                                       color: Color.fromRGBO(35, 205, 99, 1),
                                       borderRadius: BorderRadius.circular(100),
                                     ),
-                                    /*child: Center(
-                                          child: Container(
-                                            child: SvgPicture.asset(
-                                              'assets/truck.svg',
-                                              height: 32.5,
-                                              width: 32.5,
-                                              color:
-                                                  Color.fromRGBO(13, 47, 61, 1),
-                                              //color: Color(0xffE0E5EC),
-                                            ),
-                                          ),
-                                        ),*/
                                     child: Neumorphic(
                                       style: NeumorphicStyle(
                                         boxShape: NeumorphicBoxShape.roundRect(
@@ -411,7 +352,6 @@ class _HomePageState extends State<HomePage>
                                         ),
                                         border: NeumorphicBorder(
                                           width: 0.5,
-                                          //color: Colors.white,
                                         ),
                                         shadowLightColor: Colors.transparent,
                                         shape: NeumorphicShape.concave,
@@ -426,7 +366,6 @@ class _HomePageState extends State<HomePage>
                                             width: 32.5,
                                             color:
                                                 Color.fromRGBO(13, 47, 61, 1),
-                                            //color: Color(0xffE0E5EC),
                                           ),
                                         ),
                                       ),
@@ -434,418 +373,143 @@ class _HomePageState extends State<HomePage>
                                   ),
                                   vibrationFlag: false,
                                   action: () async {
-                                    //appState.pendingTrip != null
                                     bool surity = await getSurity(context);
                                     if (surity) {
-                                      if (appState.pendingTrip != null &&
-                                          appState.pendingTrip.state !=
-                                              'requested') {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          (10 / 678) * height)),
-                                              title: Center(
-                                                child: Text(
-                                                  'Sorry, you can only call one vendor at a time',
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize:
-                                                        (14 / 678) * height,
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      } else {
-                                        manageTrip(context, false, setState);
-                                      }
+                                      Order order = currentVendorInfo
+                                          .createOrder(appState);
+                                      await appState.serviceHelper
+                                          .createNewOrder(order, currVendorId);
+                                      //send message to client
+                                      appState.messagingHelper
+                                          .sendMessage(order);
                                     }
                                   },
                                   dismissible: false,
                                   buttonSize: height * 0.077,
                                   startPercent: 1,
-                                  //radius: 10,
                                   baseColor: Color.fromRGBO(13, 47, 61, 1),
-                                  /*backgroundColor:
-                                          Color.fromRGBO(13, 47, 61, 1),*/
                                   backgroundColor: Color(0xffE0E5EC),
                                   highlightedColor:
                                       Color.fromRGBO(35, 205, 99, 1),
-                                  /*buttonColor:
-                                          Color.fromRGBO(35, 205, 99, 1),*/
                                   label: Text(
                                     "Slide to Request Vendor",
                                     style: TextStyle(
                                         fontFamily: 'Ubuntu',
-                                        //color: Colors.white,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 15),
                                   ),
-                                  /*icon: Container(
-                                        child: SvgPicture.asset(
-                                          'assets/truck.svg',
-                                          height: 32.5,
-                                          width: 32.5,
-                                          color: Color.fromRGBO(13, 47, 61, 1),
-                                          //color: Color(0xffE0E5EC),
-                                        ),
-                                      ),*/
                                 ),
-                                /*SizedBox(
-                                  height: 40,
-                                )*/
-                                /*Container(
-                                      width: width,
-                                      color: Colors.transparent,
-                                      height: (60 / 678) * height,
-                                      //height: height,
-                                      padding: EdgeInsets.only(
-                                        left: (40 / 360) * width,
-                                        right: (40 / 360) * width,
-                                        bottom: (20 / 678) * height,
-                                        //top: (20 / 678) * height,
-                                      ),
-                                      child: FadeAnimation(
-                                        1,
-                                        FloatingActionButton(
-                                          /*margin: EdgeInsets.only(
-                                    left: (40 / 360) * width,
-                                    right: (40 / 360) * width,
-                                  ),*/
-                                          /*backgroundColor:
-                                        Color.fromRGBO(13, 47, 61, 1),*/
-                                          backgroundColor:
-                                              Color.fromRGBO(35, 205, 99, 1.0),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                (15 / 678) * height),
-                                          ),
-                                          //pressed: true,
-                                          /*style: NeumorphicStyle(
-                                      shape: NeumorphicShape.flat,
-                                      color: Color.fromRGBO(13, 47, 61, 1),
-                                      boxShape: NeumorphicBoxShape.roundRect(
-                                        BorderRadius.circular(
-                                            (20 / 678) * height),
-                                      )),*/
-                                          //padding: EdgeInsets.all(0.0),
-                                          /*child: Container(
-                                      decoration: BoxDecoration(
-                                        /*gradient: LinearGradient(colors: [
-                                          Color.fromRGBO(35, 205, 99, 1),
-                                          Color.fromRGBO(35, 205, 99, 0.6)
-                                        ]),*/
-                                        color: Color.fromRGBO(13, 47, 61, 1),
-                                        borderRadius: BorderRadius.circular(
-                                            (20 / 678) * height),
-                                      ),
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Contact Vendor',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: (20 / 678) * height,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ),*/
-                                          child: Text(
-                                            'Contact Vendor',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: (18 / 678) * height,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                          /*child: Text(
-                                    'Contact Vendor',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: (20 / 678) * height,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),*/
-                                          onPressed: () async {
-                                            //appState.pendingTrip != null
-                                            bool surity =
-                                                await getSurity(context);
-                                            if (surity) {
-                                              if (appState.pendingTrip !=
-                                                      null &&
-                                                  appState.pendingTrip.state !=
-                                                      'requested') {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return AlertDialog(
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular((10 /
-                                                                          678) *
-                                                                      height)),
-                                                      title: Text(
-                                                        'Sorry, you can only call one vendor at a time',
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontSize: (14 / 678) *
-                                                              height,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              } else {
-                                                manageTrip(
-                                                    context, false, setState);
-                                              }
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                    ),*/
                               ],
                             ),
                           ),
-                          /*NeumorphicButton(
-                              onPressed: () {
-                                print("onClick");
-                              },
-                              style: NeumorphicStyle(
-                                shape: NeumorphicShape.flat,
-                                boxShape: NeumorphicBoxShape.circle(),
-                              ),
-                              padding: const EdgeInsets.all(12.0),
-                              child: Icon(
-                                Icons.favorite_border,
-                                color: Colors.black,
-                              ),
-                            ),*/
-                          /*neu.NeuButton(
-                              decoration: neu.NeumorphicDecoration(
-                                color: Color.fromRGBO(13, 47, 61, 1),
-                                borderRadius:
-                                    BorderRadius.circular((20 / 678) * height),
-                              ),
-                              onPressed: () {
-                                print('Pressed !');
-                              },
-                              child: Text(
-                                'Contact Vendor',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: (20 / 678) * height,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),*/
                         ],
                       ),
-                      Center(
-                        child: Center(
-                          child: Center(
-                            child: Column(
+                    ],
+                  ),
+                  dropInActive
+                      ? Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: (40 / 678) * height,
+                            ),
+                            Row(
                               children: <Widget>[
-                                Expanded(
-                                  child: Container(),
+                                SizedBox(
+                                  width: 10,
                                 ),
-                                Container(
-                                  child: Image(
-                                    image: AssetImage('assets/comingsoon.png'),
-                                    height: 120,
-                                    width: 120,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: 30,
-                                    left: 10,
-                                  ),
-                                  child: Text(
-                                    'Coming Soon!',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xff58616e),
+                                IconButton(
+                                  icon: NeumorphicIcon(
+                                    MyFlutterApp.user,
+                                    style: NeumorphicStyle(
+                                      shape: NeumorphicShape.convex,
+                                      depth: 3,
+                                      lightSource: LightSource.topLeft,
+                                      intensity: 0.68,
+                                      border: NeumorphicBorder(
+                                        color: Colors.white,
+                                        width: 0.5,
+                                      ),
+                                      shadowDarkColor: Color(0xffA3B1C6),
+                                      shadowLightColor: Colors.white,
+                                      color: Color(0xffAFBBCA),
                                     ),
+                                    size: 28,
                                   ),
+                                  onPressed: () {
+                                    globalController.animateToPage(
+                                      0,
+                                      duration: Duration(milliseconds: 1000),
+                                      curve: Curves.fastLinearToSlowEaseIn,
+                                    );
+                                  },
                                 ),
                                 Expanded(
                                   child: Container(),
+                                ),
+                                DualButton(
+                                  animateToDropIn: true,
+                                  height: (35 / 678) * height,
+                                  width: width * 0.4,
+                                  textSize: (12 / 678) * height,
+                                  padding: (1 / 678) * height,
+                                  radius: (80 / 678) * height,
+                                  onDropInClicked: () {},
+                                  onNowClicked: () async {
+                                    setState(() => dropInActive = true);
+                                    await pageController.animateToPage(
+                                      0,
+                                      duration: Duration(milliseconds: 2000),
+                                      curve: Curves.fastLinearToSlowEaseIn,
+                                    );
+                                    setState(() => dropInActive = false);
+                                    globalKey.currentState
+                                        .setDropInClickedFalse();
+                                  },
+                                ),
+                                Expanded(
+                                  child: Container(),
+                                ),
+                                IconButton(
+                                  icon: NeumorphicIcon(
+                                    Icons.shopping_basket,
+                                    style: NeumorphicStyle(
+                                      shape: NeumorphicShape.convex,
+                                      depth: 3,
+                                      lightSource: LightSource.topLeft,
+                                      intensity: 0.68,
+                                      border: NeumorphicBorder(
+                                        color: Colors.white,
+                                        width: 0.5,
+                                      ),
+                                      shadowDarkColor: Color(0xffA3B1C6),
+                                      shadowLightColor: Colors.white,
+                                      color: Color(0xffAFBBCA),
+                                    ),
+                                    size: 32,
+                                  ),
+                                  onPressed: () {
+                                    globalController.animateToPage(
+                                      2,
+                                      duration: Duration(milliseconds: 1000),
+                                      curve: Curves.fastLinearToSlowEaseIn,
+                                    );
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 10,
                                 ),
                               ],
                             ),
-                          ),
+                            Expanded(
+                              child: Container(),
+                            ),
+                          ],
+                        )
+                      : SizedBox(
+                          child: Container(),
+                          width: 0,
+                          height: 0,
                         ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: (40 / 678) * height,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: 10,
-                          ),
-                          IconButton(
-                            /*icon: Container(
-                            child: SvgPicture.asset(
-                              'assets/user.svg',
-                              height: (25 / 678) * height,
-                              width: (25 / 678) * height,
-                              //color: Color(0xff58f8f8f),
-                              //color: Color.fromRGBO(35, 205, 99, 1.0),
-                              color: Color.fromRGBO(13, 47, 61, 1),
-                            ),
-                          ),*/
-                            icon: NeumorphicIcon(
-                              MyFlutterApp.user,
-                              style: NeumorphicStyle(
-                                shape: NeumorphicShape.convex,
-                                //depth: 30,
-                                depth: 3,
-                                lightSource: LightSource.topLeft,
-                                //shadowLightColor: Color(0xffF6F7FA),
-                                //shadowDarkColor: Colors.transparent,
-                                intensity: 0.68,
-                                border: NeumorphicBorder(
-                                  color: Colors.white,
-                                  width: 0.5,
-                                ),
-                                //shape: NeumorphicShape.convex,
-                                //lightSource: LightSource.topLeft,
-                                //shadowDarkColor: Colors.grey[400],
-                                shadowDarkColor: Color(0xffA3B1C6),
-                                shadowLightColor: Colors.white,
-                                //shadowDarkColorEmboss: Colors.grey[400],
-                                //intensity: 1.0,
-                                //color: Color(0xffE9F2F9),
-                                //color: Colors.white,
-                                //color: Color(0xffE9F2F9),
-                                //color: Color(0xffE0E5EC),
-                                //shadowLightColorEmboss: Colors.white,
-                                //color: Color.fromRGBO(13, 47, 61, 1),
-                                //color: Colors.grey[100],
-                                //color: Color.fromRGBO(58, 124, 236, 1.0),
-                                //color: Color.fromRGBO(35, 205, 99, 1.0),
-                                color: Color(0xffAFBBCA),
-                              ),
-                              size: 28,
-                            ),
-                            onPressed: () {
-                              globalController.animateToPage(
-                                0,
-                                duration: Duration(milliseconds: 1000),
-                                curve: Curves.fastLinearToSlowEaseIn,
-                              );
-                            },
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                          DualButton(
-                            height: (35 / 678) * height,
-                            width: width * 0.4,
-                            textSize: (12 / 678) * height,
-                            //can keep padding without scale
-                            padding: (1 / 678) * height,
-                            //maybe radius as well
-                            radius: (80 / 678) * height,
-                            onDropInClicked: () {
-                              pageController.animateToPage(
-                                1,
-                                duration: Duration(milliseconds: 2000),
-                                curve: Curves.fastLinearToSlowEaseIn,
-                              );
-                            },
-                            onNowClicked: () {
-                              pageController.animateToPage(
-                                0,
-                                duration: Duration(milliseconds: 2000),
-                                curve: Curves.fastLinearToSlowEaseIn,
-                              );
-                            },
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                          IconButton(
-                            /*icon: Container(
-                            child: SvgPicture.asset(
-                              'assets/bill.svg',
-                              height: (25 / 678) * height,
-                              width: (25 / 678) * height,
-                              //color: Color(0xff58f8f8f),
-                              //color: Color.fromRGBO(35, 205, 99, 1.0),
-                              color: Color.fromRGBO(13, 47, 61, 1),
-                            ),
-                          ),*/
-                            icon: NeumorphicIcon(
-                              Icons.shopping_basket,
-                              style: NeumorphicStyle(
-                                shape: NeumorphicShape.convex,
-                                //depth: 30,
-                                depth: 3,
-                                lightSource: LightSource.topLeft,
-                                //shadowLightColor: Color(0xffF6F7FA),
-                                //shadowDarkColor: Colors.transparent,
-                                intensity: 0.68,
-                                border: NeumorphicBorder(
-                                  color: Colors.white,
-                                  width: 0.5,
-                                ),
-                                //shape: NeumorphicShape.convex,
-                                //lightSource: LightSource.topLeft,
-                                //shadowDarkColor: Colors.grey[400],
-                                shadowDarkColor: Color(0xffA3B1C6),
-                                shadowLightColor: Colors.white,
-                                //shadowDarkColorEmboss: Colors.grey[400],
-                                //intensity: 1.0,
-                                //color: Color(0xffE9F2F9),
-                                //color: Colors.white,
-                                //color: Color(0xffE9F2F9),
-                                //color: Color(0xffE0E5EC),
-                                //shadowLightColorEmboss: Colors.white,
-                                //color: Color.fromRGBO(13, 47, 61, 1),
-                                //color: Colors.grey[100],
-                                //color: Color.fromRGBO(58, 124, 236, 1.0),
-                                //color: Color.fromRGBO(35, 205, 99, 1.0),
-                                color: Color(0xffAFBBCA),
-                              ),
-                              size: 32,
-                            ),
-                            onPressed: () {
-                              globalController.animateToPage(
-                                2,
-                                duration: Duration(milliseconds: 1000),
-                                curve: Curves.fastLinearToSlowEaseIn,
-                              );
-                            },
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                        ],
-                      ),
-                      Expanded(
-                        child: Container(),
-                      ),
-                    ],
-                  ),
                   locating
                       ? FadeTransition(
                           opacity: animation,

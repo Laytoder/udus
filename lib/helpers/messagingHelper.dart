@@ -8,10 +8,8 @@ import 'package:frute/AppState.dart';
 import 'package:frute/Pages/billPage.dart';
 import 'package:frute/Pages/holdPage.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
-import 'package:frute/models/bill.dart';
-import 'package:frute/models/trip.dart';
+import 'package:frute/models/order.dart';
 import 'package:frute/models/vegetable.dart';
-import 'package:google_directions_api/google_directions_api.dart';
 import 'package:http/http.dart' as http;
 import 'package:frute/tokens/fireMessagingServerToken.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -25,12 +23,13 @@ class MessagingHelper {
   AppState appState;
   SharedPreferences preferences;
 
-  sendMessage(String to, String from, GeoCoord coord, String clientName,
-      String clientPhone) async {
+  sendMessage(Order order) async {
     print('to in send message');
-    print(to);
+    //print(to);
     print('from in send message');
-    print(from);
+    print(order.toJson());
+    print(order.to);
+    //print(from);
     var res;
     do {
       res = await http.post(
@@ -42,28 +41,18 @@ class MessagingHelper {
         body: jsonEncode(
           <String, dynamic>{
             'notification': <String, dynamic>{
-              'body': 'Request from $clientName',
+              'body': 'Request from ${order.client.name}',
               'title': 'Request Occured',
-              'android': {
-                'notification': {
-                  'channel_id': 'hawferid',
-                },
-              }
+              'android_channel_id': 'channel1'
             },
             'priority': 'high',
             'data': <String, dynamic>{
               'click_action': 'FLUTTER_NOTIFICATION_CLICK',
               'id': '1',
-              'message': <String, dynamic>{
-                'from': from,
-                'name': clientName,
-                'phone': clientPhone,
-                'lat': coord.latitude,
-                'lon': coord.longitude
-              },
+              'message': order.toJson(),
               'status': 'done'
             },
-            'to': to,
+            'to': order.to,
           },
         ),
       );

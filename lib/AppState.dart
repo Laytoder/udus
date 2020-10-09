@@ -1,5 +1,9 @@
 import 'dart:async';
 
+import 'package:frute/helpers/messagingHelper.dart';
+import 'package:frute/helpers/vendorServiceHelper.dart';
+import 'package:frute/models/vegetable.dart';
+
 import 'models/vendorInfo.dart';
 import 'models/trip.dart';
 import 'package:google_directions_api/google_directions_api.dart';
@@ -14,6 +18,9 @@ class AppState {
   Trip pendingTrip;
   SharedPreferences preferences;
   StreamController<Map<String, dynamic>> messages;
+  VendorServiceHelper serviceHelper = VendorServiceHelper();
+  MessagingHelper messagingHelper = MessagingHelper();
+  List<Vegetable> avlVegs = [];
   /*StreamController<Map<String, dynamic>> rejectionMessages,
       holdMessages,
       ongoingMessages,
