@@ -52,8 +52,6 @@ class _HomePageState extends State<HomePage>
   PageController globalController;
   SharedPreferences preferences;
   bool isIncomingTripManaged = false;
-  bool dropInActive = false;
-  GlobalKey<HomePageUpdatedState> globalKey = GlobalKey<HomePageUpdatedState>();
   @override
   void initState() {
     super.initState();
@@ -276,138 +274,152 @@ class _HomePageState extends State<HomePage>
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             backgroundColor: Color(0xffE0E5EC),
+            extendBodyBehindAppBar: true,
             //backgroundColor: Colors.white,
             //backgroundColor: Colors.amberAccent,
-            body: Container(
-              decoration: BoxDecoration(),
-              child: Stack(
-                children: <Widget>[
-                  PageView(
-                    allowImplicitScrolling: false,
-                    controller: pageController,
-                    physics: NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.vertical,
+            body: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              //physics: NeverScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  Stack(
+                    overflow: Overflow.visible,
                     children: <Widget>[
-                      HomePageUpdated(
-                        key: globalKey,
-                        globalController: globalController,
-                        pageController: pageController,
-                        initDualButtonState: dropInActive,
-                        onDropInClicked: () {
-                          setState(() => dropInActive = true);
-                        },
-                      ),
-                      Stack(
-                        children: <Widget>[
-                          CarouselSlider.builder(
-                            itemCount: appState.userId.length,
-                            itemBuilder: (context, index) {
-                              String key = appState.userId[index];
-                              VendorInfo vendor = appState.vendors[key];
-                              return VendorInfoPage(
-                                vendor,
-                                widget.appState,
-                              );
-                            },
-                            options: CarouselOptions(
-                              autoPlay: false,
-                              enableInfiniteScroll: true,
-                              height: height * 0.94,
-                              enlargeCenterPage: true,
-                              onPageChanged: (index, _) {
-                                String key = appState.userId[index];
-                                VendorInfo vendor = appState.vendors[key];
-                                currentVendorInfo = vendor;
-                                currVendorToken = vendor.token;
-                                currVendorId = key;
-                              },
+                      Container(
+                        height: 1500,
+                        width: width,
+                        //margin: EdgeInsets.all(10.0),
+                        child: PageView(
+                          allowImplicitScrolling: false,
+                          controller: pageController,
+                          physics: NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          children: <Widget>[
+                            HomePageUpdated(
+                              appState: widget.appState,
                             ),
-                          ),
-                          Align(
-                            child: Column(
+                            Stack(
                               children: <Widget>[
-                                SizedBox(
-                                  height: height * 0.9,
+                                CarouselSlider.builder(
+                                  itemCount: appState.userId.length,
+                                  itemBuilder: (context, index) {
+                                    String key = appState.userId[index];
+                                    VendorInfo vendor = appState.vendors[key];
+                                    return VendorInfoPage(
+                                      vendor,
+                                      widget.appState,
+                                    );
+                                  },
+                                  options: CarouselOptions(
+                                    autoPlay: false,
+                                    enableInfiniteScroll: true,
+                                    height: height * 0.94,
+                                    enlargeCenterPage: true,
+                                    onPageChanged: (index, _) {
+                                      String key = appState.userId[index];
+                                      VendorInfo vendor = appState.vendors[key];
+                                      currentVendorInfo = vendor;
+                                      currVendorToken = vendor.token;
+                                      currVendorId = key;
+                                    },
+                                  ),
                                 ),
-                                SliderButton(
-                                  width: width * 0.77,
-                                  height: height * 0.08,
-                                  child: Container(
-                                    height: height * 0.077,
-                                    width: height * 0.077,
-                                    decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black,
-                                          blurRadius: 4,
-                                        ),
-                                      ],
-                                      color: Color.fromRGBO(35, 205, 99, 1),
-                                      borderRadius: BorderRadius.circular(100),
-                                    ),
-                                    child: Neumorphic(
-                                      style: NeumorphicStyle(
-                                        boxShape: NeumorphicBoxShape.roundRect(
-                                          BorderRadius.circular(100),
-                                        ),
-                                        border: NeumorphicBorder(
-                                          width: 0.5,
-                                        ),
-                                        shadowLightColor: Colors.transparent,
-                                        shape: NeumorphicShape.concave,
-                                        color: Color.fromRGBO(35, 205, 99, 1),
-                                        depth: 20,
+                                Align(
+                                  child: Column(
+                                    children: <Widget>[
+                                      SizedBox(
+                                        height: height * 0.9,
                                       ),
-                                      child: Center(
+                                      SliderButton(
+                                        width: width * 0.77,
+                                        height: height * 0.08,
                                         child: Container(
-                                          child: SvgPicture.asset(
-                                            'assets/truck.svg',
-                                            height: 32.5,
-                                            width: 32.5,
+                                          height: height * 0.077,
+                                          width: height * 0.077,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black,
+                                                blurRadius: 4,
+                                              ),
+                                            ],
                                             color:
-                                                Color.fromRGBO(13, 47, 61, 1),
+                                                Color.fromRGBO(35, 205, 99, 1),
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                          ),
+                                          child: Neumorphic(
+                                            style: NeumorphicStyle(
+                                              boxShape:
+                                                  NeumorphicBoxShape.roundRect(
+                                                BorderRadius.circular(100),
+                                              ),
+                                              border: NeumorphicBorder(
+                                                width: 0.5,
+                                              ),
+                                              shadowLightColor:
+                                                  Colors.transparent,
+                                              shape: NeumorphicShape.concave,
+                                              color: Color.fromRGBO(
+                                                  35, 205, 99, 1),
+                                              depth: 20,
+                                            ),
+                                            child: Center(
+                                              child: Container(
+                                                child: SvgPicture.asset(
+                                                  'assets/truck.svg',
+                                                  height: 32.5,
+                                                  width: 32.5,
+                                                  color: Color.fromRGBO(
+                                                      13, 47, 61, 1),
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ),
+                                        vibrationFlag: false,
+                                        action: () async {
+                                          bool surity =
+                                              await getSurity(context);
+                                          if (surity) {
+                                            Order order = currentVendorInfo
+                                                .createOrder(appState);
+                                            await appState.serviceHelper
+                                                .createNewOrder(
+                                                    order, currVendorId);
+                                            //send message to client
+                                            appState.messagingHelper
+                                                .sendMessage(order);
+                                          }
+                                        },
+                                        dismissible: false,
+                                        buttonSize: height * 0.077,
+                                        startPercent: 1,
+                                        baseColor:
+                                            Color.fromRGBO(13, 47, 61, 1),
+                                        backgroundColor: Color(0xffE0E5EC),
+                                        highlightedColor:
+                                            Color.fromRGBO(35, 205, 99, 1),
+                                        label: Text(
+                                          "Slide to Request Vendor",
+                                          style: TextStyle(
+                                              fontFamily: 'Ubuntu',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  vibrationFlag: false,
-                                  action: () async {
-                                    bool surity = await getSurity(context);
-                                    if (surity) {
-                                      Order order = currentVendorInfo
-                                          .createOrder(appState);
-                                      await appState.serviceHelper
-                                          .createNewOrder(order, currVendorId);
-                                      //send message to client
-                                      appState.messagingHelper
-                                          .sendMessage(order);
-                                    }
-                                  },
-                                  dismissible: false,
-                                  buttonSize: height * 0.077,
-                                  startPercent: 1,
-                                  baseColor: Color.fromRGBO(13, 47, 61, 1),
-                                  backgroundColor: Color(0xffE0E5EC),
-                                  highlightedColor:
-                                      Color.fromRGBO(35, 205, 99, 1),
-                                  label: Text(
-                                    "Slide to Request Vendor",
-                                    style: TextStyle(
-                                        fontFamily: 'Ubuntu',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                  dropInActive
-                      ? Column(
+                      Container(
+                        height: height,
+                        width: width,
+                        child: Column(
                           children: <Widget>[
                             SizedBox(
                               height: (40 / 678) * height,
@@ -447,23 +459,24 @@ class _HomePageState extends State<HomePage>
                                   child: Container(),
                                 ),
                                 DualButton(
-                                  animateToDropIn: true,
                                   height: (35 / 678) * height,
                                   width: width * 0.4,
                                   textSize: (12 / 678) * height,
                                   padding: (1 / 678) * height,
                                   radius: (80 / 678) * height,
-                                  onDropInClicked: () {},
+                                  onDropInClicked: () {
+                                    pageController.animateToPage(
+                                      1,
+                                      duration: Duration(milliseconds: 2000),
+                                      curve: Curves.fastLinearToSlowEaseIn,
+                                    );
+                                  },
                                   onNowClicked: () async {
-                                    setState(() => dropInActive = true);
                                     await pageController.animateToPage(
                                       0,
                                       duration: Duration(milliseconds: 2000),
                                       curve: Curves.fastLinearToSlowEaseIn,
                                     );
-                                    setState(() => dropInActive = false);
-                                    globalKey.currentState
-                                        .setDropInClickedFalse();
                                   },
                                 ),
                                 Expanded(
@@ -504,65 +517,67 @@ class _HomePageState extends State<HomePage>
                               child: Container(),
                             ),
                           ],
-                        )
-                      : SizedBox(
-                          child: Container(),
-                          width: 0,
-                          height: 0,
                         ),
-                  locating
-                      ? FadeTransition(
-                          opacity: animation,
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(
-                              sigmaX: 2,
-                              sigmaY: 2,
-                            ),
-                            child: Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                              decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.9)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  ScaleTransition(
-                                    scale: animation,
-                                    child: CircleAvatar(
-                                      radius: (103 / 678) * height,
-                                      backgroundColor:
-                                          Color.fromRGBO(35, 205, 99, 1),
-                                      child: CircleAvatar(
-                                        radius: (100 / 678) * height,
-                                        backgroundImage: AssetImage(
-                                            'assets/locating_anim.gif'),
+                      ),
+                      locating
+                          ? FadeTransition(
+                              opacity: animation,
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(
+                                  sigmaX: 2,
+                                  sigmaY: 2,
+                                ),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.9)),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      ScaleTransition(
+                                        scale: animation,
+                                        child: CircleAvatar(
+                                          radius: (103 / 678) * height,
+                                          backgroundColor:
+                                              Color.fromRGBO(35, 205, 99, 1),
+                                          child: CircleAvatar(
+                                            radius: (100 / 678) * height,
+                                            backgroundImage: AssetImage(
+                                                'assets/locating_anim.gif'),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: (40 / 678) * height),
-                                    child: Text(
-                                      'Contacting Your Vendor..',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: (20 / 678) * height,
-                                        fontWeight: FontWeight.w400,
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: (40 / 678) * height),
+                                        child: Text(
+                                          'Contacting Your Vendor..',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: (20 / 678) * height,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
+                            )
+                          : SizedBox(
+                              child: Container(),
+                              width: 0,
+                              height: 0,
                             ),
-                          ),
-                        )
-                      : SizedBox(
-                          child: Container(),
-                          width: 0,
-                          height: 0,
-                        ),
+                    ],
+                  ),
+                  /*SizedBox(
+                    height: 300,
+                  ),*/
                 ],
               ),
             ),

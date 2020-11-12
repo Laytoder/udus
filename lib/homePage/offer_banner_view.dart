@@ -5,9 +5,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 class OfferBannerView extends StatelessWidget {
   final List<String> images = [
     'assets/banner1.jpg',
-    'assets/banner2.jpeg',
-    'assets/banner3.jpg',
-    'assets/banner5.jpg',
+    'assets/banner2.jpg',
   ];
   @override
   Widget build(BuildContext context) {
@@ -24,13 +22,18 @@ class OfferBannerView extends StatelessWidget {
             itemWidth: double.infinity,
             pagination: SwiperPagination.rect,
             itemCount: images.length,
-            itemBuilder: (BuildContext context, int index) => Image.asset(
-              images[index],
-              fit: BoxFit.cover,
+            itemBuilder: (BuildContext context, int index) => Container(
+              decoration: BoxDecoration(
+                //borderRadius: BorderRadius.circular(10.0),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(images[index]),
+                ),
+              ),
             ),
             autoplay: true,
             viewportFraction: 1.0,
-            scale: 0.9,
+            scale: 1.0,
           ),
         ),
       ),

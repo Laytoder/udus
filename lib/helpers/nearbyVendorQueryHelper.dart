@@ -155,6 +155,7 @@ class NearbyVendorQueryHelper {
 
   AppState getAppState(List<DocumentSnapshot> documents) {
     List<Vegetable> avlVegs = [];
+    HashMap<String, double> globalVegMap = HashMap<String, double>();
     for (DocumentSnapshot document in documents) {
       GeoPoint location = document['position']['geopoint'];
       String name = document['username'];
@@ -166,17 +167,21 @@ class NearbyVendorQueryHelper {
       String userId = document.documentID;
       List<dynamic> jsonNormalVegetables = document['normalVegetables'];
       List<Vegetable> vegetables = [];
+      print('before normal vegetables');
       for (dynamic jsonNormalVegetable in jsonNormalVegetables) {
-        if (jsonNormalVegetable['quantity'] != 0.0)
-          vegetables.add(Vegetable.fromJson(jsonNormalVegetable));
+        vegetables.add(Vegetable.fromJson(jsonNormalVegetable));
       }
+      print('after normal vegetables');
       //create a vegMap
       HashMap<String, double> vegMap = HashMap<String, double>();
       for (Vegetable vegetable in vegetables) {
         String name = vegetable.name;
         double price = vegetable.price;
         vegMap[name] = price;
-        avlVegs.add(vegetable);
+        if(!globalVegMap.containsKey(name)) {
+          avlVegs.add(vegetable);
+          globalVegMap[name] = 0;
+        }
       }
       print('this is image url $imageUrl');
       VendorInfo vendorInfo = VendorInfo(

@@ -35,7 +35,7 @@ class TspHelper {
 
     //get tripRoute without total price
     TripRoute tripRouteWithPrice = _tsp(0, -1);
-    if (tripRouteWithPrice.duration > 1800) // 1800 secs is 30 mins
+    if (tripRouteWithPrice.duration > 2100) // 2100 secs is 35 mins
       return null;
 
     TripRoute tripRoute = TripRoute();

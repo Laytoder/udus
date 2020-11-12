@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:frute/AppState.dart';
 import 'package:frute/homePage/dualButton.dart';
+import 'package:frute/homePage/panelView.dart';
+import 'package:frute/models/vegetable.dart';
 import 'package:frute/utils/searcher.dart';
-import 'inTheSpotlight.dart';
+import 'filters.dart';
 import 'offer_banner_view.dart';
-import 'topPicksForYouView.dart';
 import 'package:frute/assets/my_flutter_app_icons.dart';
 
 class HomePageUpdated extends StatefulWidget {
-  PageController pageController;
-  PageController globalController;
-  Function() onDropInClicked;
-  bool initDualButtonState;
+  AppState appState;
   HomePageUpdated({
     Key key,
-    @required this.pageController,
-    @required this.globalController,
-    @required this.onDropInClicked,
-    @required this.initDualButtonState,
-  }) : super(key: key);
+    @required this.appState,
+  });
   @override
   HomePageUpdatedState createState() => HomePageUpdatedState();
 }
@@ -28,17 +24,16 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
 
   double width;
 
-  bool dropInClicked = false;
+  List<Vegetable> topPicks, necessitites, seasonal, other;
 
   @override
   void initState() {
     super.initState();
 
-    dropInClicked = widget.initDualButtonState;
-  }
-
-  setDropInClickedFalse() {
-    setState(() => dropInClicked = false);
+    topPicks = getTopPickFilter(widget.appState);
+    necessitites = getNecessityFilter(widget.appState);
+    seasonal = getSeasonalFilter(widget.appState);
+    other = getOtherFilter(widget.appState);
   }
 
   @override
@@ -46,106 +41,11 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return ListView(
+      shrinkWrap: true,
+      primary: false,
+      physics: NeverScrollableScrollPhysics(),
       children: [
-        dropInClicked
-            ? SizedBox(
-                height: (43.5 / 640) * height,
-              )
-            : SizedBox(
-                height: (3 / 678) * height,
-              ),
-        dropInClicked
-            ? SizedBox(
-                child: Container(),
-                width: 0,
-                height: 0,
-              )
-            : Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 10,
-                  ),
-                  IconButton(
-                    icon: NeumorphicIcon(
-                      MyFlutterApp.user,
-                      style: NeumorphicStyle(
-                        shape: NeumorphicShape.convex,
-                        depth: 3,
-                        lightSource: LightSource.topLeft,
-                        intensity: 0.68,
-                        border: NeumorphicBorder(
-                          color: Colors.white,
-                          width: 0.5,
-                        ),
-                        shadowDarkColor: Color(0xffA3B1C6),
-                        shadowLightColor: Colors.white,
-                        color: Color(0xffAFBBCA),
-                      ),
-                      size: 28,
-                    ),
-                    onPressed: () {
-                      widget.globalController.animateToPage(
-                        0,
-                        duration: Duration(milliseconds: 1000),
-                        curve: Curves.fastLinearToSlowEaseIn,
-                      );
-                    },
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                  DualButton(
-                    height: (35 / 678) * height,
-                    width: width * 0.4,
-                    textSize: (12 / 678) * height,
-                    padding: (1 / 678) * height,
-                    radius: (80 / 678) * height,
-                    onDropInClicked: () async {
-                      widget.onDropInClicked();
-                      setState(() => dropInClicked = true);
-                      await widget.pageController.animateToPage(
-                        1,
-                        duration: Duration(milliseconds: 2000),
-                        curve: Curves.fastLinearToSlowEaseIn,
-                      );
-                    },
-                    onNowClicked: () {},
-                  ),
-                  Expanded(
-                    child: Container(),
-                  ),
-                  IconButton(
-                    icon: NeumorphicIcon(
-                      Icons.shopping_basket,
-                      style: NeumorphicStyle(
-                        shape: NeumorphicShape.convex,
-                        depth: 3,
-                        lightSource: LightSource.topLeft,
-                        intensity: 0.68,
-                        border: NeumorphicBorder(
-                          color: Colors.white,
-                          width: 0.5,
-                        ),
-                        shadowDarkColor: Color(0xffA3B1C6),
-                        shadowLightColor: Colors.white,
-                        color: Color(0xffAFBBCA),
-                      ),
-                      size: 32,
-                    ),
-                    onPressed: () {
-                      widget.globalController.animateToPage(
-                        2,
-                        duration: Duration(milliseconds: 1000),
-                        curve: Curves.fastLinearToSlowEaseIn,
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                ],
-              ),
-        SizedBox(height: (20.0 / 640) * height),
+        SizedBox(height: (70.0 / 640) * height),
         GestureDetector(
           child: Padding(
             padding: EdgeInsets.only(
@@ -293,8 +193,56 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                 ),
               ),
               SizedBox(height: (10 / 640) * height),
-              TopPicksForYouView(),
-              InTheSpotlightView(),
+              topPicks.length == 0
+                  ? SizedBox(
+                      height: 0,
+                      width: 0,
+                      child: Container(),
+                    )
+                  : PanelView(
+                      appState: widget.appState,
+                      heading: 'Top Picks',
+                      iconData: Icons.thumb_up,
+                      foods: topPicks,
+                    ),
+              necessitites.length == 0
+                  ? SizedBox(
+                      height: 0,
+                      width: 0,
+                      child: Container(),
+                    )
+                  : PanelView(
+                      appState: widget.appState,
+                      heading: 'Necessities',
+                      iconData: Icons.all_inclusive,
+                      foods: necessitites,
+                    ),
+              seasonal.length == 0
+                  ? SizedBox(
+                      height: 0,
+                      width: 0,
+                      child: Container(),
+                    )
+                  : PanelView(
+                      appState: widget.appState,
+                      heading: 'Seasonals',
+                      iconData: Icons.ac_unit,
+                      foods: seasonal,
+                      circularTabs: true,
+                    ),
+              other.length == 0
+                  ? SizedBox(
+                      height: 0,
+                      width: 0,
+                      child: Container(),
+                    )
+                  : PanelView(
+                      appState: widget.appState,
+                      heading: 'Others',
+                      iconData: Icons.assignment_turned_in,
+                      foods: other,
+                      circularTabs: true,
+                    ),
             ],
           ),
         ),

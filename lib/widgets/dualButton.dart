@@ -4,7 +4,6 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 class DualButton extends StatefulWidget {
   double height, padding, width, radius, textSize;
   Function() onNowClicked, onDropInClicked;
-  bool animateToDropIn;
   DualButton({
     @required this.height,
     @required this.width,
@@ -13,14 +12,13 @@ class DualButton extends StatefulWidget {
     @required this.onNowClicked,
     @required this.onDropInClicked,
     @required this.textSize,
-    this.animateToDropIn = false,
   });
   @override
   _DualButtonState createState() => _DualButtonState();
 }
 
 class _DualButtonState extends State<DualButton>
-    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+    with SingleTickerProviderStateMixin {
   var _transformRight;
 
   var _transformLeft = Matrix4.identity();
@@ -51,16 +49,6 @@ class _DualButtonState extends State<DualButton>
       begin: Colors.white,
       end: Color.fromRGBO(13, 47, 61, 1),
     ).animate(controller);
-
-    if (widget.animateToDropIn) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        setState(() {
-          controller.forward();
-          widget.onDropInClicked();
-          _shouldTransformRight = true;
-        });
-      });
-    }
   }
 
   @override
