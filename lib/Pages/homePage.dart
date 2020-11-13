@@ -584,19 +584,19 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
             ),
-            floatingActionButton: (() {
-              if (widget.appState.order.purchasedVegetables.isNotEmpty)
-                return FloatingActionButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CartPage(appState: appState)));
-                  },
-                  backgroundColor: Colors.green,
-                );
-            })(),
+            floatingActionButton:
+                widget.appState.order.purchasedVegetables.isNotEmpty
+                    ? FloatingActionButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CartPage(appState: appState)));
+                        },
+                        backgroundColor: Colors.green,
+                      )
+                    : null,
           ),
         ),
         BillHistory(globalController, appState, preferences),

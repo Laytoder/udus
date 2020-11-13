@@ -82,10 +82,8 @@ class _CartPageState extends State<CartPage> {
                   ))),
         ))
       ]),
-      floatingActionButton: FloatingActionButton(
-
-          onPressed: () {
-
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        //payment code here
       }),
     );
   }

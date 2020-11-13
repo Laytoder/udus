@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/homePage/panelGridView.dart';
-import 'package:frute/models/normalVegetableList.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/widgets/inputModal.dart';
 
@@ -101,15 +100,15 @@ class PanelView extends StatelessWidget {
                   children: <Widget>[
                     InkWell(
                       onTap: () async {
-                        Vegetable vegetable = foods[index];
                         // await for the dialog to finish
-                        vegetable.quantity = await showDialog(
+                        double quantity = await showDialog(
                             context: context,
                             builder: (context) {
                               return InputModal();
                             });
-                        print(vegetable.quantity);
-                        // add vegetable to cart after quantity has been selected
+                        if (quantity == null) return;
+                        Vegetable vegetable = foods[index];
+                        vegetable.quantity = quantity;
                         appState.order.purchasedVegetables.add(vegetable);
                       },
                       child: Neumorphic(
