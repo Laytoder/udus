@@ -22,6 +22,7 @@ import 'package:frute/Pages/map.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frute/models/trip.dart';
 import 'package:slider_button/slider_button.dart';
+import 'cartPage.dart';
 import 'holdPage.dart';
 import 'package:frute/helpers/messageGetters.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -32,7 +33,9 @@ class HomePage extends StatefulWidget {
   AppState appState;
   int initialPage;
   Function refreshVendors;
+
   HomePage(this.appState, this.refreshVendors, {this.initialPage = 1});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -52,6 +55,7 @@ class _HomePageState extends State<HomePage>
   PageController globalController;
   SharedPreferences preferences;
   bool isIncomingTripManaged = false;
+
   @override
   void initState() {
     super.initState();
@@ -580,6 +584,14 @@ class _HomePageState extends State<HomePage>
                   ),*/
                 ],
               ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CartPage(appState: appState)))
+              },
+              backgroundColor: Colors.green,
             ),
           ),
         ),

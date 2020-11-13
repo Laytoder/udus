@@ -8,6 +8,8 @@ import 'package:frute/Pages/splashNav.dart';
 import 'package:frute/helpers/messagingHelper.dart';
 import 'package:frute/holePainter.dart';
 import 'package:frute/models/bill.dart';
+import 'package:frute/models/client.dart';
+import 'package:frute/models/order.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'AppState.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -24,6 +26,10 @@ import 'helpers/directionApiHelper.dart';
 import 'Pages/pendingTripBuilder.dart';
 import 'package:connectivity/connectivity.dart';
 
+//TODO: SCROLL BAR
+//TODO: CART
+//TODO: SLIDE TO CONFIRM
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   DirectionsService.init(gmapsApiKey);
@@ -36,7 +42,9 @@ void main() {
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
   AppState appState;
+
   MyApp({this.appState});
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -125,6 +133,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       messagingHelper.startMessagingService(appState, preferences);
       appState.isMessagingServiceStarted = true;
     }
+    appState.order = Order(
+        client: Client(
+            name: appState.clientName,
+            phone: appState.phoneNumber,
+            token: appState.messagingToken),
+        purchasedVegetables: new List(), to: null, total: null);
   }
 
   @override
@@ -139,10 +153,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         fontFamily: 'Ubuntu',
       ),
       navigatorKey: messagingHelper.navigatorkey,
-      //home: HomeBuilder(appState),
-      home: SplashNav(
+      home: HomeBuilder(appState),
+      /*home: SplashNav(
         appState: appState,
-      ),
+      ),*/
       /*home: HoldPage(
         appState: appState,
         eta: '10 mins',
