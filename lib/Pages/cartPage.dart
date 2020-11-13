@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:frute/widgets/inputModal.dart';
 
 import '../AppState.dart';
 
@@ -47,39 +48,51 @@ class _CartPageState extends State<CartPage> {
                   widget.appState.order.purchasedVegetables.removeAt(index);
                 });
               },
-              child: Container(
-                  height: 100,
-                  color: Colors.white,
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(width: 20),
-                      Image.asset(
-                          widget.appState.order.purchasedVegetables[index]
-                              .imageUrl,
-                          height: 100,
-                          width: 100,
-                          fit: BoxFit.contain),
-                      SizedBox(width: 20),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                              '${widget.appState.order.purchasedVegetables[index].name}',
-                              style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 24.0,
-                                  decoration: TextDecoration.none)),
-                          SizedBox(height: 5),
-                          Text(
-                              '${widget.appState.order.purchasedVegetables[index].quantity} gm',
-                              style: TextStyle(
-                                  color: Colors.black38,
-                                  fontSize: 18.0,
-                                  decoration: TextDecoration.none)),
+              child: InkWell(
+                  onTap: () async {
+                    double quantity = await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return InputModal();
+                        });
+                    if (quantity == null) return;
+                    setState(() {
+                      widget.appState.order.purchasedVegetables[index].quantity = quantity;
+                    });
+                  },
+                  child: Container(
+                      height: 100,
+                      color: Colors.white,
+                      child: Row(
+                        children: <Widget>[
+                          SizedBox(width: 20),
+                          Image.asset(
+                              widget.appState.order.purchasedVegetables[index]
+                                  .imageUrl,
+                              height: 100,
+                              width: 100,
+                              fit: BoxFit.contain),
+                          SizedBox(width: 20),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                  '${widget.appState.order.purchasedVegetables[index].name}',
+                                  style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 24.0,
+                                      decoration: TextDecoration.none)),
+                              SizedBox(height: 5),
+                              Text(
+                                  '${widget.appState.order.purchasedVegetables[index].quantity} gm',
+                                  style: TextStyle(
+                                      color: Colors.black38,
+                                      fontSize: 18.0,
+                                      decoration: TextDecoration.none)),
+                            ],
+                          )
                         ],
-                      )
-                    ],
-                  ))),
+                      )))),
         ))
       ]),
       floatingActionButton: FloatingActionButton(onPressed: () {

@@ -1,13 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frute/Pages/homebuilder.dart';
-import 'package:frute/Pages/namePage.dart';
-import 'package:frute/Pages/splashNav.dart';
 import 'package:frute/helpers/messagingHelper.dart';
-import 'package:frute/holePainter.dart';
-import 'package:frute/models/bill.dart';
 import 'package:frute/models/client.dart';
 import 'package:frute/models/order.dart';
 import 'package:frute/models/vendorInfo.dart';
@@ -16,18 +10,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:frute/Pages/noConnectionPage.dart';
-import 'Pages/GettingStarted.dart';
-import 'Pages/holdPage.dart';
 import 'tokens/googleMapsApiKey.dart';
-import 'helpers/authService.dart';
-import 'models/trip.dart';
-import 'dart:convert';
-import 'helpers/directionApiHelper.dart';
-import 'Pages/pendingTripBuilder.dart';
 import 'package:connectivity/connectivity.dart';
 
 //TODO: SCROLL BAR
-//TODO: CART
 //TODO: SLIDE TO CONFIRM
 
 void main() {

@@ -9,10 +9,12 @@ import 'offer_banner_view.dart';
 
 class HomePageUpdated extends StatefulWidget {
   AppState appState;
+
   HomePageUpdated({
     Key key,
     @required this.appState,
   });
+
   @override
   HomePageUpdatedState createState() => HomePageUpdatedState();
 }

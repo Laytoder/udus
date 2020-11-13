@@ -100,7 +100,6 @@ class PanelView extends StatelessWidget {
                   children: <Widget>[
                     InkWell(
                       onTap: () async {
-                        // await for the dialog to finish
                         double quantity = await showDialog(
                             context: context,
                             builder: (context) {
