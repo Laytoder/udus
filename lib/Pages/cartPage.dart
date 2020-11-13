@@ -5,6 +5,7 @@ import 'package:frute/helpers/confirmationDialog.dart';
 import 'package:frute/widgets/inputModal.dart';
 
 import '../AppState.dart';
+import 'optimalRoutesPage.dart';
 
 class CartPage extends StatefulWidget {
   AppState appState;
@@ -126,12 +127,13 @@ class _CartPageState extends State<CartPage> {
                             ))))),
           ))
         ]),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            if ((await getSurity(context))) {
-
-            }
-          },
-        ));
+        floatingActionButton: FloatingActionButton(onPressed: () async {
+          if (await getSurity(context))
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        OptimalRoutesPage(appState: widget.appState)));
+        }));
   }
 }
