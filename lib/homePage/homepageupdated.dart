@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
+import 'package:frute/Pages/cartPage.dart';
 import 'package:frute/homePage/panelView.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/utils/searcher.dart';
@@ -9,9 +10,11 @@ import 'offer_banner_view.dart';
 
 class HomePageUpdated extends StatefulWidget {
   AppState appState;
+  Function() onAddedToCart;
 
   HomePageUpdated({
     Key key,
+    @required this.onAddedToCart,
     @required this.appState,
   });
 
@@ -200,6 +203,14 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                       child: Container(),
                     )
                   : PanelView(
+                      onPressed: (vegetable) {
+                        print('in homePageUpdated() ${vegetable.name}');
+                        setState(() {
+                          widget.appState.order.purchasedVegetables
+                              .add(vegetable);
+                        });
+                        widget.onAddedToCart();
+                      },
                       appState: widget.appState,
                       heading: 'Top Picks',
                       iconData: Icons.thumb_up,
@@ -212,6 +223,14 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                       child: Container(),
                     )
                   : PanelView(
+                      onPressed: (vegetable) {
+                        print('in homePageUpdated() ${vegetable.name}');
+                        setState(() {
+                          widget.appState.order.purchasedVegetables
+                              .add(vegetable);
+                        });
+                        widget.onAddedToCart();
+                      },
                       appState: widget.appState,
                       heading: 'Necessities',
                       iconData: Icons.all_inclusive,
@@ -224,6 +243,14 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                       child: Container(),
                     )
                   : PanelView(
+                      onPressed: (vegetable) {
+                        print('in homePageUpdated() ${vegetable.name}');
+                        setState(() {
+                          widget.appState.order.purchasedVegetables
+                              .add(vegetable);
+                        });
+                        widget.onAddedToCart();
+                      },
                       appState: widget.appState,
                       heading: 'Seasonals',
                       iconData: Icons.ac_unit,
@@ -237,6 +264,14 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                       child: Container(),
                     )
                   : PanelView(
+                      onPressed: (vegetable) {
+                        print('in homePageUpdated() ${vegetable.name}');
+                        setState(() {
+                          widget.appState.order.purchasedVegetables
+                              .add(vegetable);
+                        });
+                        widget.onAddedToCart();
+                      },
                       appState: widget.appState,
                       heading: 'Others',
                       iconData: Icons.assignment_turned_in,

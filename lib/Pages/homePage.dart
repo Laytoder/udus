@@ -54,6 +54,7 @@ class _HomePageState extends State<HomePage>
   PageController globalController;
   SharedPreferences preferences;
   bool isIncomingTripManaged = false;
+  bool isNowCurrentTab = false;
 
   @override
   void initState() {
@@ -275,6 +276,22 @@ class _HomePageState extends State<HomePage>
         WillPopScope(
           onWillPop: () async => false,
           child: Scaffold(
+            floatingActionButton:
+                widget.appState.order.purchasedVegetables.isNotEmpty &&
+                        !isNowCurrentTab
+                    ? FloatingActionButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  CartPage(appState: widget.appState),
+                            ),
+                          );
+                        },
+                        backgroundColor: Colors.green,
+                      )
+                    : null,
             resizeToAvoidBottomInset: false,
             backgroundColor: Color(0xffE0E5EC),
             extendBodyBehindAppBar: true,
@@ -299,6 +316,9 @@ class _HomePageState extends State<HomePage>
                           scrollDirection: Axis.vertical,
                           children: <Widget>[
                             HomePageUpdated(
+                              onAddedToCart: () {
+                                setState(() {});
+                              },
                               appState: widget.appState,
                             ),
                             Stack(
@@ -468,6 +488,9 @@ class _HomePageState extends State<HomePage>
                                   padding: (1 / 678) * height,
                                   radius: (80 / 678) * height,
                                   onDropInClicked: () {
+                                    setState(() {
+                                      isNowCurrentTab = true;
+                                    });
                                     pageController.animateToPage(
                                       1,
                                       duration: Duration(milliseconds: 2000),
@@ -475,6 +498,9 @@ class _HomePageState extends State<HomePage>
                                     );
                                   },
                                   onNowClicked: () async {
+                                    setState(() {
+                                      isNowCurrentTab = false;
+                                    });
                                     await pageController.animateToPage(
                                       0,
                                       duration: Duration(milliseconds: 2000),
@@ -584,19 +610,6 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
             ),
-            floatingActionButton:
-                widget.appState.order.purchasedVegetables.isNotEmpty
-                    ? FloatingActionButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      CartPage(appState: appState)));
-                        },
-                        backgroundColor: Colors.green,
-                      )
-                    : null,
           ),
         ),
         BillHistory(globalController, appState, preferences),

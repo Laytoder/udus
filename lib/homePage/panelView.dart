@@ -11,12 +11,14 @@ class PanelView extends StatefulWidget {
   IconData iconData;
   bool circularTabs;
   List<Vegetable> foods;
+  Function(Vegetable vegetable) onPressed;
 
   PanelView({
     @required this.appState,
     @required this.heading,
     @required this.iconData,
     @required this.foods,
+    @required this.onPressed,
     this.circularTabs = false,
   });
 
@@ -110,12 +112,15 @@ class _PanelView extends State<PanelView> {
                               return InputModal();
                             });
                         if (quantity == null) return;
-                        setState(() {
+                        /*setState(() {
                           Vegetable vegetable = widget.foods[index];
                           vegetable.quantity = quantity;
                           widget.appState.order.purchasedVegetables
                               .add(vegetable);
-                        });
+                        });*/
+                        Vegetable vegetable = widget.foods[index];
+                        vegetable.quantity = quantity;
+                        widget.onPressed(vegetable);
                       },
                       child: Neumorphic(
                         style: NeumorphicStyle(
