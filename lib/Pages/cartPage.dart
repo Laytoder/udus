@@ -43,6 +43,23 @@ class _CartPageState extends State<CartPage> {
           itemBuilder: (context, index) => Dismissible(
               key: Key(
                   '${widget.appState.order.purchasedVegetables[index].name}'),
+              confirmDismiss: (direction) => showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text("Remove item from cart ?"),
+                        actions: <Widget>[
+                          FlatButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child: const Text("Remove")),
+                          FlatButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: const Text("Cancel"),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
               onDismissed: (direction) {
                 setState(() {
                   widget.appState.order.purchasedVegetables.removeAt(index);
@@ -57,7 +74,8 @@ class _CartPageState extends State<CartPage> {
                         });
                     if (quantity == null) return;
                     setState(() {
-                      widget.appState.order.purchasedVegetables[index].quantity = quantity;
+                      widget.appState.order.purchasedVegetables[index]
+                          .quantity = quantity;
                     });
                   },
                   child: Container(
