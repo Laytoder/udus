@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
-import 'package:frute/Pages/homePage.dart';
 import 'package:frute/Pages/homebuilder.dart';
 import 'package:frute/helpers/tripCompleter.dart';
 import 'package:frute/models/vegetable.dart';
-import 'package:frute/widgets/pageHeading.dart';
 import 'package:slider_button/slider_button.dart';
 import 'package:intl/intl.dart';
 
