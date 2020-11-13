@@ -129,7 +129,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     if (preferences.getString('image') != null)
       appState.image = preferences.getString('image');
     if (!appState.isMessagingServiceStarted) {
-      print('starting messagign service');
+      print('starting messaging service');
       messagingHelper.startMessagingService(appState, preferences);
       appState.isMessagingServiceStarted = true;
     }
