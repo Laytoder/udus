@@ -5,7 +5,7 @@ import 'package:frute/homePage/panelGridView.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/widgets/inputModal.dart';
 
-class PanelView extends StatelessWidget {
+class PanelView extends StatefulWidget {
   AppState appState;
   String heading;
   IconData iconData;
@@ -20,8 +20,12 @@ class PanelView extends StatelessWidget {
     this.circularTabs = false,
   });
 
-  double height;
+  @override
+  _PanelView createState() => _PanelView();
+}
 
+class _PanelView extends State<PanelView> {
+  double height;
   double width;
 
   @override
@@ -36,7 +40,7 @@ class PanelView extends StatelessWidget {
               SizedBox(width: (12 / 360) * width),
               //Icon(Icons.thumb_up, size: 20),
               NeumorphicIcon(
-                iconData,
+                widget.iconData,
                 size: (25 / (640 * 360)) * height * width,
                 style: NeumorphicStyle(
                   shape: NeumorphicShape.convex,
@@ -54,7 +58,7 @@ class PanelView extends StatelessWidget {
               ),
               SizedBox(width: (10 / 360) * width),
               Text(
-                heading,
+                widget.heading,
                 style: TextStyle(
                   fontSize: (17 / (640 * 360)) * height * width,
                   color: Colors.grey[600],
@@ -70,8 +74,8 @@ class PanelView extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => PanelGridView(
-                        title: heading,
-                        vegetables: foods,
+                        title: widget.heading,
+                        vegetables: widget.foods,
                       ),
                     ),
                   );
@@ -85,7 +89,7 @@ class PanelView extends StatelessWidget {
             child: ListView.builder(
               shrinkWrap: false,
               scrollDirection: Axis.horizontal,
-              itemCount: foods.length,
+              itemCount: widget.foods.length,
               itemBuilder: (context, index) => Container(
                 margin: EdgeInsets.only(
                   top: (10 / 640) * height,
@@ -106,24 +110,28 @@ class PanelView extends StatelessWidget {
                               return InputModal();
                             });
                         if (quantity == null) return;
-                        Vegetable vegetable = foods[index];
-                        vegetable.quantity = quantity;
-                        appState.order.purchasedVegetables.add(vegetable);
+                        setState(() {
+                          Vegetable vegetable = widget.foods[index];
+                          vegetable.quantity = quantity;
+                          widget.appState.order.purchasedVegetables
+                              .add(vegetable);
+                        });
                       },
                       child: Neumorphic(
                         style: NeumorphicStyle(
                           depth: 3,
                           lightSource: LightSource.top,
-                          boxShape: circularTabs
+                          boxShape: widget.circularTabs
                               ? NeumorphicBoxShape.circle()
                               : NeumorphicBoxShape.roundRect(
                                   BorderRadius.circular(10)),
                         ),
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius:
-                                circularTabs ? null : BorderRadius.circular(0),
-                            shape: circularTabs
+                            borderRadius: widget.circularTabs
+                                ? null
+                                : BorderRadius.circular(0),
+                            shape: widget.circularTabs
                                 ? BoxShape.circle
                                 : BoxShape.rectangle,
                             color: Color(0xffE0E5EC),
@@ -135,7 +143,7 @@ class PanelView extends StatelessWidget {
                             ],
                           ),
                           child: Image.asset(
-                            foods[index].imageUrl,
+                            widget.foods[index].imageUrl,
                             width: (100 / 360) * width,
                             height: (100 / 640) * height,
                             fit: BoxFit.cover,
@@ -146,7 +154,7 @@ class PanelView extends StatelessWidget {
                     SizedBox(height: (10 / 640) * height),
                     Center(
                       child: Text(
-                        foods[index].name,
+                        widget.foods[index].name,
                         style: Theme.of(context).textTheme.subtitle2.copyWith(
                               fontSize: (13 / (640 * 360)) * height * width,
                               fontWeight: FontWeight.w600,
