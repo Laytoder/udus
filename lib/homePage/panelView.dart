@@ -101,13 +101,14 @@ class PanelView extends StatelessWidget {
                   children: <Widget>[
                     InkWell(
                       onTap: () async {
-                        Vegetable vegetable = vegetables[index];
+                        Vegetable vegetable = foods[index];
                         // await for the dialog to finish
                         vegetable.quantity = await showDialog(
                             context: context,
                             builder: (context) {
                               return InputModal();
                             });
+                        print(vegetable.quantity);
                         // add vegetable to cart after quantity has been selected
                         appState.order.purchasedVegetables.add(vegetable);
                       },

@@ -31,7 +31,7 @@ class _InputModalState extends State<InputModal> {
         backgroundColor: Color(0xffe7e6e1),
         elevation: 100.0,
         title: Text(
-          'Enter Quatity',
+          'Enter Quantity',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -123,26 +123,13 @@ class _InputModalState extends State<InputModal> {
               animationType: AnimationType.fade,
               autoFocus: false,
               controller: controller,
+              onSubmitted: (quantity){
+                Navigator.of(context).pop(double.parse(quantity));
+              },
             ),
             Text('Grams'),
           ],
-        ),
-        actions: <Widget>[
-          SizedBox(
-            width: (100 / 360) * width,
-            height: (50 / 640) * height,
-          ),
-          RaisedButton(
-            shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular((30 / (360 * 640)) * width * height),
-                side: BorderSide(color: Color(0xff23cd63))),
-            child: Text('Submit', textAlign: TextAlign.center),
-            onPressed: () {
-              Navigator.of(context).pop(quantity);
-            },
-          ),
-        ],
+        )
       ),
     );
   }
