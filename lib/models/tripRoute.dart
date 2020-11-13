@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import 'package:frute/models/order.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/models/vendorInfo.dart';
 
