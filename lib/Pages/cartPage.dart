@@ -8,7 +8,6 @@ import '../AppState.dart';
 
 class CartPage extends StatefulWidget {
   AppState appState;
-  bool clicked;
 
   CartPage({
     @required this.appState,
