@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:frute/models/vegetable.dart';
 
 class Bill {

@@ -74,10 +74,13 @@ class _CartPageState extends State<CartPage> {
                           },
                         ),
                     onDismissed: (direction) {
-                      setState(() {
-                        widget.appState.order.purchasedVegetables
-                            .removeAt(index);
-                      });
+                      if (widget.appState.order.purchasedVegetables.length == 1)
+                        Navigator.pop(context);
+                      else
+                        setState(() {
+                          widget.appState.order.purchasedVegetables
+                              .removeAt(index);
+                        });
                     },
                     child: InkWell(
                         onTap: () async {
