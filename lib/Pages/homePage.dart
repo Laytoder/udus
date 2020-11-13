@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:frute/Animations/FadeAnimations.dart';
 import 'package:frute/AppState.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:frute/Pages/billHistory.dart';
@@ -585,14 +584,19 @@ class _HomePageState extends State<HomePage>
                 ],
               ),
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CartPage(appState: appState)))
-              },
-              backgroundColor: Colors.green,
-            ),
+            floatingActionButton: (() {
+              if (widget.appState.order.purchasedVegetables.isNotEmpty)
+                return FloatingActionButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CartPage(appState: appState)));
+                  },
+                  backgroundColor: Colors.green,
+                );
+            })(),
           ),
         ),
         BillHistory(globalController, appState, preferences),

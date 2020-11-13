@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
-import 'package:frute/homePage/dualButton.dart';
 import 'package:frute/homePage/panelView.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/utils/searcher.dart';
 import 'filters.dart';
 import 'offer_banner_view.dart';
-import 'package:frute/assets/my_flutter_app_icons.dart';
 
 class HomePageUpdated extends StatefulWidget {
   AppState appState;

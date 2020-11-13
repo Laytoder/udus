@@ -1,19 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/VendorPage.dart';
 import 'package:frute/Pages/billPage.dart';
 import 'package:frute/Pages/holdPage.dart';
 import 'package:frute/Pages/homebuilder.dart';
-import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/models/bill.dart';
 import 'package:frute/models/trip.dart';
 import 'package:frute/models/vendorInfo.dart';
-import 'package:google_directions_api/google_directions_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frute/Pages/map.dart' as map;
-import 'package:frute/Pages/priceListPage.dart';
 
 class PendingTripBuilder extends StatelessWidget {
   Trip pendingTrip;
