@@ -155,35 +155,29 @@ class NearbyVendorQueryHelper {
 
   AppState getAppState(List<DocumentSnapshot> documents) {
     List<Vegetable> avlVegs = [];
-    HashMap<String, double> globalVegMap = HashMap<String, double>();
     for (DocumentSnapshot document in documents) {
       GeoPoint location = document['position']['geopoint'];
       String name = document['username'];
       String token = document['token'];
       String imageUrl = document['image'];
       String phoneNumber = document['phone'];
-      print('real to');
-      print(token);
       String userId = document.documentID;
       List<dynamic> jsonNormalVegetables = document['normalVegetables'];
       List<Vegetable> vegetables = [];
-      print('before normal vegetables');
       for (dynamic jsonNormalVegetable in jsonNormalVegetables) {
         vegetables.add(Vegetable.fromJson(jsonNormalVegetable));
       }
-      print('after normal vegetables');
       //create a vegMap
       HashMap<String, double> vegMap = HashMap<String, double>();
       for (Vegetable vegetable in vegetables) {
         String name = vegetable.name;
         double price = vegetable.price;
         vegMap[name] = price;
-        if(!globalVegMap.containsKey(name)) {
+        if (!appState.isVegSelectedMap.containsKey(name)) {
           avlVegs.add(vegetable);
-          globalVegMap[name] = 0;
+          appState.isVegSelectedMap[name] = false;
         }
       }
-      print('this is image url $imageUrl');
       VendorInfo vendorInfo = VendorInfo(
         coords: location,
         name: name,
@@ -195,7 +189,9 @@ class NearbyVendorQueryHelper {
         vegMap: vegMap,
       );
 
-      if (!appState.vendors.containsKey(userId)) appState.userId.add(userId);
+      if (!appState.vendors.containsKey(userId)) {
+        appState.userId.add(userId);
+      }
       appState.vendors[userId] = vendorInfo;
     }
     appState.avlVegs = avlVegs;

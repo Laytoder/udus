@@ -277,7 +277,7 @@ class _HomePageState extends State<HomePage>
           onWillPop: () async => false,
           child: Scaffold(
             floatingActionButton:
-                widget.appState.order.purchasedVegetables.isNotEmpty &&
+                widget.appState.order.isNotEmpty &&
                         !isNowCurrentTab
                     ? FloatingActionButton(
                         onPressed: () {

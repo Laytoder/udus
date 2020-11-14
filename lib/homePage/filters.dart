@@ -1,5 +1,4 @@
 import 'package:frute/AppState.dart';
-import 'package:frute/models/normalVegetableList.dart';
 import 'package:frute/models/vegetable.dart';
 
 const List<String> topPickVegNames = [
@@ -60,10 +59,10 @@ List<String> otherveg = [
 ];
 
 List<Vegetable> getTopPickFilter(AppState appState) {
-  /*List<Vegetable> avlVegs = appState.avlVegs;
-  print(avlVegs[0].toJson());
+  List<Vegetable> avlVegs = appState.avlVegs;
+  /*print(avlVegs[0].toJson());
   print(avlVegs.length);*/
-  List<Vegetable> avlVegs = vegetables;
+  //List<Vegetable> avlVegs = vegetables;
   List<Vegetable> filteredVegetables = [];
   for (Vegetable vegetable in avlVegs) {
     if (topPickVegNames.contains(vegetable.name))
@@ -74,8 +73,8 @@ List<Vegetable> getTopPickFilter(AppState appState) {
 }
 
 List<Vegetable> getNecessityFilter(AppState appState) {
-  //List<Vegetable> avlVegs = appState.avlVegs;
-  List<Vegetable> avlVegs = vegetables;
+  List<Vegetable> avlVegs = appState.avlVegs;
+  //List<Vegetable> avlVegs = vegetables;
   List<Vegetable> filteredVegetables = [];
   for (Vegetable vegetable in avlVegs) {
     if (necessities.contains(vegetable.name)) filteredVegetables.add(vegetable);
@@ -84,8 +83,8 @@ List<Vegetable> getNecessityFilter(AppState appState) {
 }
 
 List<Vegetable> getSeasonalFilter(AppState appState) {
-  //List<Vegetable> avlVegs = appState.avlVegs;
-  List<Vegetable> avlVegs = vegetables;
+  List<Vegetable> avlVegs = appState.avlVegs;
+  //List<Vegetable> avlVegs = vegetables;
   List<Vegetable> filteredVegetables = [];
   for (Vegetable vegetable in avlVegs) {
     if (seasonal.contains(vegetable.name)) filteredVegetables.add(vegetable);
@@ -94,8 +93,8 @@ List<Vegetable> getSeasonalFilter(AppState appState) {
 }
 
 List<Vegetable> getOtherFilter(AppState appState) {
-  //List<Vegetable> avlVegs = appState.avlVegs;
-  List<Vegetable> avlVegs = vegetables;
+  List<Vegetable> avlVegs = appState.avlVegs;
+  //List<Vegetable> avlVegs = vegetables;
   List<Vegetable> filteredVegetables = [];
   for (Vegetable vegetable in avlVegs) {
     if (otherveg.contains(vegetable.name)) filteredVegetables.add(vegetable);

@@ -18,7 +18,7 @@ class Vegetable {
   Vegetable.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     if (json.containsKey('quantiy')) quantity = json['quantity'];
-    price = json['price'];
+    price = json['price'].toDouble();
     imageUrl = json['imageUrl'];
     //jst for testing data lacking field
     commonNames = json['commonNames'] == null ? [] : json['commonNames'];

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:frute/helpers/messagingHelper.dart';
 import 'package:frute/helpers/vendorServiceHelper.dart';
@@ -21,7 +22,8 @@ class AppState {
   VendorServiceHelper serviceHelper = VendorServiceHelper();
   MessagingHelper messagingHelper = MessagingHelper();
   List<Vegetable> avlVegs = [];
-  Order order;
+  List<Vegetable> order = [];
+  HashMap<String, bool> isVegSelectedMap = HashMap<String, bool>();
 
   /*StreamController<Map<String, dynamic>> rejectionMessages,
       holdMessages,

@@ -109,7 +109,9 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
           onTap: () async {
             await showSearch(
               context: context,
-              delegate: SearchItems(),
+              delegate: SearchItems(
+                avlVegs: widget.appState.avlVegs,
+              ),
             );
           },
         ),
@@ -206,8 +208,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                       onPressed: (vegetable) {
                         print('in homePageUpdated() ${vegetable.name}');
                         setState(() {
-                          widget.appState.order.purchasedVegetables
-                              .add(vegetable);
+                          widget.appState.order.add(vegetable);
                         });
                         widget.onAddedToCart();
                       },
@@ -226,8 +227,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                       onPressed: (vegetable) {
                         print('in homePageUpdated() ${vegetable.name}');
                         setState(() {
-                          widget.appState.order.purchasedVegetables
-                              .add(vegetable);
+                          widget.appState.order.add(vegetable);
                         });
                         widget.onAddedToCart();
                       },
@@ -246,8 +246,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                       onPressed: (vegetable) {
                         print('in homePageUpdated() ${vegetable.name}');
                         setState(() {
-                          widget.appState.order.purchasedVegetables
-                              .add(vegetable);
+                          widget.appState.order.add(vegetable);
                         });
                         widget.onAddedToCart();
                       },
@@ -267,8 +266,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                       onPressed: (vegetable) {
                         print('in homePageUpdated() ${vegetable.name}');
                         setState(() {
-                          widget.appState.order.purchasedVegetables
-                              .add(vegetable);
+                          widget.appState.order.add(vegetable);
                         });
                         widget.onAddedToCart();
                       },

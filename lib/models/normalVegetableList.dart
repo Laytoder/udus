@@ -1,4 +1,4 @@
-import 'vegetable.dart';
+/*import 'vegetable.dart';
 
 List<Vegetable> vegetables = [
   Vegetable(
@@ -251,4 +251,4 @@ List<Vegetable> vegetables = [
     imageUrl: 'assets/tori.jpg',
     commonNames: ['Taroi', 'Tori', 'Torai', 'Turai'],
   ),
-];
+];*/

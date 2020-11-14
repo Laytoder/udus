@@ -119,12 +119,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       messagingHelper.startMessagingService(appState, preferences);
       appState.isMessagingServiceStarted = true;
     }
-    appState.order = Order(
-        client: Client(
-            name: appState.clientName,
-            phone: appState.phoneNumber,
-            token: appState.messagingToken),
-        purchasedVegetables: new List(), to: null, total: null);
   }
 
   @override

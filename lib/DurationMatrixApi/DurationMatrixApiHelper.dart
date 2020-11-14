@@ -14,7 +14,7 @@ class DurationMatrixApiClient {
     if (vendors.length > 30) return VENDORS_LIMIT_EXCEEDED;
 
     try {
-      List<List<double>> durationMatrix = [];
+      List<List<int>> durationMatrix = [];
       if (vendors.length > 10) {
         List<VendorInfo> sub1 = vendors.sublist(0, 10);
         if (vendors.length > 20) {
@@ -32,9 +32,9 @@ class DurationMatrixApiClient {
             getDurationMatrixFromTenVendors(sub3, sub3),
           ]);
           for (int x = 0; x < 9; x = x + 3) {
-            List<List<double>> subMatrix1 = res[x];
-            List<List<double>> subMatrix2 = res[x + 1];
-            List<List<double>> subMatrix3 = res[x + 2];
+            List<List<int>> subMatrix1 = res[x];
+            List<List<int>> subMatrix2 = res[x + 1];
+            List<List<int>> subMatrix3 = res[x + 2];
             for (int i = 0; i < subMatrix1.length; i++) {
               subMatrix1[i].addAll(subMatrix2[i]);
               subMatrix1[i].addAll(subMatrix3[i]);
@@ -51,8 +51,8 @@ class DurationMatrixApiClient {
             getDurationMatrixFromTenVendors(sub2, sub2),
           ]);
           for (int x = 0; x < 4; x = x + 2) {
-            List<List<double>> subMatrix1 = res[x];
-            List<List<double>> subMatrix2 = res[x + 1];
+            List<List<int>> subMatrix1 = res[x];
+            List<List<int>> subMatrix2 = res[x + 1];
             for (int i = 0; i < subMatrix1.length; i++) {
               subMatrix1[i].addAll(subMatrix2[i]);
             }
@@ -77,17 +77,14 @@ class DurationMatrixApiClient {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> body = jsonDecode(response.body);
-      List<List<double>> durationMatrix =
-          List.generate(sub1.length, (i) => List(sub2.length), growable: true);
-      List<String> jsonStringMatrixRows = body['rows'];
-      for (int i = 0; i < jsonStringMatrixRows.length; i++) {
-        Map<String, dynamic> jsonMatrixRow =
-            jsonDecode(jsonStringMatrixRows[i]);
-        List<String> jsonStringElements = jsonMatrixRow['elements'];
-        for (String jsonStringElement in jsonStringElements) {
-          Map<String, dynamic> jsonElement = jsonDecode(jsonStringElement);
-          durationMatrix[i]
-              .add(jsonDecode(jsonElement['duration_in_traffic'])['value']);
+      List<List<int>> durationMatrix =
+          List.generate(sub1.length, (i) => [], growable: true);
+      //List<List<int>> durationMatrix = [];
+      List<dynamic> jsonMatrixRows = body['rows'];
+      for (int i = 0; i < jsonMatrixRows.length; i++) {
+        List<dynamic> jsonElements = jsonMatrixRows[i]['elements'];
+        for (dynamic jsonElement in jsonElements) {
+          durationMatrix[i].add(jsonElement['duration_in_traffic']['value']);
         }
       }
       return durationMatrix;
@@ -98,8 +95,6 @@ class DurationMatrixApiClient {
 
   String getRequestUrl(
       List<VendorInfo> origins, List<VendorInfo> destinations) {
-    //https://maps.googleapis.com/maps/api/distancematrix/json?origins=26.4326758,80.3264685|26.5236758,80.5164685&destinations=26.4326758,80.3264685|26.5236758,80.5164685&key=AIzaSyDBaaEbP86zHKvqNPe5HRXBY41ELjwWN5U
-    //40.6655101,-73.89188969999998
     String origins_str = '', destinations_str = '';
     int len = origins.length >= destinations.length
         ? origins.length

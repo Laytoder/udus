@@ -78,6 +78,7 @@ class _PanelView extends State<PanelView> {
                       builder: (context) => PanelGridView(
                         title: widget.heading,
                         vegetables: widget.foods,
+                        appState: widget.appState,
                       ),
                     ),
                   );

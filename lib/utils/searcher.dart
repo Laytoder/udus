@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:frute/Animations/FadeAnimations.dart';
 import 'package:frute/models/vegetable.dart';
-import 'package:frute/models/normalVegetableList.dart';
 
 class SearchItems extends SearchDelegate<Vegetable> {
+  List<Vegetable> avlVegs;
+
+  SearchItems({@required this.avlVegs});
+
   @override
   ThemeData appBarTheme(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -30,7 +32,7 @@ class SearchItems extends SearchDelegate<Vegetable> {
   @override
   Widget buildResults(BuildContext context) {
     List<Vegetable> results = [];
-    for (Vegetable vegetable in vegetables) {
+    for (Vegetable vegetable in avlVegs) {
       if (vegetable.name.toLowerCase().contains(query)) {
         vegetable.dispCommonName = false;
         vegetable.currCommonName = '';
@@ -146,7 +148,7 @@ class SearchItems extends SearchDelegate<Vegetable> {
   @override
   Widget buildSuggestions(BuildContext context) {
     List<Vegetable> suggestions = [];
-    for (Vegetable vegetable in vegetables) {
+    for (Vegetable vegetable in avlVegs) {
       if (vegetable.name.toLowerCase().contains(query)) {
         vegetable.dispCommonName = false;
         vegetable.currCommonName = '';

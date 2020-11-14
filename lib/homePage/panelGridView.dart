@@ -1,16 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:frute/AppState.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/utils/searcher.dart';
 
 class PanelGridView extends StatelessWidget {
   String title;
+  AppState appState;
   List<Vegetable> vegetables;
 
   PanelGridView({
     @required this.title,
     @required this.vegetables,
+    @required this.appState,
   });
 
   double height;
@@ -32,7 +35,7 @@ class PanelGridView extends StatelessWidget {
             onPressed: () async {
               await showSearch(
                 context: context,
-                delegate: SearchItems(),
+                delegate: SearchItems(avlVegs: appState.avlVegs),
               );
             },
           ),

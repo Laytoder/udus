@@ -8,7 +8,7 @@ import 'dart:math' as math;
 
 class TspHelper {
   List<List<TripRoute>> _dp;
-  List<List<double>> durationMatrix;
+  List<List<int>> durationMatrix;
   HashMap<String, int> vendorIndexMap;
   List<VendorInfo> _vendors;
   List<Vegetable> orders;
@@ -21,6 +21,7 @@ class TspHelper {
   });
 
   TripRoute getOptimalTripRoutePerm(List<VendorInfo> vendors) {
+    //print('getOptimalTripRoutePerm called');
     _vendors = vendors;
     int row = math.pow(2, _vendors.length);
     int col = _vendors.length;
@@ -28,13 +29,16 @@ class TspHelper {
     _VISITED_ALL = (1 << col) - 1;
 
     //get tripRoute with orders data
-    TripRoute tripRouteWithOrderData =
-        _getTripRouteWithOrderData();
+    /*if (_vendors.length == 3)
+      print(
+          'vendors: [${_vendors[0].name}, ${_vendors[1].name}, ${_vendors[2].name}]');*/
+    TripRoute tripRouteWithOrderData = _getTripRouteWithOrderData();
 
     if (tripRouteWithOrderData == null) return null;
 
     //get tripRoute without total price
     TripRoute tripRouteWithPrice = _tsp(0, -1);
+    //print('duration in tspHelper ${tripRouteWithPrice.duration}');
     if (tripRouteWithPrice.duration > 2100) // 2100 secs is 35 mins
       return null;
 
@@ -50,31 +54,54 @@ class TspHelper {
   }
 
   TripRoute _getTripRouteWithOrderData() {
+    bool breaking = false; //for debugging
+    if (_vendors.length == 3) {
+      if (_vendors[0].name == 'HKW_01' &&
+          _vendors[1].name == 'HKW_04' &&
+          _vendors[2].name == 'HKW_11') {
+        breaking = true;
+      }
+    } //creating breaking point
     double tripPrice = 0.0;
     TripRoute tripRoute = TripRoute();
     List<bool> selections =
         List.generate(_vendors.length, (index) => false, growable: false);
+    //print('length of selections ${selections.length}');
+    //print('length of _vendors ${_vendors.length}');
     for (Vegetable order in orders) {
       String orderVegName = order.name;
+      if (breaking) print('Breaking point: orderVegName:- $orderVegName');
       double leastPrice;
       VendorInfo leastPriceVendor;
-      int vendorIndex;
-      for (vendorIndex = 0; vendorIndex < _vendors.length; vendorIndex++) {
+      int leastPriceVendorIndex;
+      for (int vendorIndex = 0; vendorIndex < _vendors.length; vendorIndex++) {
         HashMap<String, double> vegMap = _vendors[vendorIndex].vegMap;
+        if (breaking) {
+          print('Breaking point: vendorIndex:- $vendorIndex');
+          print('Breaking point: vegMap:- $vegMap');
+        }
         double price = vegMap[orderVegName];
         //if does not contain order
         if (price == null) continue;
         if (leastPrice == null) {
+          if (breaking)
+            print('Breaking point: no initialization problem for least price');
           leastPrice = price;
           leastPriceVendor = _vendors[vendorIndex];
+          leastPriceVendorIndex = vendorIndex;
         } else if (price < leastPrice) {
           leastPrice = price;
           leastPriceVendor = _vendors[vendorIndex];
+          leastPriceVendorIndex = vendorIndex;
         }
       }
       //if order is not with any vendor
-      if (leastPriceVendor == null) return null;
-      selections[vendorIndex] = true;
+      if (leastPriceVendor == null) {
+        if (breaking)
+          print('Breaking: yes the leastPriceVendor is null somehow');
+        return null;
+      }
+      selections[leastPriceVendorIndex] = true;
       tripPrice = tripPrice + (leastPrice * order.quantity);
       if (tripRoute.orders.containsKey(leastPriceVendor.id)) {
         tripRoute.orders[leastPriceVendor.id].add(order);
@@ -85,34 +112,47 @@ class TspHelper {
     }
     tripRoute.price = tripPrice;
 
+    if (breaking) print('Breaking point: Calculated Price = $tripPrice');
+
     for (bool selection in selections) {
-      if (!selection) return null;
+      if (!selection) {
+        if (breaking)
+          print('Breaking point: it is the selections problem somehow');
+        return null;
+      }
     }
 
     return tripRoute;
   }
 
   TripRoute _tsp(int mask, int pos) {
+    //print('reccing _tsp(${mask.toRadixString(2)}, $pos)');
+    //print('Vendors lenght ${_vendors.length}');
+    //print('VISITED_ALL ${_VISITED_ALL.toRadixString(2)}');
     //base case
     if (mask == _VISITED_ALL) {
       TripRoute tripRoute = TripRoute();
-      int origin = vendorIndexMap[_vendors[pos].id];
+      //add distance till home implementation
+      /*int origin = vendorIndexMap[_vendors[pos].id];
       int destination = vendorIndexMap[_vendors[_vendors.length - 1].id];
-      tripRoute.duration = durationMatrix[origin][destination];
+      tripRoute.duration = durationMatrix[origin][destination];*/
+      tripRoute.duration = 0;
       tripRoute.routeVendors.add(_vendors[pos]);
+      //print('returning tripRoute');
       return tripRoute;
     }
     if (pos != -1 && _dp[mask][pos] != null) {
       return _dp[mask][pos];
     }
 
-    double newDurationFromCurrentVendor = 0.0;
+    int newDurationFromCurrentVendor = 0;
     TripRoute optimalRouteFromCurrentVendor = TripRoute();
-    optimalRouteFromCurrentVendor.duration = double.infinity;
+    optimalRouteFromCurrentVendor.duration = 36000;
 
     for (int vendorIndex = 0; vendorIndex < _vendors.length; vendorIndex++) {
       if ((mask & (1 << vendorIndex)) == 0) {
-        TripRoute optimalSubRoute = _tsp(mask | (1 << vendorIndex), vendorIndex);
+        TripRoute optimalSubRoute =
+            _tsp(mask | (1 << vendorIndex), vendorIndex);
         if (pos != -1) {
           int origin = vendorIndexMap[_vendors[pos].id];
           int destination = vendorIndexMap[_vendors[vendorIndex].id];
@@ -124,14 +164,17 @@ class TspHelper {
         if (newDurationFromCurrentVendor <
             optimalRouteFromCurrentVendor.duration) {
           optimalRouteFromCurrentVendor.duration = newDurationFromCurrentVendor;
-          optimalRouteFromCurrentVendor.routeVendors = [_vendors[pos]];
+          optimalRouteFromCurrentVendor.routeVendors =
+              pos != -1 ? [_vendors[pos]] : [];
           optimalRouteFromCurrentVendor.routeVendors
               .addAll(optimalSubRoute.routeVendors);
         }
       }
     }
 
-    _dp[mask][pos] = optimalRouteFromCurrentVendor;
+    if (pos != -1) {
+      _dp[mask][pos] = optimalRouteFromCurrentVendor;
+    }
 
     return optimalRouteFromCurrentVendor;
   }

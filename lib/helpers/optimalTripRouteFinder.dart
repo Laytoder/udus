@@ -14,7 +14,7 @@ class OptimalTripRoutesFinder {
   List<VendorInfo> filteredVendors;
   HashMap<String, int> vendorIndexMap;
   List<Vegetable> order;
-  List<List<double>> durationMatrix;
+  List<List<int>> durationMatrix;
   TspHelper tspHelper;
 
   OptimalTripRoutesFinder({
@@ -25,7 +25,9 @@ class OptimalTripRoutesFinder {
   Future<dynamic> getOptimalTripRoutes() async {
     //filter vendors having required vegetables
     filterVendorsWithRequiredVegetables(vendors, order); //n^2
-    dynamic durationMatrix = getDurationMatrix(filteredVendors);
+    //print('filtered vendors');
+    dynamic durationMatrix = await getDurationMatrix(filteredVendors);
+    //print('got duration matrix ${durationMatrix}');
     if (durationMatrix == null) return CONNECTION_ERROR;
     this.durationMatrix = durationMatrix;
     initVendorIndexMap(filteredVendors);
@@ -45,8 +47,9 @@ class OptimalTripRoutesFinder {
     List<VendorInfo> currentSubset,
     int currentIndex,
   ) {
+    //print('reccing ${currentSubset.length}');
     //base case
-    if (currentIndex >= vendors.length) {
+    if (currentIndex >= filteredVendors.length) {
       //apply tsp to find the optimal route
       TripRoute tripRoute = tspHelper.getOptimalTripRoutePerm(currentSubset);
       if (tripRoute != null) optimalRoutes.add(tripRoute);
@@ -62,20 +65,21 @@ class OptimalTripRoutesFinder {
       if (tripRoute != null) optimalRoutes.add(tripRoute);
       List<VendorInfo> temp = [];
       temp.addAll(currentSubset);
-      for (int x = currentIndex; x < vendors.length; x++) {
-        currentSubset.add(vendors[x]);
-        recOverRoutesAndMakeListOfOptimalOnes(optimalRoutes, vendors, x + 1);
-        currentSubset = temp;
+      for (int x = currentIndex; x < filteredVendors.length; x++) {
+        currentSubset.add(filteredVendors[x]);
+        recOverRoutesAndMakeListOfOptimalOnes(optimalRoutes, currentSubset, x + 1);
+        currentSubset = [];
+        currentSubset.addAll(temp);
       }
     }
   }
 
-  Future<List<List<double>>> getDurationMatrix(List<VendorInfo> vendors) async {
+  Future<List<List<int>>> getDurationMatrix(List<VendorInfo> vendors) async {
     DurationMatrixApiClient matrixApiClient = DurationMatrixApiClient();
     dynamic response = await matrixApiClient.getDurationMatrix(vendors);
     if (response != DurationMatrixApiClient.CONNECTION_ERROR) {
-      List<List<double>> distMatrix = response;
-      return distMatrix;
+      List<List<int>> durationMatrix = response;
+      return durationMatrix;
     }
     return null;
   }
