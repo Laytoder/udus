@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class HolePainter extends CustomPainter {
   double radius, width, height;
   Color color;
+
   HolePainter({
     @required this.radius,
     @required this.color,

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class PageHeading extends StatelessWidget {
   final String heading;
+
   PageHeading(this.heading);
+
   double width, height;
 
   @override

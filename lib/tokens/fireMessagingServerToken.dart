@@ -1,2 +1,2 @@
 final String serverToken =
-      'AAAA7BhB3X4:APA91bHsxQ_v-t1FjTW6feA9uW2P1ZXFdwVwtlQUVu-W9q2FAmga7sejtisoxyF3COxUtfVhhxGd15CcYj3eU6C72ksxbV4zIVCMi7LxBrVsJP8pEyxjFV0wATlraXm1XulWXOsAOvYb';
+    'AAAA7BhB3X4:APA91bHsxQ_v-t1FjTW6feA9uW2P1ZXFdwVwtlQUVu-W9q2FAmga7sejtisoxyF3COxUtfVhhxGd15CcYj3eU6C72ksxbV4zIVCMi7LxBrVsJP8pEyxjFV0wATlraXm1XulWXOsAOvYb';

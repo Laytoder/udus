@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frute/AppState.dart';
-import 'package:frute/Pages/homePage.dart';
 import 'package:frute/Pages/homebuilder.dart';
 import 'package:frute/helpers/authService.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -13,11 +12,13 @@ class OTPPage extends StatefulWidget {
   String phoneNumber;
   AppState appState;
   String state;
+
   OTPPage(
     this.phoneNumber,
     this.appState,
     this.state,
   );
+
   @override
   _OTPPageState createState() => _OTPPageState();
 }

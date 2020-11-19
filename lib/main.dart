@@ -1,15 +1,16 @@
+import 'package:connectivity/connectivity.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frute/Pages/homebuilder.dart';
+import 'package:frute/Pages/noConnectionPage.dart';
 import 'package:frute/helpers/messagingHelper.dart';
 import 'package:frute/models/vendorInfo.dart';
-import 'AppState.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_directions_api/google_directions_api.dart';
-import 'package:frute/Pages/noConnectionPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'AppState.dart';
 import 'tokens/googleMapsApiKey.dart';
-import 'package:connectivity/connectivity.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

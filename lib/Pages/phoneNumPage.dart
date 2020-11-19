@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:frute/AppState.dart';
 import 'package:frute/widgets/pageHeading.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'otpPage.dart';
-import 'package:frute/AppState.dart';
 
 class PhoneNumPage extends StatefulWidget {
   AppState appState;
   String state;
+
   PhoneNumPage(this.appState, {this.state = 'normal'});
+
   @override
   _PhoneNumPageState createState() => _PhoneNumPageState();
 }

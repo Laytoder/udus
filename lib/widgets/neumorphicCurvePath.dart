@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class NeumorphicCurvePath extends NeumorphicPathProvider {
-
   @override
   Path getPath(Size size) {
     var path = Path();

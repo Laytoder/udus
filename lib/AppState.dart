@@ -4,11 +4,11 @@ import 'dart:collection';
 import 'package:frute/helpers/messagingHelper.dart';
 import 'package:frute/helpers/vendorServiceHelper.dart';
 import 'package:frute/models/vegetable.dart';
-import 'models/order.dart';
-import 'models/vendorInfo.dart';
-import 'models/trip.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'models/trip.dart';
+import 'models/vendorInfo.dart';
 
 class AppState {
   Map<String, VendorInfo> vendors;

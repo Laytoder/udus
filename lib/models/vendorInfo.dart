@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/models/client.dart';
 import 'package:frute/models/order.dart';
+
 import 'vegetable.dart';
 
 class VendorInfo {

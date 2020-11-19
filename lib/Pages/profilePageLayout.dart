@@ -2,13 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/helpers/sourceAndImageFetcherDialog.dart';
-import 'package:frute/tokens/googleMapsApiKey.dart';
 import 'package:frute/widgets/pageHeading.dart';
-import 'package:google_directions_api/google_directions_api.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,6 +12,7 @@ class ProfilePageLayout extends StatefulWidget {
   AnimationController editPhoneController, editNameController;
   Function() onNamePressed, onPhonePressed;
   AppState appState;
+
   ProfilePageLayout({
     @required this.editNameController,
     @required this.editPhoneController,
@@ -23,6 +20,7 @@ class ProfilePageLayout extends StatefulWidget {
     @required this.onPhonePressed,
     @required this.appState,
   });
+
   @override
   _ProfilePageLayoutState createState() => _ProfilePageLayoutState();
 }

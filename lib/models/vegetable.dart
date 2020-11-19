@@ -1,6 +1,7 @@
 class Vegetable {
   String name, imageUrl;
   double price, quantity;
+
   //dispCommonName and currCommonName is just used while searching
   //it is real-time so doesn't need to be stored in preferences.
   bool isSelected = false, dispCommonName = false;

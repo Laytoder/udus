@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/models/bill.dart';
-import 'package:frute/models/trip.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

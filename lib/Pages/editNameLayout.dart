@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class EditNameLayout extends StatefulWidget {
   AppState appState;
   GlobalKey<FormState> formKey;
+
   EditNameLayout({
     @required this.appState,
     @required this.formKey,

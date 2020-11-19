@@ -1,5 +1,5 @@
-import 'package:google_directions_api/google_directions_api.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart' as poly;
+import 'package:google_directions_api/google_directions_api.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DirectionApiHelper {

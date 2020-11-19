@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
-import 'package:frute/Pages/cartPage.dart';
 import 'package:frute/homePage/panelView.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/utils/searcher.dart';
+
 import 'filters.dart';
 import 'offer_banner_view.dart';
 

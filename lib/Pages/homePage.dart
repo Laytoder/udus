@@ -2,31 +2,32 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frute/AppState.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:frute/Pages/billHistory.dart';
+import 'package:frute/Pages/map.dart';
 import 'package:frute/Pages/profilePage.dart';
 import 'package:frute/Pages/vendorInfoPage.dart';
+import 'package:frute/assets/my_flutter_app_icons.dart';
+import 'package:frute/helpers/confirmationDialog.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
+import 'package:frute/helpers/messageGetters.dart';
 import 'package:frute/helpers/messagingHelper.dart';
 import 'package:frute/homePage/homepageupdated.dart';
 import 'package:frute/models/order.dart';
+import 'package:frute/models/trip.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:frute/routes/fadeRoute.dart';
 import 'package:frute/widgets/dualButton.dart';
 import 'package:google_directions_api/google_directions_api.dart';
-import 'package:frute/Pages/map.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:frute/models/trip.dart';
 import 'package:slider_button/slider_button.dart';
+
 import 'cartPage.dart';
 import 'holdPage.dart';
-import 'package:frute/helpers/messageGetters.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:frute/assets/my_flutter_app_icons.dart';
-import 'package:frute/helpers/confirmationDialog.dart';
 
 class HomePage extends StatefulWidget {
   AppState appState;
@@ -277,8 +278,7 @@ class _HomePageState extends State<HomePage>
           onWillPop: () async => false,
           child: Scaffold(
             floatingActionButton:
-                widget.appState.order.isNotEmpty &&
-                        !isNowCurrentTab
+                widget.appState.order.isNotEmpty && !isNowCurrentTab
                     ? FloatingActionButton(
                         onPressed: () {
                           Navigator.push(

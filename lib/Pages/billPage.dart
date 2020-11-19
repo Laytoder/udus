@@ -4,8 +4,8 @@ import 'package:frute/AppState.dart';
 import 'package:frute/Pages/homebuilder.dart';
 import 'package:frute/helpers/tripCompleter.dart';
 import 'package:frute/models/vegetable.dart';
-import 'package:slider_button/slider_button.dart';
 import 'package:intl/intl.dart';
+import 'package:slider_button/slider_button.dart';
 
 class BillPage extends StatefulWidget {
   List<Vegetable> vegetables;
@@ -13,6 +13,7 @@ class BillPage extends StatefulWidget {
   AppState appState;
   String state, date;
   PageController controller;
+
   BillPage({
     @required this.state,
     @required this.vegetables,
@@ -22,6 +23,7 @@ class BillPage extends StatefulWidget {
     this.appState,
     this.date,
   });
+
   @override
   _BillPageState createState() => _BillPageState();
 }

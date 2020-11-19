@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/billPage.dart';
 import 'package:frute/helpers/messageGetters.dart';
@@ -16,6 +16,7 @@ class VendorPage extends StatefulWidget {
   AppState appState;
 
   VendorPage(this.vendor, this.appState);
+
   @override
   _VendorPageState createState() => _VendorPageState();
 }

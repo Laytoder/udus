@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:frute/DurationMatrixApi/DurationMatrixApiHelper.dart';
 import 'package:frute/helpers/tspHelper.dart';
 import 'package:frute/models/tripRoute.dart';
-import 'package:frute/models/vendorInfo.dart';
 import 'package:frute/models/vegetable.dart';
+import 'package:frute/models/vendorInfo.dart';
 
 class OptimalTripRoutesFinder {
   static const int MAX_VENDOR_COMBINATIONS = 3;
@@ -67,7 +67,8 @@ class OptimalTripRoutesFinder {
       temp.addAll(currentSubset);
       for (int x = currentIndex; x < filteredVendors.length; x++) {
         currentSubset.add(filteredVendors[x]);
-        recOverRoutesAndMakeListOfOptimalOnes(optimalRoutes, currentSubset, x + 1);
+        recOverRoutesAndMakeListOfOptimalOnes(
+            optimalRoutes, currentSubset, x + 1);
         currentSubset = [];
         currentSubset.addAll(temp);
       }

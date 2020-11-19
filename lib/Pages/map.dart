@@ -1,35 +1,34 @@
 import 'dart:async';
+import 'dart:math' as Math;
 import 'dart:typed_data';
+
+import 'package:angles/angles.dart';
 import 'package:flutter/foundation.dart';
-import 'package:frute/AppState.dart';
-import 'package:frute/Pages/VendorPage.dart';
-import 'package:frute/Pages/billPage.dart';
-import 'package:frute/Pages/priceListPage.dart';
-import 'package:frute/helpers/messagingHelper.dart';
-import 'package:frute/helpers/nearbyVendorQueryHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:frute/helpers/directionApiHelper.dart';
-import 'package:frute/models/bill.dart';
-import 'package:frute/models/vegetable.dart';
-import 'package:frute/Pages/profilePage.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:frute/AppState.dart';
+import 'package:frute/Pages/VendorPage.dart';
 import 'package:frute/Pages/billHistory.dart';
+import 'package:frute/Pages/profilePage.dart';
+import 'package:frute/helpers/directionApiHelper.dart';
+import 'package:frute/helpers/messageGetters.dart';
+import 'package:frute/helpers/messagingHelper.dart';
+import 'package:frute/helpers/nearbyVendorQueryHelper.dart';
+import 'package:frute/helpers/pidHelper.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:frute/widgets/mapPanel.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:math' as Math;
-import 'package:angles/angles.dart';
-import 'package:frute/helpers/pidHelper.dart';
-import 'package:frute/helpers/messageGetters.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class Map extends StatefulWidget {
   DirectionApiHelper directionApiHelper;
   AppState appState;
+
   Map({
     @required this.directionApiHelper,
     @required this.appState,
   });
+
   @override
   _MapState createState() => _MapState();
 }
@@ -73,7 +72,7 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
       );
       currentPos = newPos;
       loading = false;
-      /*can optimize these intermediate updateIntervals by 
+      /*can optimize these intermediate updateIntervals by
       not computing endIndex info*/
       //can further give duration updates only on newPos fetch
       //can use the compute function to compute on different thread

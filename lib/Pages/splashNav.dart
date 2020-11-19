@@ -5,12 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/GettingStarted.dart';
 import 'package:frute/Pages/homebuilder.dart';
-import 'package:frute/Pages/namePage.dart';
 import 'package:frute/Pages/pendingTripBuilder.dart';
-import 'package:frute/Pages/splashScreen.dart';
 import 'package:frute/helpers/authService.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
-import 'package:frute/holePainter.dart';
 import 'package:frute/models/bill.dart';
 import 'package:frute/models/trip.dart';
 import 'package:frute/models/vendorInfo.dart';
@@ -18,6 +15,7 @@ import 'package:google_directions_api/google_directions_api.dart';
 
 class SplashNav extends StatefulWidget {
   AppState appState;
+
   SplashNav({
     @required this.appState,
   });

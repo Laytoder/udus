@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/helpers/confirmationDialog.dart';
-import 'package:frute/widgets/inputModal.dart';
-import 'package:frute/models/vendorInfo.dart';
 import 'package:frute/helpers/optimalTripRouteFinder.dart';
 import 'package:frute/models/tripRoute.dart';
+import 'package:frute/models/vendorInfo.dart';
+import 'package:frute/widgets/inputModal.dart';
 
 import '../AppState.dart';
 
@@ -145,7 +145,7 @@ class _CartPageState extends State<CartPage> {
 
             dynamic jsonOptimalRoutes = [];
 
-            for(TripRoute optimalRoute in optimalRoutes) {
+            for (TripRoute optimalRoute in optimalRoutes) {
               jsonOptimalRoutes.add(optimalRoute.toJson()['duration']);
             }
 

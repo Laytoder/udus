@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/widgets/pageHeading.dart';
+
 import 'phoneNumPage.dart';
 
 class EditPhoneLayout extends StatefulWidget {
   AppState appState;
+
   EditPhoneLayout({@required this.appState});
 
   @override

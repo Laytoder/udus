@@ -4,6 +4,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 class DualButton extends StatefulWidget {
   double height, padding, width, radius, textSize;
   Function() onNowClicked, onDropInClicked;
+
   DualButton({
     @required this.height,
     @required this.width,
@@ -13,6 +14,7 @@ class DualButton extends StatefulWidget {
     @required this.onDropInClicked,
     @required this.textSize,
   });
+
   @override
   _DualButtonState createState() => _DualButtonState();
 }

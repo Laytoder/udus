@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/editNameLayout.dart';
-import 'package:frute/Pages/profilePageLayout.dart';
 import 'package:frute/Pages/editPhoneLayout.dart';
+import 'package:frute/Pages/profilePageLayout.dart';
 import 'package:frute/assets/my_flutter_app_icons.dart';
 import 'package:frute/widgets/curvedDecorator.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class ProfilePage extends StatefulWidget {
   PageController controller;
   AppState appState;
+
   ProfilePage({
     @required this.controller,
     @required this.appState,
   });
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }

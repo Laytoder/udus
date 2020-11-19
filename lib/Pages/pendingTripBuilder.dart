@@ -4,21 +4,23 @@ import 'package:frute/Pages/VendorPage.dart';
 import 'package:frute/Pages/billPage.dart';
 import 'package:frute/Pages/holdPage.dart';
 import 'package:frute/Pages/homebuilder.dart';
+import 'package:frute/Pages/map.dart' as map;
 import 'package:frute/models/bill.dart';
 import 'package:frute/models/trip.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:frute/Pages/map.dart' as map;
 
 class PendingTripBuilder extends StatelessWidget {
   Trip pendingTrip;
   AppState appState;
   SharedPreferences preferences;
+
   PendingTripBuilder(
     this.pendingTrip,
     this.appState,
     this.preferences,
   );
+
   @override
   Widget build(BuildContext context) {
     print('appState $appState');

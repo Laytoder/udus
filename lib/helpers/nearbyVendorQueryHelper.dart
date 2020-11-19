@@ -1,20 +1,21 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frute/AppState.dart';
+import 'package:frute/models/vegetable.dart';
+import 'package:frute/models/vendorInfo.dart';
 import 'package:frute/tokens/googleMapsApiKey.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_directions_api/google_directions_api.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+
 import 'locationHelper.dart';
-import 'package:frute/models/vegetable.dart';
-import 'package:frute/models/vendorInfo.dart';
-import 'package:google_directions_api/google_directions_api.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class NearbyVendorQueryHelper {
   final firestoreInstance = Firestore.instance;

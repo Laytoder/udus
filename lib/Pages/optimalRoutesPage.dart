@@ -13,7 +13,6 @@ class OptimalRoutesPage extends StatefulWidget {
 
   @override
   _OptimalRoutesPage createState() => _OptimalRoutesPage();
-
 }
 
 class _OptimalRoutesPage extends State<OptimalRoutesPage> {
@@ -31,7 +30,6 @@ class _OptimalRoutesPage extends State<OptimalRoutesPage> {
                 decoration: TextDecoration.none),
           ),
           SizedBox(height: 20),
-        ])
-    );
+        ]));
   }
 }

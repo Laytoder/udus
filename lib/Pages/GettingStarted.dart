@@ -5,6 +5,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 class GettingStarted extends StatelessWidget {
   AppState appState;
+
   GettingStarted({
     @required this.appState,
   });

@@ -2,26 +2,22 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/billPage.dart';
-import 'package:frute/Pages/holdPage.dart';
 import 'package:frute/assets/my_flutter_app_icons.dart';
-import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/models/bill.dart';
-import 'package:frute/models/trip.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/widgets/pageHeading.dart';
-import 'package:google_directions_api/google_directions_api.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-import 'package:frute/Pages/map.dart' as map;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BillHistory extends StatefulWidget {
   PageController controller;
   AppState appState;
   SharedPreferences preferences;
+
   BillHistory(this.controller, this.appState, this.preferences);
+
   @override
   _BillHistoryState createState() => _BillHistoryState();
 }

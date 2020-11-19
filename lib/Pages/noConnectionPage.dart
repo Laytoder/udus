@@ -1,9 +1,8 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:connectivity/connectivity.dart';
 
 class NoConnection extends StatelessWidget {
-
   double height, width;
 
   @override
@@ -40,8 +39,7 @@ class NoConnection extends StatelessWidget {
                     );
                   },
                 );
-              }
-              else {
+              } else {
                 Navigator.of(context).pop();
               }
             },

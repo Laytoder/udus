@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:frute/models/vendorInfo.dart';
 import 'package:frute/tokens/googleMapsApiKey.dart';
 import 'package:http/http.dart';
-import 'dart:convert';
 
 class DurationMatrixApiClient {
   final String apiUrl =

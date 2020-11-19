@@ -5,11 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
+import 'package:frute/assets/my_flutter_app_icons.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/helpers/pidHelper.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
-import 'package:frute/assets/my_flutter_app_icons.dart';
 
 class MapPanel extends StatefulWidget {
   VendorInfo currentVendor;
@@ -19,6 +19,7 @@ class MapPanel extends StatefulWidget {
   AppState appState;
   double width, height;
   PageController globalController;
+
   MapPanel({
     @required this.currentVendor,
     @required this.pidHelper,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frute/Animations/FadeAnimations.dart';
 import 'package:flutter/services.dart';
+import 'package:frute/Animations/FadeAnimations.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class InputModal extends StatefulWidget {

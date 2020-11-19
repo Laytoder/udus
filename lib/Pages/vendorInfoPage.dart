@@ -3,16 +3,12 @@ import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:frute/Animations/FadeAnimations.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/homebuilder.dart';
 import 'package:frute/models/vendorInfo.dart';
-import 'package:frute/tokens/googleMapsApiKey.dart';
 import 'package:frute/widgets/inputModal.dart';
-import 'package:google_directions_api/google_directions_api.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rating_bar/rating_bar.dart';
-import 'package:frute/Animations/FadeAnimations.dart';
 
 class VendorInfoPage extends StatefulWidget {
   VendorInfo vendor;
@@ -267,7 +263,7 @@ class _VendorInfoPageState extends State<VendorInfoPage> {
                                 cacheImage: true,
                                 /*child: CachedNetworkImage(
                                   imageUrl: vendor.imageUrl,
-                                  
+
                                   placeholder: (context, url) =>
                                       CircularProgressIndicator(),
                                   errorWidget: (context, url, error) =>

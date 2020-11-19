@@ -6,14 +6,15 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/billHistory.dart';
 import 'package:frute/Pages/profilePage.dart';
+import 'package:frute/assets/my_flutter_app_icons.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/helpers/messageGetters.dart';
 import 'package:frute/helpers/messagingHelper.dart';
 import 'package:frute/routes/fadeRoute.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'map.dart' as map;
-import 'package:frute/assets/my_flutter_app_icons.dart';
 
 class HoldPage extends StatelessWidget {
   String eta, vendorName;
@@ -22,6 +23,7 @@ class HoldPage extends StatelessWidget {
   SharedPreferences preferences;
   double height, width;
   PageController globalController = PageController(initialPage: 1);
+
   HoldPage({
     @required this.eta,
     @required this.vendorName,

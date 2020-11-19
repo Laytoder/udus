@@ -4,16 +4,16 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/billPage.dart';
 import 'package:frute/Pages/holdPage.dart';
+import 'package:frute/Pages/map.dart' as mapPage;
 import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/models/order.dart';
 import 'package:frute/models/vegetable.dart';
-import 'package:http/http.dart' as http;
 import 'package:frute/tokens/fireMessagingServerToken.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:frute/Pages/map.dart' as mapPage;
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MessagingHelper {

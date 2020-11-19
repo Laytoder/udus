@@ -1,17 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:frute/AppState.dart';
 import 'package:frute/Pages/homePage.dart';
 import 'package:frute/helpers/nearbyVendorQueryHelper.dart';
-import 'package:frute/AppState.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart';
-import 'package:location/location.dart';
 
 class HomeBuilder extends StatefulWidget {
   AppState appState;
   String state;
+
   //LocationResult locationResult;
   HomeBuilder(this.appState, {this.state = 'normal'});
+
   @override
   _HomeBuilderState createState() => _HomeBuilderState();
 }
@@ -65,7 +65,8 @@ class _HomeBuilderState extends State<HomeBuilder> {
                 ),
               ),
             );
-          } /*else if (snapshot.data ==
+          }
+          /*else if (snapshot.data ==
               NearbyVendorQueryHelper.NO_NEARBY_VENDORS) {
             return WillPopScope(
               onWillPop: () async => false,
