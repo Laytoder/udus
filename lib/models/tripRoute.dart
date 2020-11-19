@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:convert';
 
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/models/vendorInfo.dart';

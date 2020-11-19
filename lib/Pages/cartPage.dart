@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -10,7 +8,6 @@ import 'package:frute/helpers/optimalTripRouteFinder.dart';
 import 'package:frute/models/tripRoute.dart';
 
 import '../AppState.dart';
-import 'optimalRoutesPage.dart';
 
 class CartPage extends StatefulWidget {
   AppState appState;
@@ -138,6 +135,7 @@ class _CartPageState extends State<CartPage> {
             for (String userId in widget.appState.userId) {
               vendors.add(widget.appState.vendors[userId]);
             }
+
             OptimalTripRoutesFinder finder = OptimalTripRoutesFinder(
               order: widget.appState.order,
               vendors: vendors,
