@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frute/Pages/homebuilder.dart';
 import 'package:frute/helpers/messagingHelper.dart';
-import 'package:frute/models/client.dart';
-import 'package:frute/models/order.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'AppState.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -12,9 +10,6 @@ import 'package:google_directions_api/google_directions_api.dart';
 import 'package:frute/Pages/noConnectionPage.dart';
 import 'tokens/googleMapsApiKey.dart';
 import 'package:connectivity/connectivity.dart';
-
-//TODO: SCROLL BAR
-//TODO: SLIDE TO CONFIRM
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
