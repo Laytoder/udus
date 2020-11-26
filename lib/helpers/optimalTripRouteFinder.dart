@@ -6,44 +6,128 @@ import 'package:frute/helpers/tspHelper.dart';
 import 'package:frute/models/tripRoute.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/models/vendorInfo.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OptimalTripRoutesFinder {
   static const int MAX_VENDOR_COMBINATIONS = 3;
   static const int CONNECTION_ERROR = 0;
+  static const int NO_OPTIMAL_ORDER = 1;
+  GeoPoint homeLocation;
   List<VendorInfo> vendors;
   List<VendorInfo> filteredVendors;
   HashMap<String, int> vendorIndexMap;
   List<Vegetable> order;
   List<List<int>> durationMatrix;
+  List<int> homeDurationMatrix;
   TspHelper tspHelper;
 
   OptimalTripRoutesFinder({
+    @required this.homeLocation,
     @required this.vendors,
     @required this.order,
   });
 
-  Future<dynamic> getOptimalTripRoutes() async {
+  Future<dynamic> getOptimalTripRoute() async {
     //filter vendors having required vegetables
     filterVendorsWithRequiredVegetables(vendors, order); //n^2
     //print('filtered vendors');
-    dynamic durationMatrix = await getDurationMatrix(filteredVendors);
+    List<dynamic> durationMatrices =
+        await getDurationMatrices(homeLocation, filteredVendors);
     //print('got duration matrix ${durationMatrix}');
-    if (durationMatrix == null) return CONNECTION_ERROR;
-    this.durationMatrix = durationMatrix;
+    if (durationMatrices == null) return CONNECTION_ERROR;
+    this.durationMatrix = durationMatrices[0];
+    this.homeDurationMatrix = durationMatrices[1];
     initVendorIndexMap(filteredVendors);
     tspHelper = TspHelper(
-      durationMatrix: durationMatrix,
+      durationMatrix: durationMatrices[0],
+      homeDurationMatrix: durationMatrices[1],
       orders: order,
       vendorIndexMap: vendorIndexMap,
     );
-    List<TripRoute> optimalRoutes = [];
-    recOverRoutesAndMakeListOfOptimalOnes(optimalRoutes, [], 0);
+    //List<TripRoute> optimalRoutes = [];
+    List<TripRoute> singleVendorOptimalRoutes = [];
+    List<TripRoute> doubleVendorOptimalRoutes = [];
+    List<TripRoute> tripleVendorOptimalRoutes = [];
+    recOverRoutesAndMakeListOfOptimalOnes(singleVendorOptimalRoutes,
+        doubleVendorOptimalRoutes, tripleVendorOptimalRoutes, [], 0);
+    TripRoute cheapestSingleVendorRoute,
+        cheapestDoubleVendorRoute,
+        cheapestTripleVendorRoute;
+    for (TripRoute route in singleVendorOptimalRoutes) {
+      if (cheapestSingleVendorRoute == null)
+        cheapestSingleVendorRoute = route;
+      else if (route.price < cheapestSingleVendorRoute.price)
+        cheapestSingleVendorRoute = route;
+    }
+    for (TripRoute route in doubleVendorOptimalRoutes) {
+      if (cheapestDoubleVendorRoute == null)
+        cheapestDoubleVendorRoute = route;
+      else if (route.price < cheapestDoubleVendorRoute.price)
+        cheapestDoubleVendorRoute = route;
+    }
+    for (TripRoute route in tripleVendorOptimalRoutes) {
+      if (cheapestTripleVendorRoute == null)
+        cheapestTripleVendorRoute = route;
+      else if (route.price < cheapestTripleVendorRoute.price)
+        cheapestTripleVendorRoute = route;
+    }
 
-    return optimalRoutes;
+    //print('Cheapest three vendors ${cheapestTripleVendorRoute.price}');
+    //print('Cheapest two vendors ${cheapestDoubleVendorRoute.price}');
+    //print('Cheapest one vendors ${cheapestSingleVendorRoute.price}');
+
+    if (cheapestSingleVendorRoute == null)
+      return NO_OPTIMAL_ORDER;
+    else {
+      if (cheapestDoubleVendorRoute == null)
+        return cheapestSingleVendorRoute;
+      else if (cheapestSingleVendorRoute.price <
+          cheapestDoubleVendorRoute.price) {
+        if (cheapestTripleVendorRoute == null ||
+            cheapestSingleVendorRoute.price < cheapestTripleVendorRoute.price)
+          return cheapestSingleVendorRoute;
+        else {
+          if (cheapestSingleVendorRoute.price -
+                  cheapestTripleVendorRoute.price <=
+              cheapestTripleVendorRoute.price * 0.05)
+            return cheapestSingleVendorRoute;
+          if (cheapestDoubleVendorRoute.price -
+                  cheapestTripleVendorRoute.price <=
+              cheapestTripleVendorRoute.price * 0.05)
+            return cheapestDoubleVendorRoute;
+
+          return cheapestTripleVendorRoute;
+        }
+      } else {
+        if (cheapestTripleVendorRoute == null ||
+            cheapestDoubleVendorRoute.price < cheapestTripleVendorRoute.price) {
+          if (cheapestSingleVendorRoute.price -
+                  cheapestDoubleVendorRoute.price <=
+              cheapestDoubleVendorRoute.price * 0.05)
+            return cheapestSingleVendorRoute;
+          else
+            return cheapestDoubleVendorRoute;
+        } else {
+          if (cheapestSingleVendorRoute.price -
+                  cheapestTripleVendorRoute.price <=
+              cheapestTripleVendorRoute.price * 0.05)
+            return cheapestSingleVendorRoute;
+          if (cheapestDoubleVendorRoute.price -
+                  cheapestTripleVendorRoute.price <=
+              cheapestTripleVendorRoute.price * 0.05)
+            return cheapestDoubleVendorRoute;
+
+          return cheapestTripleVendorRoute;
+        }
+      }
+    }
+    //return optimalRoutes;
   }
 
   recOverRoutesAndMakeListOfOptimalOnes(
-    List<TripRoute> optimalRoutes,
+    List<TripRoute> singleVendorOptimalRoutes,
+    List<TripRoute> doubleVendorOptimalRoutes,
+    List<TripRoute> tripleVendorOptimalRoutes,
     List<VendorInfo> currentSubset,
     int currentIndex,
   ) {
@@ -52,35 +136,83 @@ class OptimalTripRoutesFinder {
     if (currentIndex >= filteredVendors.length) {
       //apply tsp to find the optimal route
       TripRoute tripRoute = tspHelper.getOptimalTripRoutePerm(currentSubset);
-      if (tripRoute != null) optimalRoutes.add(tripRoute);
+      if (tripRoute != null) {
+        switch (tripRoute.routeVendors.length) {
+          case 1:
+            singleVendorOptimalRoutes.add(tripRoute);
+            break;
+
+          case 2:
+            doubleVendorOptimalRoutes.add(tripRoute);
+            break;
+
+          case 3:
+            tripleVendorOptimalRoutes.add(tripRoute);
+            break;
+        }
+      }
       return;
     } else if (currentSubset.length == MAX_VENDOR_COMBINATIONS) {
       //apply tsp to find the optimal route
       TripRoute tripRoute = tspHelper.getOptimalTripRoutePerm(currentSubset);
-      if (tripRoute != null) optimalRoutes.add(tripRoute);
+      if (tripRoute != null) {
+        switch (tripRoute.routeVendors.length) {
+          case 1:
+            singleVendorOptimalRoutes.add(tripRoute);
+            break;
+
+          case 2:
+            doubleVendorOptimalRoutes.add(tripRoute);
+            break;
+
+          case 3:
+            tripleVendorOptimalRoutes.add(tripRoute);
+            break;
+        }
+      }
       return;
     } else {
       //apply tsp to find the optimal route
       TripRoute tripRoute = tspHelper.getOptimalTripRoutePerm(currentSubset);
-      if (tripRoute != null) optimalRoutes.add(tripRoute);
+      if (tripRoute != null) {
+        switch (tripRoute.routeVendors.length) {
+          case 1:
+            singleVendorOptimalRoutes.add(tripRoute);
+            break;
+
+          case 2:
+            doubleVendorOptimalRoutes.add(tripRoute);
+            break;
+
+          case 3:
+            tripleVendorOptimalRoutes.add(tripRoute);
+            break;
+        }
+      }
       List<VendorInfo> temp = [];
       temp.addAll(currentSubset);
       for (int x = currentIndex; x < filteredVendors.length; x++) {
         currentSubset.add(filteredVendors[x]);
         recOverRoutesAndMakeListOfOptimalOnes(
-            optimalRoutes, currentSubset, x + 1);
+            singleVendorOptimalRoutes,
+            doubleVendorOptimalRoutes,
+            tripleVendorOptimalRoutes,
+            currentSubset,
+            x + 1);
         currentSubset = [];
         currentSubset.addAll(temp);
       }
     }
   }
 
-  Future<List<List<int>>> getDurationMatrix(List<VendorInfo> vendors) async {
+  Future<List<dynamic>> getDurationMatrices(
+      GeoPoint homeLocation, List<VendorInfo> vendors) async {
     DurationMatrixApiClient matrixApiClient = DurationMatrixApiClient();
-    dynamic response = await matrixApiClient.getDurationMatrix(vendors);
+    dynamic response =
+        await matrixApiClient.getDurationMatrices(homeLocation, vendors);
     if (response != DurationMatrixApiClient.CONNECTION_ERROR) {
-      List<List<int>> durationMatrix = response;
-      return durationMatrix;
+      List<List<int>> durationMatrix = response[0];
+      return [durationMatrix, response[1]];
     }
     return null;
   }

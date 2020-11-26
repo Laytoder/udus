@@ -9,6 +9,7 @@ import 'package:frute/models/vendorInfo.dart';
 class TspHelper {
   List<List<TripRoute>> _dp;
   List<List<int>> durationMatrix;
+  List<int> homeDurationMatrix;
   HashMap<String, int> vendorIndexMap;
   List<VendorInfo> _vendors;
   List<Vegetable> orders;
@@ -16,6 +17,7 @@ class TspHelper {
 
   TspHelper({
     @required this.durationMatrix,
+    @required this.homeDurationMatrix,
     @required this.vendorIndexMap,
     @required this.orders,
   });
@@ -38,6 +40,8 @@ class TspHelper {
 
     //get tripRoute without total price
     TripRoute tripRouteWithPrice = _tsp(0, -1);
+    //Give buffer for time to reach the first vendor
+    tripRouteWithPrice.duration = tripRouteWithPrice.duration + 300;
     //print('duration in tspHelper ${tripRouteWithPrice.duration}');
     if (tripRouteWithPrice.duration > 2100) // 2100 secs is 35 mins
       return null;
@@ -136,7 +140,8 @@ class TspHelper {
       /*int origin = vendorIndexMap[_vendors[pos].id];
       int destination = vendorIndexMap[_vendors[_vendors.length - 1].id];
       tripRoute.duration = durationMatrix[origin][destination];*/
-      tripRoute.duration = 0;
+      //distance till home implementation
+      tripRoute.duration = homeDurationMatrix[vendorIndexMap[_vendors[pos].id]];
       tripRoute.routeVendors.add(_vendors[pos]);
       //print('returning tripRoute');
       return tripRoute;

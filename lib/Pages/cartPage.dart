@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:frute/Pages/cartScreen.dart';
 import 'package:frute/helpers/confirmationDialog.dart';
 import 'package:frute/helpers/optimalTripRouteFinder.dart';
 import 'package:frute/models/tripRoute.dart';
+import 'package:frute/Pages/optimalRoutesPage.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:frute/widgets/inputModal.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../AppState.dart';
 
@@ -137,13 +140,42 @@ class _CartPageState extends State<CartPage> {
             }
 
             OptimalTripRoutesFinder finder = OptimalTripRoutesFinder(
+              homeLocation: GeoPoint(
+                widget.appState.userLocation.latitude,
+                widget.appState.userLocation.longitude,
+              ),
               order: widget.appState.order,
               vendors: vendors,
             );
 
-            dynamic optimalRoutes = await finder.getOptimalTripRoutes();
+            dynamic optimalRoute = await finder.getOptimalTripRoute();
 
-            dynamic jsonOptimalRoutes = [];
+            if (optimalRoute == OptimalTripRoutesFinder.NO_OPTIMAL_ORDER)
+              print('NO OPTIMAL ORDER..................................');
+            else {
+              print(optimalRoute.toJson());
+
+              print('computed route................................');
+            }
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CartScreen(),
+              ),
+            );
+
+            /*Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OptimalRoutesPage(
+                  appState: widget.appState,
+                  optimalTripRoutes: optimalRoutes,
+                ),
+              ),
+            );*/
+
+            /*dynamic jsonOptimalRoutes = [];
 
             for (TripRoute optimalRoute in optimalRoutes) {
               jsonOptimalRoutes.add(optimalRoute.toJson()['duration']);
@@ -151,7 +183,7 @@ class _CartPageState extends State<CartPage> {
 
             print(jsonOptimalRoutes);
 
-            print('routed computed................................');
+            print('routed computed................................');*/
           }
           /*Navigator.push(
               context,

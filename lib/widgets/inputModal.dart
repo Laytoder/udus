@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frute/Animations/FadeAnimations.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class InputModal extends StatefulWidget {
@@ -20,26 +21,26 @@ class _InputModalState extends State<InputModal> {
     return FadeAnimation(
       1,
       AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              (25 / (640 * 360)) * height * width,
-            ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(
+            (25 / (640 * 360)) * height * width,
           ),
-          backgroundColor: Color(0xffe7e6e1),
-          elevation: 100.0,
-          title: Text(
-            'Enter Quantity',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+        ),
+        backgroundColor: Color(0xffe7e6e1),
+        elevation: 100.0,
+        title: Text(
+          'Enter Quantity',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
           ),
-          /*content: SfSlider(
+        ),
+        /*content: SfSlider(
           min: 50.0,
-          max: 5000.0,
+          max: 400.0,
           value: quantity,
           interval: 50,
-          //showTicks: true,
-          //showLabels: true,
+          showTicks: true,
+          showLabels: true,
           showTooltip: true,
           stepSize: 50.0,
           onChanged: (dynamic value) {
@@ -48,7 +49,7 @@ class _InputModalState extends State<InputModal> {
             });
           },
         ),*/
-          /*content: Row(
+        /*content: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             NumberPicker.integer(
@@ -74,7 +75,7 @@ class _InputModalState extends State<InputModal> {
             ),
           ],
         ),*/
-          /*content: TextFormField(
+        /*content: TextFormField(
           keyboardType: TextInputType.number,
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.allow(RegExp(r'[0-5]')),
@@ -96,38 +97,39 @@ class _InputModalState extends State<InputModal> {
             if (unitLabel == null) return 'enter a valid unit';*/
           },
         ),*/
-          content: Wrap(
-            children: [
-              PinCodeTextField(
-                  textInputType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-5]')),
-                  ],
-                  length: 3,
-                  onChanged: null,
-                  pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.underline,
-                    fieldHeight: (50 / 678) * height,
-                    fieldWidth: (60 / 678) * height,
-                    inactiveColor: Colors.black,
-                    activeColor: Colors.black,
-                    selectedColor: Colors.grey[400],
-                  ),
-                  autoDisposeControllers: false,
-                  backgroundColor: Colors.transparent,
-                  enableActiveFill: false,
-                  animationType: AnimationType.fade,
-                  autoFocus: false,
-                  controller: controller,
-                  onSubmitted: (quantity) {
-                    Navigator.of(context).pop(double.parse(quantity));
-                  },
-                  onCompleted: (quantity) {
-                    Navigator.of(context).pop(double.parse(quantity));
-                  }),
-              Text('Grams'),
-            ],
-          )),
+        content: Wrap(
+          children: [
+            PinCodeTextField(
+                textInputType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-5]')),
+                ],
+                length: 3,
+                onChanged: null,
+                pinTheme: PinTheme(
+                  shape: PinCodeFieldShape.underline,
+                  fieldHeight: (50 / 678) * height,
+                  fieldWidth: (60 / 678) * height,
+                  inactiveColor: Colors.black,
+                  activeColor: Colors.black,
+                  selectedColor: Colors.grey[400],
+                ),
+                autoDisposeControllers: false,
+                backgroundColor: Colors.transparent,
+                enableActiveFill: false,
+                animationType: AnimationType.fade,
+                autoFocus: false,
+                controller: controller,
+                onSubmitted: (quantity) {
+                  Navigator.of(context).pop(double.parse(quantity));
+                },
+                onCompleted: (quantity) {
+                  Navigator.of(context).pop(double.parse(quantity));
+                }),
+            Text('Grams'),
+          ],
+        ),
+      ),
     );
   }
 }
