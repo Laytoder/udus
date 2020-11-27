@@ -289,6 +289,7 @@ class _HomePageState extends State<HomePage>
                             ),
                           );
                         },
+                        child: Icon(Icons.shopping_cart, color: Colors.white),
                         backgroundColor: Colors.green,
                       )
                     : null,

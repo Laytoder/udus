@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:frute/Animations/FadeAnimations.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class InputModal extends StatefulWidget {
   @override
@@ -21,113 +22,88 @@ class _InputModalState extends State<InputModal> {
     return FadeAnimation(
       1,
       AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            (25 / (640 * 360)) * height * width,
+        title: Text('Tomato'),
+        actions: [
+          TextButton(
+            child: Text(
+              'Add to Cart',
+              style: TextStyle(
+                color: Colors.green,
+                fontSize: 16,
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-        ),
-        backgroundColor: Color(0xffe7e6e1),
-        elevation: 100.0,
-        title: Text(
-          'Enter Quantity',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        /*content: SfSlider(
-          min: 50.0,
-          max: 400.0,
-          value: quantity,
-          interval: 50,
-          showTicks: true,
-          showLabels: true,
-          showTooltip: true,
-          stepSize: 50.0,
-          onChanged: (dynamic value) {
-            setState(() {
-              quantity = value;
-            });
-          },
-        ),*/
-        /*content: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        ],
+        content: Column(
           children: [
-            NumberPicker.integer(
-              initialValue: 0,
-              minValue: 0,
-              maxValue: 9,
-              onChanged: (value) {},
-              listViewWidth: 40,
+            CircleAvatar(
+              maxRadius: 100,
+              minRadius: 50,
+              backgroundColor: Colors.transparent,
+              backgroundImage: AssetImage('assets/tomato.jpg'),
             ),
-            NumberPicker.integer(
-              initialValue: 5,
-              minValue: 5,
-              maxValue: 10,
-              onChanged: (value) {},
-              listViewWidth: 40,
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 30),
             ),
-            NumberPicker.integer(
-              initialValue: 0,
-              minValue: 0,
-              maxValue: 10,
-              onChanged: (value) {},
-              listViewWidth: 40,
+            Wrap(
+              direction: Axis.horizontal,
+              alignment: WrapAlignment.start,
+              spacing: 10,
+              runSpacing: 20,
+              children: [
+                QuantityDialog(),
+                QuantityDialog(),
+                QuantityDialog(),
+                QuantityDialog(),
+                QuantityDialog(),
+                QuantityDialog(),
+                QuantityDialog(),
+                QuantityDialog(),
+              ],
             ),
           ],
-        ),*/
-        /*content: TextFormField(
-          keyboardType: TextInputType.number,
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.allow(RegExp(r'[0-5]')),
-          ],
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: 'Enter Price',
+        ),
+      ),
+    );
+  }
+}
+
+class QuantityDialog extends StatefulWidget {
+  @override
+  _QuantityDialogState createState() => _QuantityDialogState();
+}
+
+class _QuantityDialogState extends State<QuantityDialog> {
+  double height;
+
+  double width;
+
+  int selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
+    return GestureDetector(
+      child: Container(
+        child: Neumorphic(
+          style: NeumorphicStyle(
+            shape: NeumorphicShape.convex,
+            boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+            depth: 8,
+            lightSource: LightSource.topLeft,
+            color: Color(0xffE0E5EC),
           ),
-          onSaved: (val) {
-            //price = double.parse(val);
-          },
-          validator: (val) {
-            /*if (val.isEmpty) {
-              return 'Enter Some Value';
-            }
-            if (double.tryParse(val) == null) {
-              return 'enter a valid price';
-            }
-            if (unitLabel == null) return 'enter a valid unit';*/
-          },
-        ),*/
-        content: Wrap(
-          children: [
-            PinCodeTextField(
-                textInputType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-5]')),
-                ],
-                length: 3,
-                onChanged: null,
-                pinTheme: PinTheme(
-                  shape: PinCodeFieldShape.underline,
-                  fieldHeight: (50 / 678) * height,
-                  fieldWidth: (60 / 678) * height,
-                  inactiveColor: Colors.black,
-                  activeColor: Colors.black,
-                  selectedColor: Colors.grey[400],
-                ),
-                autoDisposeControllers: false,
-                backgroundColor: Colors.transparent,
-                enableActiveFill: false,
-                animationType: AnimationType.fade,
-                autoFocus: false,
-                controller: controller,
-                onSubmitted: (quantity) {
-                  Navigator.of(context).pop(double.parse(quantity));
-                },
-                onCompleted: (quantity) {
-                  Navigator.of(context).pop(double.parse(quantity));
-                }),
-            Text('Grams'),
-          ],
+          child: Container(
+            height: (50 / 820) * height,
+            width: (60 / 411) * width,
+            child: Center(
+              child: Text('500 g'),
+            ),
+          ),
         ),
       ),
     );

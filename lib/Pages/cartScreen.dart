@@ -44,9 +44,9 @@ class _CartScreenState extends State<CartScreen> {
         elevation: 0.0,
       ),
       body: ListView.builder(
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) {
-            /*if (index < currentUser.cart.length) {
+        physics: BouncingScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          /*if (index < currentUser.cart.length) {
             Cart cart = currentUser.cart[index];
             return _buildCartItem(cart);
           }
@@ -55,58 +55,59 @@ class _CartScreenState extends State<CartScreen> {
           );
         },
         itemCount: currentUser.cart.length + 1,*/
-            return ListTile(
-              leading: Neumorphic(
-                style: NeumorphicStyle(
-                  shape: NeumorphicShape.convex,
-                  depth: 1,
-                  lightSource: LightSource.topLeft,
-                  intensity: 0.68,
-                  border: NeumorphicBorder(
-                    color: Colors.white,
-                    width: (0.5 / 360) * width,
+          return ListTile(
+            leading: Neumorphic(
+              style: NeumorphicStyle(
+                shape: NeumorphicShape.convex,
+                depth: 1,
+                lightSource: LightSource.topLeft,
+                intensity: 0.68,
+                border: NeumorphicBorder(
+                  color: Colors.white,
+                  width: (0.5 / 360) * width,
+                ),
+                shadowDarkColor: Color(0xffA3B1C6),
+                shadowLightColor: Colors.white,
+                color: Color(0xffAFBBCA),
+              ),
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/potato.jpg'),
+                    fit: BoxFit.contain,
                   ),
-                  shadowDarkColor: Color(0xffA3B1C6),
-                  shadowLightColor: Colors.white,
-                  color: Color(0xffAFBBCA),
-                ),
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/potato.jpg'),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
                 ),
               ),
-              title: Text(
-                'hello',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: (20 / 678) * height,
-                  fontFamily: 'Ubuntu',
-                ),
+            ),
+            title: Text(
+              'hello',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: (20 / 678) * height,
+                fontFamily: 'Ubuntu',
               ),
-              subtitle: Text(
-                'hello',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: (15 / 678) * height,
-                  fontFamily: 'Ubuntu',
-                ),
+            ),
+            subtitle: Text(
+              'hello',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: (15 / 678) * height,
+                fontFamily: 'Ubuntu',
               ),
-              trailing: Text(
-                'hello',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: (20 / 678) * height,
-                  fontFamily: 'Ubuntu',
-                ),
+            ),
+            trailing: Text(
+              'hello',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: (20 / 678) * height,
+                fontFamily: 'Ubuntu',
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
       bottomSheet: Container(
         height: 240.0,
         width: double.infinity,

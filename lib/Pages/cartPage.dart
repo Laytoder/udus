@@ -24,109 +24,53 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
+  double height;
+
+  double width;
+
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xffE0E5EC),
-      body: Column(children: [
-        SizedBox(height: 60),
-        Text(
-          "Cart",
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: 28,
-              decoration: TextDecoration.none),
-        ),
-        SizedBox(height: 20),
-        Expanded(
-            child: ListView.separated(
-          itemCount: widget.appState.order.length,
-          separatorBuilder: (context, index) => Divider(
-            color: Colors.black12,
-            height: 7,
-            thickness: 1.2,
-            indent: 75,
-            endIndent: 75,
+      appBar: AppBar(
+        backgroundColor: Color(0xffE0E5EC),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
           ),
-          itemBuilder: (context, index) => Neumorphic(
-              style: NeumorphicStyle(
-                border: NeumorphicBorder(
-                  color: Color(0xffE0E5EC),
-                  width: 2,
-                ),
-                depth: 8,
-              ),
-              child: Dismissible(
-                  key: Key('${widget.appState.order[index].name}'),
-                  confirmDismiss: (direction) => showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("Remove item from cart ?"),
-                            actions: <Widget>[
-                              FlatButton(
-                                  onPressed: () =>
-                                      Navigator.of(context).pop(true),
-                                  child: const Text("Remove")),
-                              FlatButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(false),
-                                child: const Text("Cancel"),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                  onDismissed: (direction) {
-                    if (widget.appState.order.length == 1)
-                      Navigator.pop(context);
-                    else
-                      setState(() {
-                        widget.appState.order.removeAt(index);
-                      });
-                  },
-                  child: InkWell(
-                      onTap: () async {
-                        double quantity = await showDialog(
-                            context: context,
-                            builder: (context) {
-                              return InputModal();
-                            });
-                        if (quantity == null) return;
-                        setState(() {
-                          widget.appState.order[index].quantity = quantity;
-                        });
-                      },
-                      child: Container(
-                          height: 100,
-                          color: Colors.white,
-                          child: Row(
-                            children: <Widget>[
-                              SizedBox(width: 20),
-                              Image.asset(widget.appState.order[index].imageUrl,
-                                  height: 100, width: 100, fit: BoxFit.contain),
-                              SizedBox(width: 20),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('${widget.appState.order[index].name}',
-                                      style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 24.0,
-                                          decoration: TextDecoration.none)),
-                                  SizedBox(height: 5),
-                                  Text(
-                                      '${widget.appState.order[index].quantity} gm',
-                                      style: TextStyle(
-                                          color: Colors.black38,
-                                          fontSize: 18.0,
-                                          decoration: TextDecoration.none)),
-                                ],
-                              )
-                            ],
-                          ))))),
-        ))
-      ]),
+          iconSize: 30.0,
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text('Cart'),
+        centerTitle: true,
+        elevation: 0.0,
+      ),
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(
+          (10 / 411) * width,
+          (10 / 820) * height,
+          (10 / 411) * width,
+          (10 / 820) * height,
+        ),
+        child: SingleChildScrollView(
+          child: Wrap(
+            direction: Axis.horizontal,
+            alignment: WrapAlignment.start,
+            spacing: 5,
+            runSpacing: 20,
+            children: [
+              Cart_Tiles(),
+              Cart_Tiles(),
+              Cart_Tiles(),
+              Cart_Tiles(),
+              Cart_Tiles(),
+            ],
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           if (await getSurity(context)) {
@@ -193,6 +137,159 @@ class _CartPageState extends State<CartPage> {
               ),
             );*/
         },
+        child: Icon(Icons.shopping_bag_outlined),
+      ),
+    );
+  }
+}
+
+class Cart_Tiles extends StatefulWidget {
+  @override
+  _Cart_TilesState createState() => _Cart_TilesState();
+}
+
+class _Cart_TilesState extends State<Cart_Tiles> {
+  double height;
+
+  double width;
+
+  @override
+  Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
+    return Neumorphic(
+      style: NeumorphicStyle(
+        shape: NeumorphicShape.concave,
+        boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+        depth: 8,
+        lightSource: LightSource.topLeft,
+        color: Color(0xffE0E5EC),
+      ),
+      child: Container(
+        height: (180 / 820) * height,
+        width: (190 / 411) * width,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Container(
+                  height: (100 / 820) * height,
+                  width: (100 / 411) * width,
+                  child: Neumorphic(
+                    style: NeumorphicStyle(
+                      depth: -4,
+                    ),
+                    child: Image.asset('assets/tomato.jpg'),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: (10 / 411) * width),
+                ),
+                Text(
+                  'Tomato',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: (10 / 820) * height),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('500 g'),
+                Padding(
+                  padding: EdgeInsets.only(left: (25 / 411) * width),
+                ),
+                Neumorphic(
+                  child: IconButton(
+                      icon: Icon(Icons.cancel_outlined), onPressed: () {}),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: (10 / 411) * width),
+                ),
+                Neumorphic(
+                  child: IconButton(
+                    icon: Icon(Icons.edit_outlined),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: Text('Select your Quantity'),
+                          actions: [
+                            TextButton(
+                              child: Text(
+                                'CONFIRM',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                          content: Wrap(
+                            direction: Axis.horizontal,
+                            alignment: WrapAlignment.start,
+                            spacing: 10,
+                            runSpacing: 20,
+                            children: [
+                              QuantityDialog(),
+                              QuantityDialog(),
+                              QuantityDialog(),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class QuantityDialog extends StatefulWidget {
+  @override
+  _QuantityDialogState createState() => _QuantityDialogState();
+}
+
+class _QuantityDialogState extends State<QuantityDialog> {
+  double height;
+
+  double width;
+
+  @override
+  Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
+    return Container(
+      child: Neumorphic(
+        style: NeumorphicStyle(
+          shape: NeumorphicShape.convex,
+          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+          depth: 8,
+          lightSource: LightSource.topLeft,
+          color: Color(0xffE0E5EC),
+        ),
+        child: Container(
+          height: (50 / 820) * height,
+          width: (60 / 411) * width,
+          child: Center(
+            child: Text('250 g'),
+          ),
+        ),
       ),
     );
   }

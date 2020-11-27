@@ -150,7 +150,7 @@ class _DualButtonState extends State<DualButton>
                         },
                         child: Center(
                           child: Text(
-                            'Now',
+                            'Home',
                             style: TextStyle(
                               //backgroundColor: anim1.value,
                               fontWeight: FontWeight.w400,
@@ -187,7 +187,7 @@ class _DualButtonState extends State<DualButton>
                         highlightColor: Colors.transparent,
                         child: Center(
                           child: Text(
-                            'Drop-In',
+                            'Cart',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               color: anim2.value,
