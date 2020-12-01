@@ -294,7 +294,7 @@ class _HomePageState extends State<HomePage>
                       )
                     : null,
             resizeToAvoidBottomInset: false,
-            backgroundColor: Color(0xffE0E5EC),
+            backgroundColor: Color(0xffEAEAEA),
             extendBodyBehindAppBar: true,
             //backgroundColor: Colors.white,
             //backgroundColor: Colors.amberAccent,
@@ -303,6 +303,7 @@ class _HomePageState extends State<HomePage>
               //physics: NeverScrollableScrollPhysics(),
               child: Column(
                 children: [
+                  SizedBox(height: (10 / 820) * height),
                   Stack(
                     overflow: Overflow.visible,
                     children: <Widget>[
@@ -421,7 +422,7 @@ class _HomePageState extends State<HomePage>
                                         startPercent: 1,
                                         baseColor:
                                             Color.fromRGBO(13, 47, 61, 1),
-                                        backgroundColor: Color(0xffE0E5EC),
+                                        backgroundColor: Color(0xffEAEAEA),
                                         highlightedColor:
                                             Color.fromRGBO(35, 205, 99, 1),
                                         label: Text(

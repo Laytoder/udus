@@ -33,9 +33,9 @@ class _CartPageState extends State<CartPage> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Color(0xffE0E5EC),
+      backgroundColor: Color(0xffEAEAEA),
       appBar: AppBar(
-        backgroundColor: Color(0xffE0E5EC),
+        backgroundColor: Color(0xffEAEAEA),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
@@ -60,7 +60,7 @@ class _CartPageState extends State<CartPage> {
             direction: Axis.horizontal,
             alignment: WrapAlignment.start,
             spacing: 5,
-            runSpacing: 20,
+            runSpacing: 5,
             children: [
               Cart_Tiles(),
               Cart_Tiles(),
@@ -163,34 +163,40 @@ class _Cart_TilesState extends State<Cart_Tiles> {
         boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
         depth: 8,
         lightSource: LightSource.topLeft,
-        color: Color(0xffE0E5EC),
+        color: Color(0xffEAEAEA),
       ),
       child: Container(
         height: (180 / 820) * height,
-        width: (190 / 411) * width,
+        width: (193 / 411) * width,
         child: Column(
           children: [
             Row(
+              textDirection: TextDirection.ltr,
               children: [
-                Container(
-                  height: (100 / 820) * height,
-                  width: (100 / 411) * width,
-                  child: Neumorphic(
-                    style: NeumorphicStyle(
-                      depth: -4,
+                FittedBox(
+                  fit: BoxFit.none,
+                  alignment: Alignment.topLeft,
+                  child: Container(
+                    height: (100 / 820) * height,
+                    width: (100 / 411) * width,
+                    child: Neumorphic(
+                      style: NeumorphicStyle(
+                        color: Color(0xffEAEAEA),
+                        depth: -4,
+                      ),
+                      child: Image.asset('assets/tomato.jpg'),
                     ),
-                    child: Image.asset('assets/tomato.jpg'),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: (10 / 411) * width),
-                ),
-                Text(
-                  'Tomato',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                  child: Text(
+                    'Tomato',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[600],
+                    ),
                   ),
                 ),
               ],
@@ -207,6 +213,9 @@ class _Cart_TilesState extends State<Cart_Tiles> {
                   padding: EdgeInsets.only(left: (25 / 411) * width),
                 ),
                 Neumorphic(
+                  style: NeumorphicStyle(
+                    color: Color(0xffEAEAEA),
+                  ),
                   child: IconButton(
                       icon: Icon(Icons.cancel_outlined), onPressed: () {}),
                 ),
@@ -214,6 +223,9 @@ class _Cart_TilesState extends State<Cart_Tiles> {
                   padding: EdgeInsets.only(left: (10 / 411) * width),
                 ),
                 Neumorphic(
+                  style: NeumorphicStyle(
+                    color: Color(0xffEAEAEA),
+                  ),
                   child: IconButton(
                     icon: Icon(Icons.edit_outlined),
                     onPressed: () {
@@ -281,7 +293,7 @@ class _QuantityDialogState extends State<QuantityDialog> {
           boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
           depth: 8,
           lightSource: LightSource.topLeft,
-          color: Color(0xffE0E5EC),
+          color: Color(0xffEAEAEA),
         ),
         child: Container(
           height: (50 / 820) * height,

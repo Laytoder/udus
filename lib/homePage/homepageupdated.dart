@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/homePage/panelView.dart';
+import 'package:frute/homePage/safetyBannerView.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/utils/searcher.dart';
 
@@ -48,7 +49,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
       primary: false,
       physics: NeverScrollableScrollPhysics(),
       children: [
-        SizedBox(height: (70.0 / 640) * height),
+        SizedBox(height: (55 / 640) * height),
         GestureDetector(
           child: Padding(
             padding: EdgeInsets.only(
@@ -56,7 +57,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
             child: Neumorphic(
               style: NeumorphicStyle(
                 boxShape: NeumorphicBoxShape.roundRect(
-                    BorderRadius.circular((15 / (640 * 360)) * height * width)),
+                    BorderRadius.circular((50 / (640 * 360)) * height * width)),
                 depth: 3,
               ),
               child: Container(
@@ -65,7 +66,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(
                       ((15 / (640 * 360)) * height * width)),
-                  color: Color(0xffE0E5EC),
+                  color: Color(0xffEAEAEA),
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(
@@ -78,25 +79,48 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                     style: NeumorphicStyle(
                       boxShape: NeumorphicBoxShape.roundRect(
                           BorderRadius.circular(
-                              (15 / (640 * 360)) * height * width)),
-                      depth: -3,
-                      color: Color(0xffE0E5EC),
+                              (50 / (640 * 360)) * height * width)),
+                      depth: -2,
+                      color: Color(0xffEAEAEA),
                     ),
                     child: Row(
                       children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.search,
-                            color: Colors.white,
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: (20 / 411) * width),
+                          child: Text(
+                            "Search Fruits and Vegetables",
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.normal,
+                              fontSize: (14 / (640 * 360)) * height * width,
+                            ),
                           ),
-                          onPressed: () {},
                         ),
-                        Text(
-                          "Fruits and Vegetables",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: (18 / (640 * 360)) * height * width,
+                        GestureDetector(
+                          onTap: () async {
+                            await showSearch(
+                              context: context,
+                              delegate: SearchItems(
+                                avlVegs: widget.appState.avlVegs,
+                              ),
+                            );
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              left: (25 / 411) * width,
+                              right: (5 / 411) * width,
+                            ),
+                            child: CircleAvatar(
+                              backgroundColor: Color(0xff19D660),
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.search,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {},
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -117,7 +141,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
         ),
         Padding(
           padding: EdgeInsets.only(
-            top: (10 / 640) * height,
+            top: (25 / 640) * height,
             bottom: (10 / 640) * height,
             left: (10 / 360) * width,
             right: (10 / 360) * width,
@@ -135,13 +159,16 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              //SafetyBannerView(),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: (10 / 820) * height),
+                child: SafetyBannerView(),
+              ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: InkWell(
                   child: Container(
                     height: 150.0,
-                    color: Color.fromRGBO(35, 205, 99, 0.8),
+                    color: Color(0xff121C22),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
@@ -151,7 +178,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                'Vendors',
+                                'Fruits and Veggies',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline4
@@ -172,7 +199,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                         Container(
                           height: 45.0,
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          color: Color.fromRGBO(35, 205, 99, 1),
+                          color: Color(0xff11181D),
                           child: Row(
                             children: <Widget>[
                               Text(

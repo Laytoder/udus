@@ -8,7 +8,7 @@ import 'package:frute/helpers/messagingHelper.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:frute/Pages/cartPage.dart';
 import 'AppState.dart';
 import 'tokens/googleMapsApiKey.dart';
 

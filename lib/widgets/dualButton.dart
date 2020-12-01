@@ -69,7 +69,7 @@ class _DualButtonState extends State<DualButton>
               width: 0.5,
             ),
             //color: Colors.white,
-            color: Color(0xffE0E5EC),
+            color: Color(0xffEAEAEA),
           ),
           child: Container(
             //height: 50,
@@ -108,7 +108,7 @@ class _DualButtonState extends State<DualButton>
                         ),
                         shadowLightColor: Colors.transparent,
                         shape: NeumorphicShape.convex,
-                        color: Color.fromRGBO(35, 205, 99, 1),
+                        color: Color(0xff19D660),
                         depth: 20,
                       ),
                     ),
@@ -116,7 +116,7 @@ class _DualButtonState extends State<DualButton>
                       //color: Color.fromRGBO(13, 47, 61, 1),
                       //color: Colors.cyan,
                       //color: Color(0xff25D366),
-                      color: Color.fromRGBO(35, 205, 99, 1),
+                      color: Color(0xff19D660),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black,

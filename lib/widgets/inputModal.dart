@@ -43,7 +43,7 @@ class _InputModalState extends State<InputModal> {
               maxRadius: 100,
               minRadius: 50,
               backgroundColor: Colors.transparent,
-              backgroundImage: AssetImage('assets/tomato.jpg'),
+              backgroundImage: AssetImage('assets/tomato.png'),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 30),
