@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
-import 'package:frute/DurationMatrixApi/DurationMatrixApiHelper.dart';
+import 'package:frute/helpers/optimalPriceHelper.dart';
 import 'package:frute/helpers/tspHelper.dart';
 import 'package:frute/models/tripRoute.dart';
 import 'package:frute/models/vegetable.dart';
@@ -15,11 +15,11 @@ class OptimalTripRoutesFinder {
   GeoPoint homeLocation;
   List<VendorInfo> vendors;
   List<VendorInfo> filteredVendors;
-  HashMap<String, int> vendorIndexMap;
+  //HashMap<String, int> vendorIndexMap;
   List<Vegetable> order;
-  List<List<int>> durationMatrix;
-  List<int> homeDurationMatrix;
-  TspHelper tspHelper;
+  //List<List<int>> durationMatrix;
+  //List<int> homeDurationMatrix;
+  OptimalPriceHelper optimalPriceHelper;
 
   OptimalTripRoutesFinder({
     @required this.homeLocation,
@@ -31,18 +31,18 @@ class OptimalTripRoutesFinder {
     //filter vendors having required vegetables
     filterVendorsWithRequiredVegetables(vendors, order); //n^2
     //print('filtered vendors');
-    List<dynamic> durationMatrices =
+    /*List<dynamic> durationMatrices =
         await getDurationMatrices(homeLocation, filteredVendors);
     //print('got duration matrix ${durationMatrix}');
     if (durationMatrices == null) return CONNECTION_ERROR;
     this.durationMatrix = durationMatrices[0];
     this.homeDurationMatrix = durationMatrices[1];
-    initVendorIndexMap(filteredVendors);
-    tspHelper = TspHelper(
-      durationMatrix: durationMatrices[0],
-      homeDurationMatrix: durationMatrices[1],
+    initVendorIndexMap(filteredVendors);*/
+    optimalPriceHelper = OptimalPriceHelper(
+      //durationMatrix: durationMatrices[0],
+      //homeDurationMatrix: durationMatrices[1],
       orders: order,
-      vendorIndexMap: vendorIndexMap,
+      //vendorIndexMap: vendorIndexMap,
     );
     //List<TripRoute> optimalRoutes = [];
     List<TripRoute> singleVendorOptimalRoutes = [];
@@ -50,6 +50,7 @@ class OptimalTripRoutesFinder {
     List<TripRoute> tripleVendorOptimalRoutes = [];
     recOverRoutesAndMakeListOfOptimalOnes(singleVendorOptimalRoutes,
         doubleVendorOptimalRoutes, tripleVendorOptimalRoutes, [], 0);
+    TspHelper tspHelper = TspHelper();
     TripRoute cheapestSingleVendorRoute,
         cheapestDoubleVendorRoute,
         cheapestTripleVendorRoute;
@@ -80,23 +81,23 @@ class OptimalTripRoutesFinder {
       return NO_OPTIMAL_ORDER;
     else {
       if (cheapestDoubleVendorRoute == null)
-        return cheapestSingleVendorRoute;
+        return tspHelper.getTripWithOptimalRoute(homeLocation, cheapestSingleVendorRoute);
       else if (cheapestSingleVendorRoute.price <
           cheapestDoubleVendorRoute.price) {
         if (cheapestTripleVendorRoute == null ||
             cheapestSingleVendorRoute.price < cheapestTripleVendorRoute.price)
-          return cheapestSingleVendorRoute;
+          return tspHelper.getTripWithOptimalRoute(homeLocation, cheapestSingleVendorRoute);
         else {
           if (cheapestSingleVendorRoute.price -
                   cheapestTripleVendorRoute.price <=
               cheapestTripleVendorRoute.price * 0.05)
-            return cheapestSingleVendorRoute;
+            return tspHelper.getTripWithOptimalRoute(homeLocation, cheapestSingleVendorRoute);
           if (cheapestDoubleVendorRoute.price -
                   cheapestTripleVendorRoute.price <=
               cheapestTripleVendorRoute.price * 0.05)
-            return cheapestDoubleVendorRoute;
+            return tspHelper.getTripWithOptimalRoute(homeLocation, cheapestDoubleVendorRoute);
 
-          return cheapestTripleVendorRoute;
+          return tspHelper.getTripWithOptimalRoute(homeLocation, cheapestTripleVendorRoute);
         }
       } else {
         if (cheapestTripleVendorRoute == null ||
@@ -104,20 +105,20 @@ class OptimalTripRoutesFinder {
           if (cheapestSingleVendorRoute.price -
                   cheapestDoubleVendorRoute.price <=
               cheapestDoubleVendorRoute.price * 0.05)
-            return cheapestSingleVendorRoute;
+            return tspHelper.getTripWithOptimalRoute(homeLocation, cheapestSingleVendorRoute);
           else
-            return cheapestDoubleVendorRoute;
+            return tspHelper.getTripWithOptimalRoute(homeLocation, cheapestDoubleVendorRoute);
         } else {
           if (cheapestSingleVendorRoute.price -
                   cheapestTripleVendorRoute.price <=
               cheapestTripleVendorRoute.price * 0.05)
-            return cheapestSingleVendorRoute;
+            return tspHelper.getTripWithOptimalRoute(homeLocation, cheapestSingleVendorRoute);
           if (cheapestDoubleVendorRoute.price -
                   cheapestTripleVendorRoute.price <=
               cheapestTripleVendorRoute.price * 0.05)
-            return cheapestDoubleVendorRoute;
+            return tspHelper.getTripWithOptimalRoute(homeLocation, cheapestDoubleVendorRoute);
 
-          return cheapestTripleVendorRoute;
+          return tspHelper.getTripWithOptimalRoute(homeLocation, cheapestTripleVendorRoute);
         }
       }
     }
@@ -135,7 +136,7 @@ class OptimalTripRoutesFinder {
     //base case
     if (currentIndex >= filteredVendors.length) {
       //apply tsp to find the optimal route
-      TripRoute tripRoute = tspHelper.getOptimalTripRoutePerm(currentSubset);
+      TripRoute tripRoute = optimalPriceHelper.getTripWithOptimalPrice(currentSubset);
       if (tripRoute != null) {
         switch (tripRoute.routeVendors.length) {
           case 1:
@@ -154,7 +155,7 @@ class OptimalTripRoutesFinder {
       return;
     } else if (currentSubset.length == MAX_VENDOR_COMBINATIONS) {
       //apply tsp to find the optimal route
-      TripRoute tripRoute = tspHelper.getOptimalTripRoutePerm(currentSubset);
+      TripRoute tripRoute = optimalPriceHelper.getTripWithOptimalPrice(currentSubset);
       if (tripRoute != null) {
         switch (tripRoute.routeVendors.length) {
           case 1:
@@ -173,7 +174,7 @@ class OptimalTripRoutesFinder {
       return;
     } else {
       //apply tsp to find the optimal route
-      TripRoute tripRoute = tspHelper.getOptimalTripRoutePerm(currentSubset);
+      TripRoute tripRoute = optimalPriceHelper.getTripWithOptimalPrice(currentSubset);
       if (tripRoute != null) {
         switch (tripRoute.routeVendors.length) {
           case 1:
@@ -205,7 +206,7 @@ class OptimalTripRoutesFinder {
     }
   }
 
-  Future<List<dynamic>> getDurationMatrices(
+  /*Future<List<dynamic>> getDurationMatrices(
       GeoPoint homeLocation, List<VendorInfo> vendors) async {
     DurationMatrixApiClient matrixApiClient = DurationMatrixApiClient();
     dynamic response =
@@ -215,16 +216,16 @@ class OptimalTripRoutesFinder {
       return [durationMatrix, response[1]];
     }
     return null;
-  }
+  }*/
 
-  initVendorIndexMap(List<VendorInfo> vendors) {
+  /*initVendorIndexMap(List<VendorInfo> vendors) {
     vendorIndexMap = HashMap<String, int>();
     for (int i = 0; i < vendors.length; i++) {
       vendorIndexMap[vendors[i].id] = i;
     }
 
     return vendorIndexMap;
-  }
+  }*/
 
   filterVendorsWithRequiredVegetables(
       List<VendorInfo> vendors, List<Vegetable> orders) {
