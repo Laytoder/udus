@@ -83,7 +83,7 @@ class _CartPageState extends State<CartPage> {
               vendors.add(widget.appState.vendors[userId]);
             }
 
-            OptimalTripRoutesFinder finder = OptimalTripRoutesFinder(
+            /*OptimalTripRoutesFinder finder = OptimalTripRoutesFinder(
               homeLocation: GeoPoint(
                 widget.appState.userLocation.latitude,
                 widget.appState.userLocation.longitude,
@@ -100,7 +100,7 @@ class _CartPageState extends State<CartPage> {
               print(optimalRoute.toJson());
 
               print('computed route................................');
-            }
+            }*/
 
             Navigator.push(
               context,
