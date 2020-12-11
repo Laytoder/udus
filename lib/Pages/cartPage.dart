@@ -6,6 +6,7 @@ import 'package:frute/helpers/confirmationDialog.dart';
 import 'package:frute/helpers/optimalTripRouteFinder.dart';
 import 'package:frute/models/tripRoute.dart';
 import 'package:frute/Pages/optimalRoutesPage.dart';
+import 'package:frute/models/vegetable.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:frute/widgets/inputModal.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,8 +17,9 @@ class CartPage extends StatefulWidget {
   AppState appState;
 
   CartPage({
+    Key key,
     @required this.appState,
-  });
+  }) : super(key: key);
 
   @override
   _CartPageState createState() => _CartPageState();
@@ -32,118 +34,168 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Color(0xffEAEAEA),
-      appBar: AppBar(
-        backgroundColor: Color(0xffEAEAEA),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          iconSize: 30.0,
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text('Cart'),
-        centerTitle: true,
-        elevation: 0.0,
-      ),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(
-          (10 / 411) * width,
-          (10 / 820) * height,
-          (10 / 411) * width,
-          (10 / 820) * height,
-        ),
-        child: SingleChildScrollView(
-          child: Wrap(
-            direction: Axis.horizontal,
-            alignment: WrapAlignment.start,
-            spacing: 5,
-            runSpacing: 5,
+    int extraindex = -2;
+    /*return ListView(
+      shrinkWrap: true,
+      primary: false,
+      physics: NeverScrollableScrollPhysics(),
+      children: [
+        Scaffold(
+          backgroundColor: Color(0xffEAEAEA),
+          body: ListView(
             children: [
-              Cart_Tiles(),
-              Cart_Tiles(),
-              Cart_Tiles(),
-              Cart_Tiles(),
-              Cart_Tiles(),
+              Row(
+                children: [
+                  Cart_Tiles(),
+                  Cart_Tiles(),
+                ],
+              ),
+              Row(
+                children: [
+                  Cart_Tiles(),
+                  Cart_Tiles(),
+                ],
+              ),
+              Row(
+                children: [
+                  Cart_Tiles(),
+                  Cart_Tiles(),
+                ],
+              ),
+              Row(
+                children: [
+                  Cart_Tiles(),
+                  Cart_Tiles(),
+                ],
+              ),
             ],
           ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          if (await getSurity(context)) {
-            //use only a list vendors instead of hashmap in
-            //homepage also
-            //(it is technically not required
-            //consumes space on the other can be removed)
-            List<VendorInfo> vendors = [];
-            for (String userId in widget.appState.userId) {
-              vendors.add(widget.appState.vendors[userId]);
-            }
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              if (await getSurity(context)) {
+                //use only a list vendors instead of hashmap in
+                //homepage also
+                //(it is technically not required
+                //consumes space on the other can be removed)
+                List<VendorInfo> vendors = [];
+                for (String userId in widget.appState.userId) {
+                  vendors.add(widget.appState.vendors[userId]);
+                }
 
-            /*OptimalTripRoutesFinder finder = OptimalTripRoutesFinder(
-              homeLocation: GeoPoint(
-                widget.appState.userLocation.latitude,
-                widget.appState.userLocation.longitude,
-              ),
-              order: widget.appState.order,
-              vendors: vendors,
-            );
+                OptimalTripRoutesFinder finder = OptimalTripRoutesFinder(
+                  homeLocation: GeoPoint(
+                    widget.appState.userLocation.latitude,
+                    widget.appState.userLocation.longitude,
+                  ),
+                  order: widget.appState.order,
+                  vendors: vendors,
+                );
 
-            dynamic optimalRoute = await finder.getOptimalTripRoute();
+                dynamic optimalRoute = await finder.getOptimalTripRoute();
 
-            if (optimalRoute == OptimalTripRoutesFinder.NO_OPTIMAL_ORDER)
-              print('NO OPTIMAL ORDER..................................');
-            else {
-              print(optimalRoute.toJson());
+                if (optimalRoute == OptimalTripRoutesFinder.NO_OPTIMAL_ORDER)
+                  print('NO OPTIMAL ORDER..................................');
+                else {
+                  print(optimalRoute.toJson());
 
-              print('computed route................................');
-            }*/
+                  print('computed route................................');
+                }
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CartScreen(),
-              ),
-            );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CartScreen(),
+                  ),
+                );
 
-            /*Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OptimalRoutesPage(
-                  appState: widget.appState,
-                  optimalTripRoutes: optimalRoutes,
+                /*Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => OptimalRoutesPage(
+                    appState: widget.appState,
+                    optimalTripRoutes: optimalRoutes,
+                  ),
                 ),
-              ),
-            );*/
+              );*/
 
-            /*dynamic jsonOptimalRoutes = [];
+                /*dynamic jsonOptimalRoutes = [];
 
-            for (TripRoute optimalRoute in optimalRoutes) {
-              jsonOptimalRoutes.add(optimalRoute.toJson()['duration']);
-            }
+              for (TripRoute optimalRoute in optimalRoutes) {
+                jsonOptimalRoutes.add(optimalRoute.toJson()['duration']);
+              }
 
-            print(jsonOptimalRoutes);
+              print(jsonOptimalRoutes);
 
-            print('routed computed................................');*/
-          }
-          /*Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    OptimalRoutesPage(appState: widget.appState),
-              ),
-            );*/
-        },
-        child: Icon(Icons.shopping_bag_outlined),
-      ),
+              print('routed computed................................');*/
+              }
+              /*Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      OptimalRoutesPage(appState: widget.appState),
+                ),
+              );*/
+            },
+            child: Icon(Icons.shopping_bag_outlined),
+          ),
+        ),
+      ],
+    );*/
+    return ListView(
+      shrinkWrap: true,
+      primary: false,
+      physics: NeverScrollableScrollPhysics(),
+      children: [
+        SizedBox(
+          height: (100 / 678) * height,
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          primary: false,
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: widget.appState.order.length % 2 == 0
+              ? widget.appState.order.length ~/ 2
+              : widget.appState.order.length ~/ 2 + 1,
+          itemBuilder: (context, index) {
+            extraindex += 2;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 8,
+                    bottom: 8,
+                  ),
+                  child: Cart_Tiles(widget.appState.order[extraindex]),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                extraindex + 1 < widget.appState.order.length
+                    ? Padding(
+                        padding: EdgeInsets.only(
+                          right: 8,
+                          bottom: 8,
+                        ),
+                        child:
+                            Cart_Tiles(widget.appState.order[extraindex + 1]),
+                      )
+                    : SizedBox(
+                        height: 0,
+                        width: 0,
+                      ),
+              ],
+            );
+          },
+        ),
+      ],
     );
   }
 }
 
 class Cart_Tiles extends StatefulWidget {
+  Vegetable vegetable;
+  Cart_Tiles(this.vegetable);
   @override
   _Cart_TilesState createState() => _Cart_TilesState();
 }
@@ -157,41 +209,39 @@ class _Cart_TilesState extends State<Cart_Tiles> {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
-    return Neumorphic(
-      style: NeumorphicStyle(
-        shape: NeumorphicShape.concave,
-        boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-        depth: 8,
-        lightSource: LightSource.topLeft,
-        color: Color(0xffEAEAEA),
-      ),
-      child: Container(
-        height: (180 / 820) * height,
-        width: (193 / 411) * width,
+    return Container(
+      height: ((width - 24) / 2),
+      width: ((width - 24) / 2),
+      child: Neumorphic(
+        style: NeumorphicStyle(
+          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+          depth: 2,
+          border: NeumorphicBorder(color: Colors.white, width: 0.5),
+          shape: NeumorphicShape.convex,
+          lightSource: LightSource.topLeft,
+          shadowDarkColor: Color(0xffA3B1C6),
+          shadowLightColor: Colors.white,
+          //intensity: 1.0,
+          color: Colors.white,
+        ),
         child: Column(
           children: [
             Row(
               textDirection: TextDirection.ltr,
               children: [
                 FittedBox(
-                  fit: BoxFit.none,
+                  fit: BoxFit.cover,
                   alignment: Alignment.topLeft,
                   child: Container(
-                    height: (100 / 820) * height,
-                    width: (100 / 411) * width,
-                    child: Neumorphic(
-                      style: NeumorphicStyle(
-                        color: Color(0xffEAEAEA),
-                        depth: -4,
-                      ),
-                      child: Image.asset('assets/tomato.jpg'),
-                    ),
+                    height: width / 4,
+                    width: width / 4,
+                    child: Image.asset(widget.vegetable.imageUrl),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: (10 / 411) * width),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
-                    'Tomato',
+                    widget.vegetable.name,
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -202,66 +252,55 @@ class _Cart_TilesState extends State<Cart_Tiles> {
               ],
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: (10 / 820) * height),
+              padding: EdgeInsets.symmetric(vertical: 10),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('500 g'),
                 Padding(
-                  padding: EdgeInsets.only(left: (25 / 411) * width),
+                  padding: EdgeInsets.only(left: 15),
+                  child: Text(widget.vegetable.quantity.toString()),
                 ),
-                Neumorphic(
-                  style: NeumorphicStyle(
-                    color: Color(0xffEAEAEA),
-                  ),
-                  child: IconButton(
-                      icon: Icon(Icons.cancel_outlined), onPressed: () {}),
+                Expanded(
+                  child: Container(),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: (10 / 411) * width),
-                ),
-                Neumorphic(
-                  style: NeumorphicStyle(
-                    color: Color(0xffEAEAEA),
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.edit_outlined),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                          title: Text('Select your Quantity'),
-                          actions: [
-                            TextButton(
-                              child: Text(
-                                'CONFIRM',
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: 16,
-                                ),
+                IconButton(icon: Icon(Icons.cancel_outlined), onPressed: () {}),
+                IconButton(
+                  icon: Icon(Icons.edit_outlined),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                        title: Text('Select your Quantity'),
+                        actions: [
+                          TextButton(
+                            child: Text(
+                              'CONFIRM',
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontSize: 16,
                               ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
                             ),
-                          ],
-                          content: Wrap(
-                            direction: Axis.horizontal,
-                            alignment: WrapAlignment.start,
-                            spacing: 10,
-                            runSpacing: 20,
-                            children: [
-                              QuantityDialog(),
-                              QuantityDialog(),
-                              QuantityDialog(),
-                            ],
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                           ),
+                        ],
+                        content: Wrap(
+                          direction: Axis.horizontal,
+                          alignment: WrapAlignment.start,
+                          spacing: 10,
+                          runSpacing: 20,
+                          children: [
+                            QuantityDialog(),
+                            QuantityDialog(),
+                            QuantityDialog(),
+                          ],
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 ),
               ],
             )

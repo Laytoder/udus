@@ -17,7 +17,7 @@ class HomePageUpdated extends StatefulWidget {
     Key key,
     @required this.onAddedToCart,
     @required this.appState,
-  });
+  }) : super(key: key);
 
   @override
   HomePageUpdatedState createState() => HomePageUpdatedState();
@@ -49,7 +49,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
       primary: false,
       physics: NeverScrollableScrollPhysics(),
       children: [
-        SizedBox(height: (55 / 640) * height),
+        SizedBox(height: (70 / 640) * height),
         GestureDetector(
           child: Padding(
             padding: EdgeInsets.only(
@@ -93,9 +93,12 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                             style: TextStyle(
                               color: Colors.grey[600],
                               fontWeight: FontWeight.normal,
-                              fontSize: (14 / (640 * 360)) * height * width,
+                              fontSize: (16 / (640 * 360)) * height * width,
                             ),
                           ),
+                        ),
+                        Expanded(
+                          child: Container(),
                         ),
                         GestureDetector(
                           onTap: () async {
@@ -108,7 +111,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                           },
                           child: Padding(
                             padding: EdgeInsets.only(
-                              left: (25 / 411) * width,
+                              //left: (25 / 411) * width,
                               right: (5 / 411) * width,
                             ),
                             child: CircleAvatar(
@@ -159,10 +162,10 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
+              /*Padding(
                 padding: EdgeInsets.symmetric(vertical: (10 / 820) * height),
                 child: SafetyBannerView(),
-              ),
+              ),*/
               ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: InkWell(

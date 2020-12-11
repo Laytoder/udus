@@ -23,20 +23,6 @@ class _InputModalState extends State<InputModal> {
       1,
       AlertDialog(
         title: Text('Tomato'),
-        actions: [
-          TextButton(
-            child: Text(
-              'Add to Cart',
-              style: TextStyle(
-                color: Colors.green,
-                fontSize: 16,
-              ),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
         content: Column(
           children: [
             CircleAvatar(
@@ -54,14 +40,14 @@ class _InputModalState extends State<InputModal> {
               spacing: 10,
               runSpacing: 20,
               children: [
-                QuantityDialog(),
-                QuantityDialog(),
-                QuantityDialog(),
-                QuantityDialog(),
-                QuantityDialog(),
-                QuantityDialog(),
-                QuantityDialog(),
-                QuantityDialog(),
+                QuantityDialog(50),
+                QuantityDialog(100),
+                QuantityDialog(250),
+                QuantityDialog(500),
+                QuantityDialog(1000),
+                QuantityDialog(1500),
+                QuantityDialog(2000),
+                QuantityDialog(3000),
               ],
             ),
           ],
@@ -72,6 +58,10 @@ class _InputModalState extends State<InputModal> {
 }
 
 class QuantityDialog extends StatefulWidget {
+  int val;
+  QuantityDialog(
+    this.val,
+  );
   @override
   _QuantityDialogState createState() => _QuantityDialogState();
 }
@@ -84,9 +74,9 @@ class _QuantityDialogState extends State<QuantityDialog> {
   int selectedIndex = 0;
 
   @override
-  Widget build(BuildContext context) {
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
+  Widget build(BuildContext lowercontext) {
+    height = MediaQuery.of(lowercontext).size.height;
+    width = MediaQuery.of(lowercontext).size.width;
     return GestureDetector(
       child: Container(
         child: Neumorphic(
@@ -101,11 +91,16 @@ class _QuantityDialogState extends State<QuantityDialog> {
             height: (50 / 820) * height,
             width: (60 / 411) * width,
             child: Center(
-              child: Text('500 g'),
+              child: widget.val >= 1000
+                  ? Text('${widget.val / 1000} kg')
+                  : Text('${widget.val} g'),
             ),
           ),
         ),
       ),
+      onTap: () {
+        Navigator.of(context).pop(widget.val.toDouble());
+      },
     );
   }
 }

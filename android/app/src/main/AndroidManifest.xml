@@ -13,7 +13,7 @@
         android:label="Hawfer"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyCBbQmRoaLYe4KQt_7PTErCgrqqj1OTvPw"/>
+               android:value="AIzaSyCHGoEO_eUe0WEbdrMjMxlTjwSZfjcnMyI"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

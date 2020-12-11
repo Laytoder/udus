@@ -56,6 +56,9 @@ class _HomePageState extends State<HomePage>
   SharedPreferences preferences;
   bool isIncomingTripManaged = false;
   bool isNowCurrentTab = false;
+  final GlobalKey homePageUpdatedKey = GlobalKey();
+  final GlobalKey cartPageKey = GlobalKey();
+  double screenHeight = 1500;
 
   @override
   void initState() {
@@ -77,6 +80,14 @@ class _HomePageState extends State<HomePage>
       begin: 0.0,
       end: 1.0,
     ).animate(controller);
+    WidgetsBinding.instance.addPostFrameCallback((_) => updateScreenHeight());
+  }
+
+  updateScreenHeight() {
+    RenderBox homePageBox = homePageUpdatedKey.currentContext.findRenderObject();
+    Size size = homePageBox.size;
+    print(size.height);
+    setState(() => screenHeight = size.height);
   }
 
   manageIncomingTrip(BuildContext context, setState) async {
@@ -308,7 +319,7 @@ class _HomePageState extends State<HomePage>
                     overflow: Overflow.visible,
                     children: <Widget>[
                       Container(
-                        height: 1500,
+                        height: screenHeight,
                         width: width,
                         //margin: EdgeInsets.all(10.0),
                         child: PageView(
@@ -318,12 +329,13 @@ class _HomePageState extends State<HomePage>
                           scrollDirection: Axis.vertical,
                           children: <Widget>[
                             HomePageUpdated(
+                              key: homePageUpdatedKey,
                               onAddedToCart: () {
                                 setState(() {});
                               },
                               appState: widget.appState,
                             ),
-                            Stack(
+                            /*Stack(
                               children: <Widget>[
                                 CarouselSlider.builder(
                                   itemCount: appState.userId.length,
@@ -437,6 +449,9 @@ class _HomePageState extends State<HomePage>
                                   ),
                                 ),
                               ],
+                            ),*/
+                            CartPage(
+                              appState: widget.appState,
                             ),
                           ],
                         ),
