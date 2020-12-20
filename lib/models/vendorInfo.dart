@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/models/client.dart';
 import 'package:frute/models/order.dart';
+import 'package:frute/utils/pipes/GeoPointConverterPipe.dart';
 
 import 'vegetable.dart';
 
@@ -42,7 +43,7 @@ class VendorInfo {
       'token': token,
       'imageUrl': imageUrl,
       'phoneNumber': phoneNumber,
-      'coords': coords == null ? null : coords.toJson(),
+      'coords': coords == null ? null : GeoPointConverterPipe.toJson(coords),
       'vegetables': jsonVegs,
       'distance': distance,
       'eta': eta,

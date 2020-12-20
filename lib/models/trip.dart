@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/models/bill.dart';
+import 'package:frute/utils/pipes/geoConverterPipe.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 
 class Trip {
@@ -25,8 +26,8 @@ class Trip {
       'eta': eta,
       //'vendorId': vendorId,
       //'uid': uid,
-      'origin': origin == null ? '' : origin.toJson(),
-      'destination': destination == null ? '' : destination.toJson(),
+      'origin': origin == null ? '' : GeoConverterPipe.toJson(origin),
+      'destination': destination == null ? '' : GeoConverterPipe.toJson(destination),
       'directionApiHelper':
           directionApiHelper == null ? '' : directionApiHelper.toJson(),
       'verificationBill':
