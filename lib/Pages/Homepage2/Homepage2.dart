@@ -6,24 +6,24 @@ import 'package:frute/homePage/safetyBannerView.dart';
 import 'package:frute/models/vegetable.dart';
 import 'package:frute/utils/searcher.dart';
 
-import 'filters.dart';
-import 'offer_banner_view.dart';
+import 'package:frute/homePage/filters.dart';
+import 'package:frute/homepage/offer_banner_view.dart';
 
-class HomePageUpdated extends StatefulWidget {
+class HomePage2 extends StatefulWidget {
   AppState appState;
   Function() onAddedToCart;
 
-  HomePageUpdated({
+  HomePage2({
     Key key,
     @required this.onAddedToCart,
     @required this.appState,
   }) : super(key: key);
 
   @override
-  HomePageUpdatedState createState() => HomePageUpdatedState();
+  HomePage2State createState() => HomePage2State();
 }
 
-class HomePageUpdatedState extends State<HomePageUpdated> {
+class HomePage2State extends State<HomePage2> {
   double height;
 
   double width;
@@ -50,98 +50,6 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
       physics: NeverScrollableScrollPhysics(),
       children: [
         SizedBox(height: (70 / 640) * height),
-        GestureDetector(
-          child: Padding(
-            padding: EdgeInsets.only(
-                left: (10 / 360) * width, right: (10 / 360) * width),
-            child: Neumorphic(
-              style: NeumorphicStyle(
-                boxShape: NeumorphicBoxShape.roundRect(
-                    BorderRadius.circular((50 / (640 * 360)) * height * width)),
-                depth: 3,
-              ),
-              child: Container(
-                height: (50 / 640) * height,
-                width: (270 / 360) * width,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                      ((15 / (640 * 360)) * height * width)),
-                  color: Color(0xffEAEAEA),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: (3 / 640) * height,
-                    bottom: (3 / 640) * height,
-                    left: (3 / 360) * width,
-                    right: (3 / 360) * width,
-                  ),
-                  child: Neumorphic(
-                    style: NeumorphicStyle(
-                      boxShape: NeumorphicBoxShape.roundRect(
-                          BorderRadius.circular(
-                              (50 / (640 * 360)) * height * width)),
-                      depth: -2,
-                      color: Color(0xffEAEAEA),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: (20 / 411) * width),
-                          child: Text(
-                            "Search Fruits and",
-                            style: TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.normal,
-                              fontSize: (16 / (640 * 360)) * height * width,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            await showSearch(
-                              context: context,
-                              delegate: SearchItems(
-                                avlVegs: widget.appState.avlVegs,
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              //left: (25 / 411) * width,
-                              right: (5 / 411) * width,
-                            ),
-                            child: CircleAvatar(
-                              backgroundColor: Color(0xff19D660),
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.search,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {},
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          onTap: () async {
-            await showSearch(
-              context: context,
-              delegate: SearchItems(
-                avlVegs: widget.appState.avlVegs,
-              ),
-            );
-          },
-        ),
         Padding(
           padding: EdgeInsets.only(
             top: (25 / 640) * height,
@@ -181,7 +89,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                'Fruits and Veggies',
+                                'Fruits and ',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline4
@@ -236,7 +144,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                     )
                   : PanelView(
                       onPressed: (vegetable) {
-                        print('in homePageUpdated() ${vegetable.name}');
+                        print('in HomePage2() ${vegetable.name}');
                         setState(() {
                           widget.appState.order.add(vegetable);
                         });
@@ -255,7 +163,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                     )
                   : PanelView(
                       onPressed: (vegetable) {
-                        print('in homePageUpdated() ${vegetable.name}');
+                        print('in HomePage2() ${vegetable.name}');
                         setState(() {
                           widget.appState.order.add(vegetable);
                         });
@@ -274,7 +182,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                     )
                   : PanelView(
                       onPressed: (vegetable) {
-                        print('in homePageUpdated() ${vegetable.name}');
+                        print('in HomePage2() ${vegetable.name}');
                         setState(() {
                           widget.appState.order.add(vegetable);
                         });
@@ -294,7 +202,7 @@ class HomePageUpdatedState extends State<HomePageUpdated> {
                     )
                   : PanelView(
                       onPressed: (vegetable) {
-                        print('in homePageUpdated() ${vegetable.name}');
+                        print('in HomePage2() ${vegetable.name}');
                         setState(() {
                           widget.appState.order.add(vegetable);
                         });

@@ -59,7 +59,7 @@ class VendorInfo {
     phoneNumber = json['phoneNumber'];
     coords = json['coords'] == null
         ? null
-        : GeoPoint.fromJson(
+        : GeoPointConverterPipe.fromJson(
             json['coords'],
           );
     distance = json['distance'];

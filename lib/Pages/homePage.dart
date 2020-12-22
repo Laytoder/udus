@@ -25,6 +25,8 @@ import 'package:frute/widgets/dualButton.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:slider_button/slider_button.dart';
+import 'package:frute/Pages/Homepage2/Homepage2.dart';
+import 'package:frute/config/colors.dart';
 
 import 'cartPage.dart';
 import 'holdPage.dart';
@@ -60,6 +62,31 @@ class _HomePageState extends State<HomePage>
   final GlobalKey cartPageKey = GlobalKey();
   double screenHeight = 1500;
 
+  final navigationItems = [
+    {'icon': Icons.home, 'label': "Home"},
+    {'icon': Icons.search, 'label': "Search"},
+    {'icon': Icons.shopping_cart, 'label': "Cart"},
+    {'icon': Icons.account_circle, 'label': "Profile"},
+  ];
+
+  int _selectedNavItem = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedNavItem = index;
+    });
+  }
+
+  buildView(int index) {
+    if (index == 0)
+      return HomePage2(
+        key: homePageUpdatedKey,
+        onAddedToCart: () => setState(() {}),
+        appState: widget.appState,
+      );
+    return Center(child: Text(navigationItems[index]['label']));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -84,7 +111,8 @@ class _HomePageState extends State<HomePage>
   }
 
   updateScreenHeight() {
-    RenderBox homePageBox = homePageUpdatedKey.currentContext.findRenderObject();
+    RenderBox homePageBox =
+        homePageUpdatedKey.currentContext.findRenderObject();
     Size size = homePageBox.size;
     print(size.height);
     setState(() => screenHeight = size.height);
@@ -276,361 +304,97 @@ class _HomePageState extends State<HomePage>
       }
     }
     isIncomingTripManaged = true;
-    return PageView(
-      allowImplicitScrolling: false,
-      physics: NeverScrollableScrollPhysics(),
-      controller: globalController,
-      children: <Widget>[
-        ProfilePage(
-          controller: globalController,
-          appState: widget.appState,
-        ),
-        WillPopScope(
-          onWillPop: () async => false,
-          child: Scaffold(
-            floatingActionButton:
-                widget.appState.order.isNotEmpty && !isNowCurrentTab
-                    ? FloatingActionButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  CartPage(appState: widget.appState),
-                            ),
-                          );
-                        },
-                        child: Icon(Icons.shopping_cart, color: Colors.white),
-                        backgroundColor: Colors.green,
-                      )
-                    : null,
-            resizeToAvoidBottomInset: false,
-            backgroundColor: Color(0xffEAEAEA),
-            extendBodyBehindAppBar: true,
-            //backgroundColor: Colors.white,
-            //backgroundColor: Colors.amberAccent,
-            body: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              //physics: NeverScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  SizedBox(height: (10 / 820) * height),
-                  Stack(
-                    overflow: Overflow.visible,
-                    children: <Widget>[
-                      Container(
-                        height: screenHeight,
-                        width: width,
-                        //margin: EdgeInsets.all(10.0),
-                        child: PageView(
-                          allowImplicitScrolling: false,
-                          controller: pageController,
-                          physics: NeverScrollableScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          children: <Widget>[
-                            HomePageUpdated(
-                              key: homePageUpdatedKey,
-                              onAddedToCart: () {
-                                setState(() {});
-                              },
-                              appState: widget.appState,
-                            ),
-                            /*Stack(
-                              children: <Widget>[
-                                CarouselSlider.builder(
-                                  itemCount: appState.userId.length,
-                                  itemBuilder: (context, index) {
-                                    String key = appState.userId[index];
-                                    VendorInfo vendor = appState.vendors[key];
-                                    return VendorInfoPage(
-                                      vendor,
-                                      widget.appState,
-                                    );
-                                  },
-                                  options: CarouselOptions(
-                                    autoPlay: false,
-                                    enableInfiniteScroll: true,
-                                    height: height * 0.94,
-                                    enlargeCenterPage: true,
-                                    onPageChanged: (index, _) {
-                                      String key = appState.userId[index];
-                                      VendorInfo vendor = appState.vendors[key];
-                                      currentVendorInfo = vendor;
-                                      currVendorToken = vendor.token;
-                                      currVendorId = key;
-                                    },
-                                  ),
-                                ),
-                                Align(
-                                  child: Column(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: height * 0.9,
-                                      ),
-                                      SliderButton(
-                                        width: width * 0.77,
-                                        height: height * 0.08,
-                                        child: Container(
-                                          height: height * 0.077,
-                                          width: height * 0.077,
-                                          decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black,
-                                                blurRadius: 4,
-                                              ),
-                                            ],
-                                            color:
-                                                Color.fromRGBO(35, 205, 99, 1),
-                                            borderRadius:
-                                                BorderRadius.circular(100),
-                                          ),
-                                          child: Neumorphic(
-                                            style: NeumorphicStyle(
-                                              boxShape:
-                                                  NeumorphicBoxShape.roundRect(
-                                                BorderRadius.circular(100),
-                                              ),
-                                              border: NeumorphicBorder(
-                                                width: 0.5,
-                                              ),
-                                              shadowLightColor:
-                                                  Colors.transparent,
-                                              shape: NeumorphicShape.concave,
-                                              color: Color.fromRGBO(
-                                                  35, 205, 99, 1),
-                                              depth: 20,
-                                            ),
-                                            child: Center(
-                                              child: Container(
-                                                child: SvgPicture.asset(
-                                                  'assets/truck.svg',
-                                                  height: 32.5,
-                                                  width: 32.5,
-                                                  color: Color.fromRGBO(
-                                                      13, 47, 61, 1),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        vibrationFlag: false,
-                                        action: () async {
-                                          bool surity =
-                                              await getSurity(context);
-                                          if (surity) {
-                                            Order order = currentVendorInfo
-                                                .createOrder(appState);
-                                            await appState.serviceHelper
-                                                .createNewOrder(
-                                                    order, currVendorId);
-                                            //send message to client
-                                            appState.messagingHelper
-                                                .sendMessage(order);
-                                          }
-                                        },
-                                        dismissible: false,
-                                        buttonSize: height * 0.077,
-                                        startPercent: 1,
-                                        baseColor:
-                                            Color.fromRGBO(13, 47, 61, 1),
-                                        backgroundColor: Color(0xffEAEAEA),
-                                        highlightedColor:
-                                            Color.fromRGBO(35, 205, 99, 1),
-                                        label: Text(
-                                          "Slide to Request Vendor",
-                                          style: TextStyle(
-                                              fontFamily: 'Ubuntu',
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 15),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),*/
-                            CartPage(
-                              appState: widget.appState,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: height,
-                        width: width,
-                        child: Column(
-                          children: <Widget>[
-                            SizedBox(
-                              height: (40 / 678) * height,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                IconButton(
-                                  icon: NeumorphicIcon(
-                                    MyFlutterApp.user,
-                                    style: NeumorphicStyle(
-                                      shape: NeumorphicShape.convex,
-                                      depth: 3,
-                                      lightSource: LightSource.topLeft,
-                                      intensity: 0.68,
-                                      border: NeumorphicBorder(
-                                        color: Colors.white,
-                                        width: 0.5,
-                                      ),
-                                      shadowDarkColor: Color(0xffA3B1C6),
-                                      shadowLightColor: Colors.white,
-                                      color: Color(0xffAFBBCA),
-                                    ),
-                                    size: 28,
-                                  ),
-                                  onPressed: () {
-                                    globalController.animateToPage(
-                                      0,
-                                      duration: Duration(milliseconds: 1000),
-                                      curve: Curves.fastLinearToSlowEaseIn,
-                                    );
-                                  },
-                                ),
-                                Expanded(
-                                  child: Container(),
-                                ),
-                                DualButton(
-                                  height: (35 / 678) * height,
-                                  width: width * 0.4,
-                                  textSize: (12 / 678) * height,
-                                  padding: (1 / 678) * height,
-                                  radius: (80 / 678) * height,
-                                  onDropInClicked: () {
-                                    setState(() {
-                                      isNowCurrentTab = true;
-                                    });
-                                    pageController.animateToPage(
-                                      1,
-                                      duration: Duration(milliseconds: 2000),
-                                      curve: Curves.fastLinearToSlowEaseIn,
-                                    );
-                                  },
-                                  onNowClicked: () async {
-                                    setState(() {
-                                      isNowCurrentTab = false;
-                                    });
-                                    await pageController.animateToPage(
-                                      0,
-                                      duration: Duration(milliseconds: 2000),
-                                      curve: Curves.fastLinearToSlowEaseIn,
-                                    );
-                                  },
-                                ),
-                                Expanded(
-                                  child: Container(),
-                                ),
-                                IconButton(
-                                  icon: NeumorphicIcon(
-                                    Icons.shopping_basket,
-                                    style: NeumorphicStyle(
-                                      shape: NeumorphicShape.convex,
-                                      depth: 3,
-                                      lightSource: LightSource.topLeft,
-                                      intensity: 0.68,
-                                      border: NeumorphicBorder(
-                                        color: Colors.white,
-                                        width: 0.5,
-                                      ),
-                                      shadowDarkColor: Color(0xffA3B1C6),
-                                      shadowLightColor: Colors.white,
-                                      color: Color(0xffAFBBCA),
-                                    ),
-                                    size: 32,
-                                  ),
-                                  onPressed: () {
-                                    globalController.animateToPage(
-                                      2,
-                                      duration: Duration(milliseconds: 1000),
-                                      curve: Curves.fastLinearToSlowEaseIn,
-                                    );
-                                  },
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                              ],
-                            ),
-                            Expanded(
-                              child: Container(),
-                            ),
-                          ],
-                        ),
-                      ),
-                      locating
-                          ? FadeTransition(
-                              opacity: animation,
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                  sigmaX: 2,
-                                  sigmaY: 2,
-                                ),
-                                child: Container(
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.9)),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      ScaleTransition(
-                                        scale: animation,
-                                        child: CircleAvatar(
-                                          radius: (103 / 678) * height,
-                                          backgroundColor:
-                                              Color.fromRGBO(35, 205, 99, 1),
-                                          child: CircleAvatar(
-                                            radius: (100 / 678) * height,
-                                            backgroundImage: AssetImage(
-                                                'assets/locating_anim.gif'),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                            top: (40 / 678) * height),
-                                        child: Text(
-                                          'Contacting Your Vendor..',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: (20 / 678) * height,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
-                          : SizedBox(
-                              child: Container(),
-                              width: 0,
-                              height: 0,
-                            ),
-                    ],
+    return Scaffold(
+      floatingActionButton: widget.appState.order.isNotEmpty && !isNowCurrentTab
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CartPage(appState: widget.appState),
                   ),
-                  /*SizedBox(
-                    height: 300,
-                  ),*/
-                ],
-              ),
-            ),
-          ),
+                );
+              },
+              child: Icon(Icons.shopping_cart, color: Colors.white),
+              backgroundColor: Colors.green,
+            )
+          : null,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Color(0xffEAEAEA),
+      extendBodyBehindAppBar: true,
+      //backgroundColor: Colors.white,
+      //backgroundColor: Colors.amberAccent,
+      body: Stack(
+        overflow: Overflow.visible,
+        children: <Widget>[
+          buildView(_selectedNavItem),
+          locating
+              ? FadeTransition(
+                  opacity: animation,
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(
+                      sigmaX: 2,
+                      sigmaY: 2,
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      decoration:
+                          BoxDecoration(color: Colors.black.withOpacity(0.9)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          ScaleTransition(
+                            scale: animation,
+                            child: CircleAvatar(
+                              radius: (103 / 678) * height,
+                              backgroundColor: Color.fromRGBO(35, 205, 99, 1),
+                              child: CircleAvatar(
+                                radius: (100 / 678) * height,
+                                backgroundImage:
+                                    AssetImage('assets/locating_anim.gif'),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: (40 / 678) * height),
+                            child: Text(
+                              'Contacting Your Vendor..',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: (20 / 678) * height,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : SizedBox(),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+            boxShadow: [BoxShadow(blurRadius: 5, color: Colors.grey[50])]),
+        child: BottomNavigationBar(
+          items: navigationItems
+              .map((navItem) => BottomNavigationBarItem(
+                  icon: Icon(navItem['icon']), label: navItem['label']))
+              .toList(),
+          currentIndex: _selectedNavItem,
+          onTap: _onItemTapped,
+          selectedItemColor: UdusColors.primaryColor,
+          unselectedItemColor: Colors.black,
+          showUnselectedLabels: true,
+          selectedFontSize: 12,
+          elevation: 0,
+          iconSize: 22,
         ),
-        BillHistory(globalController, appState, preferences),
-      ],
+      ),
     );
   }
 }
