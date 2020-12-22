@@ -49,31 +49,18 @@ class HomePage2State extends State<HomePage2> {
       primary: false,
       physics: NeverScrollableScrollPhysics(),
       children: [
-        SizedBox(height: (70 / 640) * height),
+        // SizedBox(height: (70 / 640) * height),
         Padding(
-          padding: EdgeInsets.only(
-            top: (25 / 640) * height,
-            bottom: (10 / 640) * height,
-            left: (10 / 360) * width,
-            right: (10 / 360) * width,
-          ),
+          padding: EdgeInsets.all(15),
           child: OfferBannerView(),
         ),
+        SizedBox(height: 10),
         Padding(
-          padding: EdgeInsets.only(
-            top: (0 / 640) * height,
-            bottom: (0 / 640) * height,
-            left: (5 / 360) * width,
-            right: (5 / 360) * width,
-          ),
+          padding: EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              /*Padding(
-                padding: EdgeInsets.symmetric(vertical: (10 / 820) * height),
-                child: SafetyBannerView(),
-              ),*/
               ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: InkWell(
@@ -89,7 +76,7 @@ class HomePage2State extends State<HomePage2> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                'Fruits and ',
+                                'Fruits and Vegetables',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline4
@@ -135,13 +122,9 @@ class HomePage2State extends State<HomePage2> {
                   onTap: () {},
                 ),
               ),
-              SizedBox(height: (10 / 640) * height),
+              SizedBox(height: 20),
               topPicks.length == 0
-                  ? SizedBox(
-                      height: 0,
-                      width: 0,
-                      child: Container(),
-                    )
+                  ? SizedBox()
                   : PanelView(
                       onPressed: (vegetable) {
                         print('in HomePage2() ${vegetable.name}');
@@ -156,11 +139,7 @@ class HomePage2State extends State<HomePage2> {
                       foods: topPicks,
                     ),
               necessitites.length == 0
-                  ? SizedBox(
-                      height: 0,
-                      width: 0,
-                      child: Container(),
-                    )
+                  ? SizedBox()
                   : PanelView(
                       onPressed: (vegetable) {
                         print('in HomePage2() ${vegetable.name}');
@@ -175,11 +154,7 @@ class HomePage2State extends State<HomePage2> {
                       foods: necessitites,
                     ),
               seasonal.length == 0
-                  ? SizedBox(
-                      height: 0,
-                      width: 0,
-                      child: Container(),
-                    )
+                  ? SizedBox()
                   : PanelView(
                       onPressed: (vegetable) {
                         print('in HomePage2() ${vegetable.name}');
@@ -195,11 +170,7 @@ class HomePage2State extends State<HomePage2> {
                       circularTabs: true,
                     ),
               other.length == 0
-                  ? SizedBox(
-                      height: 0,
-                      width: 0,
-                      child: Container(),
-                    )
+                  ? SizedBox()
                   : PanelView(
                       onPressed: (vegetable) {
                         print('in HomePage2() ${vegetable.name}');

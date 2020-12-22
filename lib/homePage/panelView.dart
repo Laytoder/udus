@@ -40,34 +40,17 @@ class _PanelView extends State<PanelView> {
           Row(
             children: <Widget>[
               SizedBox(width: (12 / 360) * width),
-              //Icon(Icons.thumb_up, size: 20),
-              NeumorphicIcon(
-                widget.iconData,
-                size: (25 / (640 * 360)) * height * width,
-                style: NeumorphicStyle(
-                  shape: NeumorphicShape.convex,
-                  depth: 1,
-                  lightSource: LightSource.topLeft,
-                  intensity: 0.68,
-                  border: NeumorphicBorder(
-                    color: Colors.white,
-                    width: (0.5 / 360) * width,
-                  ),
-                  shadowDarkColor: Color(0xffA3B1C6),
-                  shadowLightColor: Colors.white,
-                  color: Color(0xffAFBBCA),
-                ),
-              ),
+              Icon(widget.iconData),
               SizedBox(width: (10 / 360) * width),
-              Text(
-                widget.heading,
-                style: TextStyle(
-                  fontSize: (17 / (640 * 360)) * height * width,
-                  color: Colors.grey[600],
+              Padding(
+                padding: EdgeInsets.only(left: 8.0),
+                child: Text(
+                  widget.heading,
+                  style: TextStyle(
+                    fontSize: (17 / (640 * 360)) * height * width,
+                    color: Colors.grey[600],
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Container(),
               ),
               IconButton(
                 icon: Icon(Icons.arrow_forward),
@@ -113,12 +96,6 @@ class _PanelView extends State<PanelView> {
                               return InputModal();
                             });
                         if (quantity == null) return;
-                        /*setState(() {
-                          Vegetable vegetable = widget.foods[index];
-                          vegetable.quantity = quantity;
-                          widget.appState.order.purchasedVegetables
-                              .add(vegetable);
-                        });*/
                         Vegetable vegetable = widget.foods[index];
                         vegetable.quantity = quantity;
                         widget.onPressed(vegetable);
@@ -162,7 +139,7 @@ class _PanelView extends State<PanelView> {
                       child: Text(
                         widget.foods[index].name,
                         style: Theme.of(context).textTheme.subtitle2.copyWith(
-                              fontSize: (13 / (640 * 360)) * height * width,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: Colors.grey[600],
                             ),

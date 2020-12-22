@@ -35,161 +35,59 @@ class _CartPageState extends State<CartPage> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     int extraindex = -2;
-    /*return ListView(
-      shrinkWrap: true,
-      primary: false,
-      physics: NeverScrollableScrollPhysics(),
-      children: [
-        Scaffold(
-          backgroundColor: Color(0xffEAEAEA),
-          body: ListView(
-            children: [
-              Row(
-                children: [
-                  Cart_Tiles(),
-                  Cart_Tiles(),
-                ],
-              ),
-              Row(
-                children: [
-                  Cart_Tiles(),
-                  Cart_Tiles(),
-                ],
-              ),
-              Row(
-                children: [
-                  Cart_Tiles(),
-                  Cart_Tiles(),
-                ],
-              ),
-              Row(
-                children: [
-                  Cart_Tiles(),
-                  Cart_Tiles(),
-                ],
-              ),
-            ],
+
+    if (widget.appState.order.isNotEmpty)
+      return ListView(
+        shrinkWrap: true,
+        primary: false,
+        physics: NeverScrollableScrollPhysics(),
+        children: [
+          SizedBox(
+            height: (100 / 678) * height,
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              if (await getSurity(context)) {
-                //use only a list vendors instead of hashmap in
-                //homepage also
-                //(it is technically not required
-                //consumes space on the other can be removed)
-                List<VendorInfo> vendors = [];
-                for (String userId in widget.appState.userId) {
-                  vendors.add(widget.appState.vendors[userId]);
-                }
-
-                OptimalTripRoutesFinder finder = OptimalTripRoutesFinder(
-                  homeLocation: GeoPoint(
-                    widget.appState.userLocation.latitude,
-                    widget.appState.userLocation.longitude,
+          ListView.builder(
+            shrinkWrap: true,
+            primary: false,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: widget.appState.order.length % 2 == 0
+                ? widget.appState.order.length ~/ 2
+                : widget.appState.order.length ~/ 2 + 1,
+            itemBuilder: (context, index) {
+              extraindex += 2;
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 8,
+                      bottom: 8,
+                    ),
+                    child: Cart_Tiles(widget.appState.order[extraindex]),
                   ),
-                  order: widget.appState.order,
-                  vendors: vendors,
-                );
-
-                dynamic optimalRoute = await finder.getOptimalTripRoute();
-
-                if (optimalRoute == OptimalTripRoutesFinder.NO_OPTIMAL_ORDER)
-                  print('NO OPTIMAL ORDER..................................');
-                else {
-                  print(optimalRoute.toJson());
-
-                  print('computed route................................');
-                }
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CartScreen(),
+                  SizedBox(
+                    width: 8,
                   ),
-                );
-
-                /*Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => OptimalRoutesPage(
-                    appState: widget.appState,
-                    optimalTripRoutes: optimalRoutes,
-                  ),
-                ),
-              );*/
-
-                /*dynamic jsonOptimalRoutes = [];
-
-              for (TripRoute optimalRoute in optimalRoutes) {
-                jsonOptimalRoutes.add(optimalRoute.toJson()['duration']);
-              }
-
-              print(jsonOptimalRoutes);
-
-              print('routed computed................................');*/
-              }
-              /*Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      OptimalRoutesPage(appState: widget.appState),
-                ),
-              );*/
-            },
-            child: Icon(Icons.shopping_bag_outlined),
-          ),
-        ),
-      ],
-    );*/
-    return ListView(
-      shrinkWrap: true,
-      primary: false,
-      physics: NeverScrollableScrollPhysics(),
-      children: [
-        SizedBox(
-          height: (100 / 678) * height,
-        ),
-        ListView.builder(
-          shrinkWrap: true,
-          primary: false,
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: widget.appState.order.length % 2 == 0
-              ? widget.appState.order.length ~/ 2
-              : widget.appState.order.length ~/ 2 + 1,
-          itemBuilder: (context, index) {
-            extraindex += 2;
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 8,
-                    bottom: 8,
-                  ),
-                  child: Cart_Tiles(widget.appState.order[extraindex]),
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                extraindex + 1 < widget.appState.order.length
-                    ? Padding(
-                        padding: EdgeInsets.only(
-                          right: 8,
-                          bottom: 8,
+                  extraindex + 1 < widget.appState.order.length
+                      ? Padding(
+                          padding: EdgeInsets.only(
+                            right: 8,
+                            bottom: 8,
+                          ),
+                          child:
+                              Cart_Tiles(widget.appState.order[extraindex + 1]),
+                        )
+                      : SizedBox(
+                          height: 0,
+                          width: 0,
                         ),
-                        child:
-                            Cart_Tiles(widget.appState.order[extraindex + 1]),
-                      )
-                    : SizedBox(
-                        height: 0,
-                        width: 0,
-                      ),
-              ],
-            );
-          },
-        ),
-      ],
-    );
+                ],
+              );
+            },
+          ),
+        ],
+      );
+
+    return Center(child: Text("No items in cart"));
   }
 }
 

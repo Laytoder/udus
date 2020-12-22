@@ -30,6 +30,7 @@ import 'package:frute/config/colors.dart';
 
 import 'cartPage.dart';
 import 'holdPage.dart';
+import 'package:frute/Pages/SearchPage/SearchPage.dart';
 
 class HomePage extends StatefulWidget {
   AppState appState;
@@ -84,7 +85,18 @@ class _HomePageState extends State<HomePage>
         onAddedToCart: () => setState(() {}),
         appState: widget.appState,
       );
-    return Center(child: Text(navigationItems[index]['label']));
+
+    if (index == 1) return SearchPage(avlVegs: widget.appState.avlVegs);
+
+    if (index == 2) return CartPage(appState: widget.appState);
+
+    if (index == 3)
+      return ProfilePage(
+        controller: globalController,
+        appState: widget.appState,
+      );
+
+    return Center(child: Text("Something went wrong"));
   }
 
   @override
@@ -305,20 +317,6 @@ class _HomePageState extends State<HomePage>
     }
     isIncomingTripManaged = true;
     return Scaffold(
-      floatingActionButton: widget.appState.order.isNotEmpty && !isNowCurrentTab
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CartPage(appState: widget.appState),
-                  ),
-                );
-              },
-              child: Icon(Icons.shopping_cart, color: Colors.white),
-              backgroundColor: Colors.green,
-            )
-          : null,
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xffEAEAEA),
       extendBodyBehindAppBar: true,
