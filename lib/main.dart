@@ -8,7 +8,6 @@ import 'package:frute/helpers/messagingHelper.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:frute/Pages/cartPage.dart';
 import 'AppState.dart';
 import 'tokens/googleMapsApiKey.dart';
 
@@ -18,12 +17,15 @@ void main() {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.transparent,
+  ));
   runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
-  AppState appState;
+  final AppState appState;
 
   MyApp({this.appState});
 
@@ -122,7 +124,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return MaterialApp(
       theme: ThemeData(
         //scaffoldBackgroundColor: Color(0xffff8d27),
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: Colors.grey[100],
         primaryColor: Colors.white,
         accentColor: Colors.white,
         canvasColor: Colors.transparent,

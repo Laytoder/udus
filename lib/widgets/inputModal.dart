@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:frute/Animations/FadeAnimations.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:frute/Animations/FadeAnimations.dart';
 
 class InputModal extends StatefulWidget {
   @override

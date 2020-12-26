@@ -2,29 +2,19 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:frute/AppState.dart';
-import 'package:frute/Pages/billHistory.dart';
 import 'package:frute/Pages/map.dart';
 import 'package:frute/Pages/profilePage.dart';
-import 'package:frute/Pages/vendorInfoPage.dart';
-import 'package:frute/assets/my_flutter_app_icons.dart';
-import 'package:frute/helpers/confirmationDialog.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/helpers/messageGetters.dart';
 import 'package:frute/helpers/messagingHelper.dart';
-import 'package:frute/homePage/homepageupdated.dart';
-import 'package:frute/models/order.dart';
 import 'package:frute/models/trip.dart';
 import 'package:frute/models/vendorInfo.dart';
 import 'package:frute/routes/fadeRoute.dart';
-import 'package:frute/widgets/dualButton.dart';
 import 'package:google_directions_api/google_directions_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:slider_button/slider_button.dart';
 import 'package:frute/Pages/Homepage2/Homepage2.dart';
 import 'package:frute/config/colors.dart';
 
@@ -33,9 +23,9 @@ import 'holdPage.dart';
 import 'package:frute/Pages/SearchPage/SearchPage.dart';
 
 class HomePage extends StatefulWidget {
-  AppState appState;
-  int initialPage;
-  Function refreshVendors;
+  final AppState appState;
+  final int initialPage;
+  final Function refreshVendors;
 
   HomePage(this.appState, this.refreshVendors, {this.initialPage = 1});
 
@@ -64,10 +54,10 @@ class _HomePageState extends State<HomePage>
   double screenHeight = 1500;
 
   final navigationItems = [
-    {'icon': Icons.home, 'label': "Home"},
+    {'icon': Icons.home_outlined, 'label': "Home"},
     {'icon': Icons.search, 'label': "Search"},
-    {'icon': Icons.shopping_cart, 'label': "Cart"},
-    {'icon': Icons.account_circle, 'label': "Profile"},
+    {'icon': Icons.shopping_cart_outlined, 'label': "Cart"},
+    {'icon': Icons.account_circle_outlined, 'label': "Profile"},
   ];
 
   int _selectedNavItem = 0;
@@ -379,6 +369,7 @@ class _HomePageState extends State<HomePage>
         decoration: BoxDecoration(
             boxShadow: [BoxShadow(blurRadius: 5, color: Colors.grey[50])]),
         child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           items: navigationItems
               .map((navItem) => BottomNavigationBarItem(
                   icon: Icon(navItem['icon']), label: navItem['label']))

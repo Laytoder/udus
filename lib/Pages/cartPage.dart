@@ -1,20 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:frute/Pages/cartScreen.dart';
-import 'package:frute/helpers/confirmationDialog.dart';
-import 'package:frute/helpers/optimalTripRouteFinder.dart';
-import 'package:frute/models/tripRoute.dart';
-import 'package:frute/Pages/optimalRoutesPage.dart';
 import 'package:frute/models/vegetable.dart';
-import 'package:frute/models/vendorInfo.dart';
-import 'package:frute/widgets/inputModal.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../AppState.dart';
 
 class CartPage extends StatefulWidget {
-  AppState appState;
+  final AppState appState;
 
   CartPage({
     Key key,

@@ -6,12 +6,12 @@ import 'package:frute/models/vegetable.dart';
 import 'package:frute/widgets/inputModal.dart';
 
 class PanelView extends StatefulWidget {
-  AppState appState;
-  String heading;
-  IconData iconData;
-  bool circularTabs;
-  List<Vegetable> foods;
-  Function(Vegetable vegetable) onPressed;
+  final AppState appState;
+  final String heading;
+  final IconData iconData;
+  final bool circularTabs;
+  final List<Vegetable> foods;
+  final Function(Vegetable vegetable) onPressed;
 
   PanelView({
     @required this.appState,
