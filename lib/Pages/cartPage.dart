@@ -5,6 +5,8 @@ import 'package:frute/models/vegetable.dart';
 
 import '../AppState.dart';
 
+import 'package:frute/widgets/MinimalPageHeading.dart';
+
 class CartPage extends StatefulWidget {
   final AppState appState;
 
@@ -22,75 +24,84 @@ class _CartPageState extends State<CartPage> {
 
   double width;
 
+  Widget buildCartBody(int extraindex) {
+    if (widget.appState.order.isNotEmpty)
+      return ListView.builder(
+        shrinkWrap: true,
+        primary: false,
+        // physics: NeverScrollableScrollPhysics(),
+        itemCount: widget.appState.order.length % 2 == 0
+            ? widget.appState.order.length ~/ 2
+            : widget.appState.order.length ~/ 2 + 1,
+        itemBuilder: (context, index) {
+          extraindex += 2;
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 8,
+                  bottom: 8,
+                ),
+                child: CartTiles(widget.appState.order[extraindex]),
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              extraindex + 1 < widget.appState.order.length
+                  ? Padding(
+                      padding: EdgeInsets.only(
+                        right: 8,
+                        bottom: 8,
+                      ),
+                      child: CartTiles(widget.appState.order[extraindex + 1]),
+                    )
+                  : SizedBox(
+                      height: 0,
+                      width: 0,
+                    ),
+            ],
+          );
+        },
+      );
+
+    return Container(
+      height: height * 0.72,
+      child: Center(
+        child: Text("Your cart is empty"),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     int extraindex = -2;
 
-    if (widget.appState.order.isNotEmpty)
-      return ListView(
-        shrinkWrap: true,
-        primary: false,
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          SizedBox(
-            height: (100 / 678) * height,
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              MinimalPageHeading(heading: "Cart"),
+              buildCartBody(extraindex)
+            ],
           ),
-          ListView.builder(
-            shrinkWrap: true,
-            primary: false,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: widget.appState.order.length % 2 == 0
-                ? widget.appState.order.length ~/ 2
-                : widget.appState.order.length ~/ 2 + 1,
-            itemBuilder: (context, index) {
-              extraindex += 2;
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 8,
-                      bottom: 8,
-                    ),
-                    child: Cart_Tiles(widget.appState.order[extraindex]),
-                  ),
-                  SizedBox(
-                    width: 8,
-                  ),
-                  extraindex + 1 < widget.appState.order.length
-                      ? Padding(
-                          padding: EdgeInsets.only(
-                            right: 8,
-                            bottom: 8,
-                          ),
-                          child:
-                              Cart_Tiles(widget.appState.order[extraindex + 1]),
-                        )
-                      : SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
-                ],
-              );
-            },
-          ),
-        ],
-      );
-
-    return Center(child: Text("No items in cart"));
+        ),
+      ),
+    );
   }
 }
 
-class Cart_Tiles extends StatefulWidget {
-  Vegetable vegetable;
-  Cart_Tiles(this.vegetable);
+class CartTiles extends StatefulWidget {
+  final Vegetable vegetable;
+  CartTiles(this.vegetable);
   @override
-  _Cart_TilesState createState() => _Cart_TilesState();
+  CartTilesState createState() => CartTilesState();
 }
 
-class _Cart_TilesState extends State<Cart_Tiles> {
+class CartTilesState extends State<CartTiles> {
   double height;
 
   double width;
@@ -102,18 +113,8 @@ class _Cart_TilesState extends State<Cart_Tiles> {
     return Container(
       height: ((width - 24) / 2),
       width: ((width - 24) / 2),
-      child: Neumorphic(
-        style: NeumorphicStyle(
-          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-          depth: 2,
-          border: NeumorphicBorder(color: Colors.white, width: 0.5),
-          shape: NeumorphicShape.convex,
-          lightSource: LightSource.topLeft,
-          shadowDarkColor: Color(0xffA3B1C6),
-          shadowLightColor: Colors.white,
-          //intensity: 1.0,
-          color: Colors.white,
-        ),
+      child: Container(
+        color: Colors.white,
         child: Column(
           children: [
             Row(
@@ -216,19 +217,16 @@ class _QuantityDialogState extends State<QuantityDialog> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return Container(
-      child: Neumorphic(
-        style: NeumorphicStyle(
-          shape: NeumorphicShape.convex,
-          boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-          depth: 8,
-          lightSource: LightSource.topLeft,
-          color: Color(0xffEAEAEA),
-        ),
-        child: Container(
-          height: (50 / 820) * height,
-          width: (60 / 411) * width,
-          child: Center(
-            child: Text('250 g'),
+      child: Container(
+        height: (50 / 820) * height,
+        width: (60 / 411) * width,
+        decoration: BoxDecoration(
+            border: Border.all(color: Colors.black),
+            borderRadius: BorderRadius.circular(5)),
+        child: Center(
+          child: Text(
+            '250 g',
+            style: TextStyle(fontSize: 12),
           ),
         ),
       ),

@@ -19,33 +19,36 @@ class _InputModalState extends State<InputModal> {
     return FadeAnimation(
       1,
       AlertDialog(
+        contentPadding: EdgeInsets.all(25),
         title: Text('Tomato'),
-        content: Column(
+        content: Wrap(
+          direction: Axis.vertical,
           children: [
             CircleAvatar(
-              maxRadius: 100,
+              maxRadius: 120,
               minRadius: 50,
               backgroundColor: Colors.transparent,
               backgroundImage: AssetImage('assets/tomato.png'),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 30),
-            ),
-            Wrap(
-              direction: Axis.horizontal,
-              alignment: WrapAlignment.start,
-              spacing: 10,
-              runSpacing: 20,
-              children: [
-                QuantityDialog(50),
-                QuantityDialog(100),
-                QuantityDialog(250),
-                QuantityDialog(500),
-                QuantityDialog(1000),
-                QuantityDialog(1500),
-                QuantityDialog(2000),
-                QuantityDialog(3000),
-              ],
+            SizedBox(height: 20),
+            SizedBox(
+              width: width * 0.8,
+              child: Wrap(
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.start,
+                spacing: 10,
+                runSpacing: 20,
+                children: [
+                  QuantityDialog(50),
+                  QuantityDialog(100),
+                  QuantityDialog(250),
+                  QuantityDialog(500),
+                  QuantityDialog(1000),
+                  QuantityDialog(1500),
+                  QuantityDialog(2000),
+                  QuantityDialog(3000),
+                ],
+              ),
             ),
           ],
         ),
@@ -55,7 +58,7 @@ class _InputModalState extends State<InputModal> {
 }
 
 class QuantityDialog extends StatefulWidget {
-  int val;
+  final int val;
   QuantityDialog(
     this.val,
   );
@@ -76,22 +79,16 @@ class _QuantityDialogState extends State<QuantityDialog> {
     width = MediaQuery.of(lowercontext).size.width;
     return GestureDetector(
       child: Container(
-        child: Neumorphic(
-          style: NeumorphicStyle(
-            shape: NeumorphicShape.convex,
-            boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-            depth: 8,
-            lightSource: LightSource.topLeft,
-            color: Color(0xffE0E5EC),
-          ),
-          child: Container(
-            height: (50 / 820) * height,
-            width: (60 / 411) * width,
-            child: Center(
-              child: widget.val >= 1000
-                  ? Text('${widget.val / 1000} kg')
-                  : Text('${widget.val} g'),
-            ),
+        child: Container(
+          height: (50 / 820) * height,
+          width: (60 / 411) * width,
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(5)),
+          child: Center(
+            child: widget.val >= 1000
+                ? Text('${widget.val / 1000} kg')
+                : Text('${widget.val} g'),
           ),
         ),
       ),

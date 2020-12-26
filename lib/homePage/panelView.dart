@@ -100,37 +100,21 @@ class _PanelView extends State<PanelView> {
                         vegetable.quantity = quantity;
                         widget.onPressed(vegetable);
                       },
-                      child: Neumorphic(
-                        style: NeumorphicStyle(
-                          depth: 3,
-                          lightSource: LightSource.top,
-                          boxShape: widget.circularTabs
-                              ? NeumorphicBoxShape.circle()
-                              : NeumorphicBoxShape.roundRect(
-                                  BorderRadius.circular(10)),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: widget.circularTabs
+                              ? null
+                              : BorderRadius.circular(0),
+                          shape: widget.circularTabs
+                              ? BoxShape.circle
+                              : BoxShape.rectangle,
+                          color: Color(0xffE0E5EC),
                         ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: widget.circularTabs
-                                ? null
-                                : BorderRadius.circular(0),
-                            shape: widget.circularTabs
-                                ? BoxShape.circle
-                                : BoxShape.rectangle,
-                            color: Color(0xffE0E5EC),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.grey,
-                                blurRadius: 2.0,
-                              )
-                            ],
-                          ),
-                          child: Image.asset(
-                            widget.foods[index].imageUrl,
-                            width: (100 / 360) * width,
-                            height: (100 / 640) * height,
-                            fit: BoxFit.cover,
-                          ),
+                        child: Image.asset(
+                          widget.foods[index].imageUrl,
+                          width: (100 / 360) * width,
+                          height: (100 / 640) * height,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),

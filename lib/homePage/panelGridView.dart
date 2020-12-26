@@ -6,9 +6,9 @@ import 'package:frute/models/vegetable.dart';
 import 'package:frute/utils/searcher.dart';
 
 class PanelGridView extends StatelessWidget {
-  String title;
-  AppState appState;
-  List<Vegetable> vegetables;
+  final String title;
+  final AppState appState;
+  final List<Vegetable> vegetables;
 
   PanelGridView({
     @required this.title,
@@ -16,13 +16,10 @@ class PanelGridView extends StatelessWidget {
     @required this.appState,
   });
 
-  double height;
-  double width;
-
   @override
   Widget build(BuildContext context) {
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color(0xffE0E5EC),
       appBar: AppBar(
@@ -61,30 +58,14 @@ class PanelGridView extends StatelessWidget {
                   flex: 7,
                   child: InkWell(
                     onTap: () {},
-                    child: Neumorphic(
-                      style: NeumorphicStyle(
-                        depth: 3,
-                        lightSource: LightSource.top,
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(0),
-                          color: Color(0xffE0E5EC),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              color: Colors.grey,
-                              blurRadius: 2.0,
-                            )
-                          ],
-                        ),
-                        //height: (87 / 678) * height,
-                        //width: (87 / 678) * height,
-                        child: Image.asset(
-                          vegetables[index].imageUrl,
-                          //width: (100 / 360) * width,
-                          //height: (100 / 640) * height,
-                          fit: BoxFit.cover,
-                        ),
+                    child: Container(
+                      //height: (87 / 678) * height,
+                      //width: (87 / 678) * height,
+                      child: Image.asset(
+                        vegetables[index].imageUrl,
+                        //width: (100 / 360) * width,
+                        //height: (100 / 640) * height,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),

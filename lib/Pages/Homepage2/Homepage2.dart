@@ -75,74 +75,69 @@ class HomePage2State extends State<HomePage2> {
             padding: EdgeInsets.all(15),
             child: OfferBannerView(),
           ),
-          SizedBox(height: 10),
           Padding(
-            padding: EdgeInsets.all(12),
+            padding: EdgeInsets.all(15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: InkWell(
-                    child: Container(
-                      height: 150.0,
-                      color: Color(0xff121C22),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'Fruits and Vegetables',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline4
-                                      .copyWith(color: Colors.white),
-                                ),
-                                SizedBox(height: 5),
-                                Text(
-                                  'No-contact delivery available',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      .copyWith(color: Colors.white),
-                                )
-                              ],
-                            ),
+                InkWell(
+                  child: Container(
+                    height: 140.0,
+                    color: Color(0xff121C22),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Fruits and Vegetables',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    .copyWith(color: Colors.white),
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                'No-contact delivery available',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2
+                                    .copyWith(color: Colors.white),
+                              )
+                            ],
                           ),
-                          Spacer(),
-                          Container(
-                            height: 45.0,
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
-                            color: Color(0xff11181D),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  'View all',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText1
-                                      .copyWith(
-                                          color: Colors.white, fontSize: 18.0),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward,
-                                  color: Colors.white,
-                                  size: 18.0,
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                        ),
+                        Spacer(),
+                        Container(
+                          height: 45.0,
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          color: Color(0xff11181D),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                'View all',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    .copyWith(
+                                        color: Colors.white, fontSize: 16.0),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Colors.white,
+                                size: 18.0,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                    onTap: () {},
                   ),
+                  onTap: () {},
                 ),
                 SizedBox(height: 20),
                 topPicks.length == 0
