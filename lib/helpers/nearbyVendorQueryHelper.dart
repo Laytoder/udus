@@ -56,20 +56,20 @@ class NearbyVendorQueryHelper {
             markerIcon: Container(
               child: SvgPicture.asset(
                 'assets/marker.svg',
-                height: 52,
-                width: 52,
+                height: 42,
+                width: 42,
               ),
             ),
             title: const Text(
               'Where Should Our Hawfer Come?',
               style: TextStyle(
-                color: Color.fromRGBO(13, 47, 61, 1),
-                fontFamily: 'Ubuntu',
-                fontSize: 20,
-              ),
+                  color: Color.fromRGBO(13, 47, 61, 1),
+                  fontFamily: 'Ubuntu',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500),
             ),
-            hintText: 'Search Location',
-            appBarColor: Color(0xffE0E5EC),
+            hintText: 'Search for delivery location',
+            appBarColor: Colors.grey[200],
             myLocationButtonEnabled: false,
             automaticallyImplyLeading: false,
             automaticallyAnimateToCurrentLocation: false,
@@ -100,12 +100,12 @@ class NearbyVendorQueryHelper {
           markerIcon: Container(
             child: SvgPicture.asset(
               'assets/marker.svg',
-              height: 52,
-              width: 52,
+              height: 42,
+              width: 42,
             ),
           ),
           title: const Text(
-            'Where Should Hawfer Come?',
+            'Where Should our Hawfer Come?',
             style: TextStyle(
               color: Color.fromRGBO(13, 47, 61, 1),
               fontFamily: 'Ubuntu',

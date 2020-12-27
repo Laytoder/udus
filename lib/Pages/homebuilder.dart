@@ -6,8 +6,8 @@ import 'package:frute/Pages/homePage.dart';
 import 'package:frute/helpers/nearbyVendorQueryHelper.dart';
 
 class HomeBuilder extends StatefulWidget {
-  AppState appState;
-  String state;
+  final AppState appState;
+  final String state;
 
   //LocationResult locationResult;
   HomeBuilder(this.appState, {this.state = 'normal'});
@@ -20,10 +20,12 @@ class _HomeBuilderState extends State<HomeBuilder> {
   bool loading = false;
   NearbyVendorQueryHelper nearbyVendorQueryHelper;
   Completer refreshCompleter;
+  String state;
 
   @override
   void initState() {
     super.initState();
+    state = widget.state;
     nearbyVendorQueryHelper =
         NearbyVendorQueryHelper(appState: widget.appState);
     refreshCompleter = Completer();
@@ -33,7 +35,7 @@ class _HomeBuilderState extends State<HomeBuilder> {
   refreshVendors() {
     refreshCompleter = Completer();
     setState(() {
-      widget.state = 'normal';
+      state = 'normal';
     });
     return refreshCompleter.future;
   }
@@ -41,7 +43,7 @@ class _HomeBuilderState extends State<HomeBuilder> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: nearbyVendorQueryHelper.pickLocation(context, widget.state),
+      future: nearbyVendorQueryHelper.pickLocation(context, state),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           //refreshCompleter.complete();

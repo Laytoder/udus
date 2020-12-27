@@ -95,10 +95,7 @@ class _ProfilePageState extends State<ProfilePage>
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        resizeToAvoidBottomPadding: false,
-        resizeToAvoidBottomInset: false,
         //backgroundColor: Color(0xfff6f7fb),
-        backgroundColor: Color(0xffE0E5EC),
         body: Stack(
           children: <Widget>[
             AnimatedContainer(
