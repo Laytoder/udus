@@ -18,7 +18,7 @@ void main() {
     DeviceOrientation.portraitUp,
   ]);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.transparent,
+    statusBarColor: Colors.transparent,
   ));
   runApp(MyApp());
 }
@@ -124,7 +124,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return MaterialApp(
       theme: ThemeData(
         //scaffoldBackgroundColor: Color(0xffff8d27),
-        scaffoldBackgroundColor: Colors.grey[100],
+        scaffoldBackgroundColor: Colors.white,
         primaryColor: Colors.white,
         accentColor: Colors.white,
         canvasColor: Colors.transparent,

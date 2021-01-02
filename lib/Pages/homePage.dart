@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/Pages/map.dart';
-import 'package:frute/Pages/profilePage.dart';
+import 'package:frute/Pages/ProfilePage2/ProfilePage.dart';
 import 'package:frute/helpers/directionApiHelper.dart';
 import 'package:frute/helpers/messageGetters.dart';
 import 'package:frute/helpers/messagingHelper.dart';
@@ -20,7 +20,8 @@ import 'package:frute/config/colors.dart';
 
 import 'cartPage.dart';
 import 'holdPage.dart';
-import 'package:frute/Pages/SearchPage/SearchPage.dart';
+
+import 'package:frute/Pages/billhistory.dart';
 
 class HomePage extends StatefulWidget {
   final AppState appState;
@@ -54,10 +55,26 @@ class _HomePageState extends State<HomePage>
   double screenHeight = 1500;
 
   final navigationItems = [
-    {'icon': Icons.home_outlined, 'label': "Home"},
-    {'icon': Icons.search, 'label': "Search"},
-    {'icon': Icons.shopping_cart_outlined, 'label': "Cart"},
-    {'icon': Icons.account_circle_outlined, 'label': "Profile"},
+    {
+      'icon': Icons.home_outlined,
+      'activeIcon': Icons.home_sharp,
+      'label': "Home"
+    },
+    {
+      'icon': Icons.shopping_cart_outlined,
+      'activeIcon': Icons.shopping_cart_sharp,
+      'label': "Cart"
+    },
+    {
+      'icon': Icons.receipt_long_outlined,
+      'activeIcon': Icons.receipt_long,
+      'label': "Bills"
+    },
+    {
+      'icon': Icons.account_circle_outlined,
+      'activeIcon': Icons.account_circle_sharp,
+      'label': "Profile"
+    },
   ];
 
   int _selectedNavItem = 0;
@@ -76,9 +93,8 @@ class _HomePageState extends State<HomePage>
         appState: widget.appState,
       );
 
-    if (index == 1) return SearchPage(avlVegs: widget.appState.avlVegs);
-
-    if (index == 2) return CartPage(appState: widget.appState);
+    if (index == 1) return CartPage(appState: widget.appState);
+    if (index == 2) return Center(child: Text("Bill page"));
 
     if (index == 3)
       return ProfilePage(
@@ -366,13 +382,16 @@ class _HomePageState extends State<HomePage>
         ],
       ),
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-            boxShadow: [BoxShadow(blurRadius: 5, color: Colors.grey[50])]),
+        color: Colors.white,
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           items: navigationItems
               .map((navItem) => BottomNavigationBarItem(
-                  icon: Icon(navItem['icon']), label: navItem['label']))
+                  icon: Icon(navItem[
+                      navigationItems.indexOf(navItem) == _selectedNavItem
+                          ? 'activeIcon'
+                          : 'icon']),
+                  label: navItem['label']))
               .toList(),
           currentIndex: _selectedNavItem,
           onTap: _onItemTapped,

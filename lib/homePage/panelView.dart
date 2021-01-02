@@ -53,7 +53,7 @@ class _PanelView extends State<PanelView> {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.arrow_forward),
+                icon: Icon(Icons.arrow_forward_outlined),
                 onPressed: () {
                   Navigator.push(
                     context,

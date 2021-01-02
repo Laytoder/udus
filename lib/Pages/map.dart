@@ -21,8 +21,8 @@ import 'package:frute/widgets/mapPanel.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Map extends StatefulWidget {
-  DirectionApiHelper directionApiHelper;
-  AppState appState;
+  final DirectionApiHelper directionApiHelper;
+  final AppState appState;
 
   Map({
     @required this.directionApiHelper,

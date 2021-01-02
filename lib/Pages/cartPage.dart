@@ -6,6 +6,7 @@ import 'package:frute/models/vegetable.dart';
 import '../AppState.dart';
 
 import 'package:frute/widgets/MinimalPageHeading.dart';
+import 'package:frute/config/borderRadius.dart';
 
 class CartPage extends StatefulWidget {
   final AppState appState;
@@ -114,7 +115,12 @@ class CartTilesState extends State<CartTiles> {
       height: ((width - 24) / 2),
       width: ((width - 24) / 2),
       child: Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+            borderRadius: UdusBorderRadius.medium, color: Colors.white
+            // border: Border(
+            //     bottom: BorderSide(color: Colors.grey[100]),
+            //     right: BorderSide(color: Colors.grey[100]))
+            ),
         child: Column(
           children: [
             Row(

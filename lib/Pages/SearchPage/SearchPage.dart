@@ -22,7 +22,7 @@ class SearchPage extends StatelessWidget {
         child: Container(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
             width: MediaQuery.of(context).size.width,
-            color: Colors.white,
+            color: Colors.grey[100],
             child: Row(
               children: [
                 Icon(Icons.search),

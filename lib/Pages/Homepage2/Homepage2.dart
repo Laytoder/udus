@@ -6,6 +6,9 @@ import 'package:frute/models/vegetable.dart';
 
 import 'package:frute/homePage/filters.dart';
 import 'package:frute/homepage/offer_banner_view.dart';
+import 'package:frute/utils/searcher.dart';
+import 'package:frute/config/borderRadius.dart';
+import 'package:frute/config/colors.dart';
 
 class HomePage2 extends StatefulWidget {
   final AppState appState;
@@ -39,22 +42,32 @@ class HomePage2State extends State<HomePage2> {
   }
 
   Widget buildSearchLocation() {
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        width: MediaQuery.of(context).size.width,
-        color: Colors.white,
-        child: Row(
-          children: [
-            Icon(Icons.location_on_outlined),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                "Search for delivery location",
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
-            )
-          ],
-        ));
+    return GestureDetector(
+      onTap: () async {
+        await showSearch(
+          context: context,
+          delegate: SearchItems(
+            avlVegs: widget.appState.avlVegs,
+          ),
+        );
+      },
+      child: Container(
+          padding: EdgeInsets.symmetric(vertical: 15),
+          width: MediaQuery.of(context).size.width,
+          color: Colors.white,
+          child: Row(
+            children: [
+              Icon(Icons.search_outlined),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  "Search for fruits and vegetables",
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+              )
+            ],
+          )),
+    );
   }
 
   @override
@@ -83,8 +96,10 @@ class HomePage2State extends State<HomePage2> {
               children: [
                 InkWell(
                   child: Container(
-                    height: 140.0,
-                    color: Color(0xff121C22),
+                    decoration: BoxDecoration(
+                        borderRadius: UdusBorderRadius.medium,
+                        color: UdusColors.darkColor),
+                    height: 160.0,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
@@ -115,7 +130,6 @@ class HomePage2State extends State<HomePage2> {
                         Container(
                           height: 45.0,
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          color: Color(0xff11181D),
                           child: Row(
                             children: <Widget>[
                               Text(
@@ -152,7 +166,7 @@ class HomePage2State extends State<HomePage2> {
                         },
                         appState: widget.appState,
                         heading: 'Top Picks',
-                        iconData: Icons.thumb_up,
+                        iconData: Icons.thumb_up_outlined,
                         foods: topPicks,
                       ),
                 necessitites.length == 0
@@ -167,7 +181,7 @@ class HomePage2State extends State<HomePage2> {
                         },
                         appState: widget.appState,
                         heading: 'Necessities',
-                        iconData: Icons.all_inclusive,
+                        iconData: Icons.all_inclusive_outlined,
                         foods: necessitites,
                       ),
                 seasonal.length == 0
@@ -182,7 +196,7 @@ class HomePage2State extends State<HomePage2> {
                         },
                         appState: widget.appState,
                         heading: 'Seasonals',
-                        iconData: Icons.ac_unit,
+                        iconData: Icons.ac_unit_outlined,
                         foods: seasonal,
                         circularTabs: true,
                       ),
@@ -198,7 +212,7 @@ class HomePage2State extends State<HomePage2> {
                         },
                         appState: widget.appState,
                         heading: 'Others',
-                        iconData: Icons.assignment_turned_in,
+                        iconData: Icons.assignment_turned_in_outlined,
                         foods: other,
                         circularTabs: true,
                       ),

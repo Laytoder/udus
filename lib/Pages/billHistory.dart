@@ -12,9 +12,9 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BillHistory extends StatefulWidget {
-  PageController controller;
-  AppState appState;
-  SharedPreferences preferences;
+  final PageController controller;
+  final AppState appState;
+  final SharedPreferences preferences;
 
   BillHistory(this.controller, this.appState, this.preferences);
 
