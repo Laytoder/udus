@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
+import 'package:frute/widgets/MinimalPageHeading.dart';
 import 'package:frute/widgets/pageHeading.dart';
 
 import 'phoneNumPage.dart';
 
 class EditPhoneLayout extends StatefulWidget {
-  AppState appState;
+  final AppState appState;
 
   EditPhoneLayout({@required this.appState});
 
@@ -26,7 +27,7 @@ class _EditPhoneLayoutState extends State<EditPhoneLayout> {
       height: height * 0.87,
       child: Column(
         children: <Widget>[
-          PageHeading('Edit Number'),
+          MinimalPageHeading(heading: 'Edit Number'),
           Expanded(
             child: Center(
               child: Column(
