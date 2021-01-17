@@ -5,12 +5,12 @@ class PageHeading extends StatelessWidget {
 
   PageHeading(this.heading);
 
-  double width, height;
+  //double width, height;
 
   @override
   Widget build(BuildContext context) {
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
+    //height = MediaQuery.of(context).size.height;
+    //width = MediaQuery.of(context).size.width;
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 30,
@@ -19,7 +19,7 @@ class PageHeading extends StatelessWidget {
       child: Text(
         heading,
         style: TextStyle(
-            fontSize: (36 / (678 * 360)) * height * width,
+            fontSize: 36,
             color: Colors.grey[500],
             fontWeight: FontWeight.w300,
             letterSpacing: 1),

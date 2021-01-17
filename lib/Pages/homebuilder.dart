@@ -91,38 +91,18 @@ class _HomeBuilderState extends State<HomeBuilder> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.data ==
                       NearbyVendorQueryHelper.NO_NEARBY_VENDORS) {
-                    return WillPopScope(
-                      onWillPop: () async => false,
-                      child: Scaffold(
-                        body: Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                top: 120,
-                                left: 50,
-                                right: 50,
-                                bottom: 50,
-                              ),
-                              child: Center(
-                                child: Image.asset('assets/novendor.png'),
-                              ),
-                            ),
-                            Text(
-                              'Sorry, There Are No Nearby Vendors',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ],
-                        ),
-                      ),
+                    return HomePage(
+                      widget.appState,
+                      noNearbyVendor: true,
                     );
                   } else {
-                    return HomePage(widget.appState, refreshVendors);
+                    return HomePage(widget.appState);
                   }
                 } else {
                   return WillPopScope(
                     onWillPop: () async => false,
                     child: Scaffold(
-                      backgroundColor: Color(0xffE0E5EC),
+                      backgroundColor: Colors.white,
                       body: Stack(
                         children: <Widget>[
                           Center(
@@ -134,8 +114,8 @@ class _HomeBuilderState extends State<HomeBuilder> {
                           ),
                           Center(
                             child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              backgroundImage: AssetImage('assets/HL.png'),
+                              backgroundColor: Color(0xff111c21),
+                              backgroundImage: AssetImage('assets/udus.png'),
                               radius: 50,
                             ),
                           ),
@@ -151,7 +131,7 @@ class _HomeBuilderState extends State<HomeBuilder> {
           return WillPopScope(
             onWillPop: () async => false,
             child: Scaffold(
-              backgroundColor: Color(0xffE0E5EC),
+              backgroundColor: Colors.white,
               body: Center(
                 child: Image(
                   image: AssetImage('assets/loading.gif'),

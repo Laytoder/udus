@@ -1,5 +1,5 @@
 class Vegetable {
-  String name, imageUrl;
+  String name, imageUrl, dispPrice, dispQuantity;
   double price, quantity;
 
   //dispCommonName and currCommonName is just used while searching
@@ -14,6 +14,7 @@ class Vegetable {
     this.price,
     this.quantity,
     this.commonNames,
+    this.dispPrice,
   });
 
   Vegetable.fromJson(Map<String, dynamic> json) {
@@ -23,6 +24,12 @@ class Vegetable {
     imageUrl = json['imageUrl'];
     //jst for testing data lacking field
     commonNames = json['commonNames'] == null ? [] : json['commonNames'];
+    if (json['display'] == null) {
+      dispPrice = json['dispPrice'];
+    } else {
+      dispPrice = json['display'];
+    }
+    dispQuantity = json['dispQuantity'];
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -31,5 +38,7 @@ class Vegetable {
         'price': price,
         'imageUrl': imageUrl,
         'commonNames': commonNames,
+        'dispPrice': dispPrice,
+        'dispQuantity': dispQuantity,
       };
 }

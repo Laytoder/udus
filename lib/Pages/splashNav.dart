@@ -148,7 +148,7 @@ class _SplashNavState extends State<SplashNav> {
               );
             } else
               return Scaffold(
-                backgroundColor: Color(0xffE0E5EC),
+                backgroundColor: Colors.white,
                 body: Center(
                   child: Image(
                     height: 200,
@@ -159,7 +159,7 @@ class _SplashNavState extends State<SplashNav> {
               );
           } else
             return Scaffold(
-              backgroundColor: Color(0xffE0E5EC),
+              backgroundColor: Colors.white,
               body: Center(
                 child: Image(
                   height: 200,
@@ -198,10 +198,10 @@ class _SplashNavState extends State<SplashNav> {
                     }
                   } else {
                     return Scaffold(
-                      backgroundColor: Color(0xffE0E5EC),
+                      backgroundColor: Color(0xff111c21),
                       body: Center(
                         child: Image(
-                          image: AssetImage('assets/HL.png'),
+                          image: AssetImage('assets/udus.png'),
                           height: 200,
                           width: 200,
                         ),

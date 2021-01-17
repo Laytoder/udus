@@ -7,6 +7,7 @@ class TripRoute {
   int duration; // in secs
   double price;
   List<VendorInfo> routeVendors = [];
+  List<Vegetable> orderList = [];
   HashMap<String, List<Vegetable>> orders = HashMap<String, List<Vegetable>>();
 
   Map toJson() {

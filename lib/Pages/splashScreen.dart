@@ -44,9 +44,10 @@ class SplashScreenState extends State<SplashScreen>
         ? Opacity(
             opacity: 1.0 - animationController.value,
             child: Scaffold(
+              backgroundColor: Color(0xff111c21),
               body: Center(
                 child: Image(
-                  image: AssetImage('assets/HL.png'),
+                  image: AssetImage('assets/udus.png'),
                   height: 200,
                   width: 200,
                 ),

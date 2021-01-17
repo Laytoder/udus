@@ -45,7 +45,7 @@ class LoadingScreenState extends State<LoadingScreen>
         ? Opacity(
             opacity: 1 - controller.value,
             child: Scaffold(
-              backgroundColor: Color(0xffE0E5EC),
+              backgroundColor: Colors.white,
               body: Center(
                 child: Image(
                   height: 200,

@@ -141,6 +141,7 @@ class NearbyVendorQueryHelper {
 
   AppState getAppState(List<DocumentSnapshot> documents) {
     List<Vegetable> avlVegs = [];
+    appState.isVegSelectedMap = HashMap<String, bool>();
     for (DocumentSnapshot document in documents) {
       GeoPoint location = document['position']['geopoint'];
       String name = document['username'];
@@ -155,12 +156,22 @@ class NearbyVendorQueryHelper {
       }
       //create a vegMap
       HashMap<String, double> vegMap = HashMap<String, double>();
+      HashMap<String, String> dispPriceMap = HashMap<String, String>();
       for (Vegetable vegetable in vegetables) {
         String name = vegetable.name;
         double price = vegetable.price;
         vegMap[name] = price;
+        dispPriceMap[name] = vegetable.dispPrice;
         if (!appState.isVegSelectedMap.containsKey(name)) {
-          avlVegs.add(vegetable);
+          Vegetable newAvlVeg = Vegetable(
+            vegetable.name,
+            imageUrl: vegetable.imageUrl,
+            commonNames: vegetable.commonNames,
+            price: null,
+            quantity: null,
+            dispPrice: vegetable.dispPrice,
+          );
+          avlVegs.add(newAvlVeg);
           appState.isVegSelectedMap[name] = false;
         }
       }
@@ -173,6 +184,7 @@ class NearbyVendorQueryHelper {
         token: token,
         id: userId,
         vegMap: vegMap,
+        dispPriceMap: dispPriceMap,
       );
 
       if (!appState.vendors.containsKey(userId)) {

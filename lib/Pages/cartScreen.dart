@@ -46,15 +46,6 @@ class _CartScreenState extends State<CartScreen> {
       body: ListView.builder(
         physics: BouncingScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
-          /*if (index < currentUser.cart.length) {
-            Cart cart = currentUser.cart[index];
-            return _buildCartItem(cart);
-          }
-          return SizedBox(
-            height: 300.0,
-          );
-        },
-        itemCount: currentUser.cart.length + 1,*/
           return ListTile(
             leading: Neumorphic(
               style: NeumorphicStyle(

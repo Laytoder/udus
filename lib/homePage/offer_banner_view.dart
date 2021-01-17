@@ -5,8 +5,8 @@ import 'package:frute/config/borderRadius.dart';
 
 class OfferBannerView extends StatelessWidget {
   final List<String> images = [
-    'assets/banner1.jpg',
-    'assets/banner2.jpg',
+    'assets/banner1.png',
+    'assets/banner2.png',
   ];
 
   @override

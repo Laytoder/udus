@@ -7,6 +7,10 @@ import '../AppState.dart';
 
 import 'package:frute/widgets/MinimalPageHeading.dart';
 import 'package:frute/config/borderRadius.dart';
+import 'package:frute/Pages/optimalRoutesPage.dart';
+import 'package:frute/helpers/optimalTripRouteFinder.dart';
+import 'package:frute/models/vendorInfo.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CartPage extends StatefulWidget {
   final AppState appState;
@@ -25,6 +29,8 @@ class _CartPageState extends State<CartPage> {
 
   double width;
 
+  bool loading = false;
+
   Widget buildCartBody(int extraindex) {
     if (widget.appState.order.isNotEmpty)
       return ListView.builder(
@@ -41,18 +47,18 @@ class _CartPageState extends State<CartPage> {
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                  left: 8,
+                  left: 11,
                   bottom: 8,
                 ),
                 child: CartTiles(widget.appState.order[extraindex]),
               ),
               SizedBox(
-                width: 8,
+                width: 6,
               ),
               extraindex + 1 < widget.appState.order.length
                   ? Padding(
                       padding: EdgeInsets.only(
-                        right: 8,
+                        right: 11,
                         bottom: 8,
                       ),
                       child: CartTiles(widget.appState.order[extraindex + 1]),
@@ -67,9 +73,34 @@ class _CartPageState extends State<CartPage> {
       );
 
     return Container(
-      height: height * 0.72,
+      height: height * 0.52,
       child: Center(
-        child: Text("Your cart is empty"),
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: height * 0.1,
+            ),
+            Container(
+              child: Image(
+                image: AssetImage('assets/nocart.png'),
+                height: 200,
+                width: 200,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 30,
+              ),
+              child: Text(
+                'Your cart is empty!',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Color(0xff8c8c8c),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -81,16 +112,96 @@ class _CartPageState extends State<CartPage> {
     int extraindex = -2;
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              MinimalPageHeading(heading: "Cart"),
-              buildCartBody(extraindex)
-            ],
-          ),
-        ),
-      ),
+      body: loading
+          ? Stack(
+              children: <Widget>[
+                Center(
+                  child: Image(
+                    image: AssetImage('assets/ripple.gif'),
+                    height: 200,
+                    width: 200,
+                  ),
+                ),
+                Center(
+                  child: CircleAvatar(
+                    backgroundColor: Color(0xff111c21),
+                    backgroundImage: AssetImage('assets/udus.png'),
+                    radius: 50,
+                  ),
+                ),
+              ],
+            )
+          : Stack(
+              children: [
+                SafeArea(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        MinimalPageHeading(heading: "Cart"),
+                        buildCartBody(extraindex)
+                      ],
+                    ),
+                  ),
+                ),
+                widget.appState.order.length != 0
+                    ? Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 55.0, right: 15),
+                          child: FloatingActionButton(
+                            child: Icon(Icons.check),
+                            onPressed: () async {
+                              print('ran');
+                              List<VendorInfo> vendors = [];
+                              for (String userId in widget.appState.userId) {
+                                vendors.add(widget.appState.vendors[userId]);
+                              }
+                              OptimalTripRoutesFinder finder =
+                                  OptimalTripRoutesFinder(
+                                homeLocation: GeoPoint(
+                                  widget.appState.userLocation.latitude,
+                                  widget.appState.userLocation.longitude,
+                                ),
+                                order: widget.appState.order,
+                                vendors: vendors,
+                              );
+                              print('figuring route');
+                              setState(() => loading = true);
+                              dynamic optimalRoute =
+                                  await finder.getOptimalTripRoute();
+                              /*await Future.delayed(
+                                Duration(
+                                  seconds: 5,
+                                ),
+                              );*/
+                              /*if (optimalRoute ==
+                                  OptimalTripRoutesFinder.NO_OPTIMAL_ORDER)
+                                print(
+                                    'NO OPTIMAL ORDER..................................');
+                              else {
+                                print(optimalRoute.toJson());
+                                print(
+                                    'computed route................................');
+                              }*/
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => OptimalRoutesPage(
+                                    optimalTripRoute: optimalRoute,
+                                  ),
+                                ),
+                              );
+                              setState(() => loading = false);
+                            },
+                          ),
+                        ),
+                      )
+                    : SizedBox(
+                        height: 0,
+                        width: 0,
+                      ),
+              ],
+            ),
     );
   }
 }
@@ -112,15 +223,20 @@ class CartTilesState extends State<CartTiles> {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return Container(
-      height: ((width - 24) / 2),
-      width: ((width - 24) / 2),
+      height: ((width - 29) / 2),
+      width: ((width - 29) / 2),
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: UdusBorderRadius.medium, color: Colors.white
-            // border: Border(
-            //     bottom: BorderSide(color: Colors.grey[100]),
-            //     right: BorderSide(color: Colors.grey[100]))
-            ),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(15),
+            bottomRight: Radius.circular(15),
+            topRight: Radius.circular(15),
+          ),
+          color: Colors.grey[100],
+          // border: Border(
+          //     bottom: BorderSide(color: Colors.grey[100]),
+          //     right: BorderSide(color: Colors.grey[100]))
+        ),
         child: Column(
           children: [
             Row(
@@ -129,18 +245,30 @@ class CartTilesState extends State<CartTiles> {
                 FittedBox(
                   fit: BoxFit.cover,
                   alignment: Alignment.topLeft,
-                  child: Container(
-                    height: width / 4,
-                    width: width / 4,
-                    child: Image.asset(widget.vegetable.imageUrl),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 10.0,
+                      top: 13.0,
+                    ),
+                    child: CircleAvatar(
+                      //height: width / 4,
+                      //width: width / 4,
+                      radius: 40,
+                      backgroundImage: AssetImage(widget.vegetable.imageUrl),
+                    ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 8),
                   child: Text(
-                    widget.vegetable.name,
+                    //logic for adjusting text
+                    widget.vegetable.name.contains(' ')
+                        ? "${widget.vegetable.name.split(' ')[0]}\n${widget.vegetable.name.split(' ')[1]}"
+                        : widget.vegetable.name.length > 8
+                            ? "${widget.vegetable.name.substring(0, 8)}-\n-${widget.vegetable.name.substring(8)}"
+                            : widget.vegetable.name,
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 11,
                       fontWeight: FontWeight.bold,
                       color: Colors.grey[600],
                     ),
@@ -157,7 +285,7 @@ class CartTilesState extends State<CartTiles> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(left: 15),
-                  child: Text(widget.vegetable.quantity.toString()),
+                  child: Text(widget.vegetable.dispQuantity),
                 ),
                 Expanded(
                   child: Container(),

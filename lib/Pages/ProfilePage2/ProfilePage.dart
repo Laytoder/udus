@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:frute/AppState.dart';
 import 'package:frute/widgets/MinimalPageHeading.dart';
-import 'package:frute/config/colors.dart';
+import 'EditName.dart';
+import 'EditPhone.dart';
+import 'orderPage.dart';
+import 'package:frute/Pages/homebuilder.dart';
 
 class ProfilePage extends StatefulWidget {
-  final PageController controller;
+  //final PageController controller;
   final AppState appState;
 
   ProfilePage({
-    @required this.controller,
+    //@required this.controller,
     @required this.appState,
   });
 
@@ -19,18 +21,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage>
     with TickerProviderStateMixin {
-  double curvedLength = 1.0, height, width;
-
-  AnimationController editNameController,
-      editPhoneController,
-      panelController,
-      profileController,
-      homeController;
-  Animation profileOpacity,
-      editNameOpacity,
-      editPhoneOpacity,
-      panelOpacity,
-      homeOpacity;
+  double height, width;
 
   // String state = 'profile';
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -38,51 +29,6 @@ class _ProfilePageState extends State<ProfilePage>
   @override
   void initState() {
     super.initState();
-
-    editNameController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 500),
-    );
-    editNameOpacity = Tween(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(editNameController);
-
-    editPhoneController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 500),
-    );
-    editPhoneOpacity = Tween(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(editPhoneController);
-
-    homeController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 500),
-    );
-    homeOpacity = Tween(
-      begin: 1.0,
-      end: 0.0,
-    ).animate(homeController);
-
-    panelController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 500),
-    );
-    panelOpacity = Tween(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(panelController);
-
-    profileController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 500),
-    );
-    profileOpacity = Tween(
-      begin: 1.0,
-      end: 0.0,
-    ).animate(profileController);
   }
 
   buildTrailingLogo(InfoState infoState) {
@@ -161,18 +107,68 @@ class _ProfilePageState extends State<ProfilePage>
               MinimalPageHeading(heading: "Profile"),
               buildAvatar(),
               SizedBox(height: 20),
-              buildProfileItem("Suman Kumar Saha", InfoState.edit,
-                  // label: "Name",
-                  leadingIcon: Icons.face_outlined,
-                  callback: () => print("pressed name edit")),
-              buildProfileItem("8670000098", InfoState.edit,
-                  // label: "Phone",
-                  leadingIcon: Icons.phone_android_outlined,
-                  isEditing: false),
-              buildProfileItem("Orders", InfoState.visit,
-                  leadingIcon: Icons.shopping_bag_outlined),
-              buildProfileItem("mange Addresses", InfoState.visit,
-                  leadingIcon: Icons.business_outlined)
+              buildProfileItem(
+                widget.appState.clientName, InfoState.edit,
+                // label: "Name",
+                leadingIcon: Icons.face_outlined,
+                callback: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditName(
+                        appState: widget.appState,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              buildProfileItem(
+                widget.appState.phoneNumber, InfoState.edit,
+                // label: "Phone",
+                leadingIcon: Icons.phone_android_outlined,
+                isEditing: false,
+                callback: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditPhone(
+                        appState: widget.appState,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              buildProfileItem(
+                "Orders",
+                InfoState.visit,
+                leadingIcon: Icons.shopping_bag_outlined,
+                callback: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OrderPage(
+                        appState: widget.appState,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              buildProfileItem(
+                "mange Addresses",
+                InfoState.visit,
+                leadingIcon: Icons.business_outlined,
+                callback: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomeBuilder(
+                        widget.appState,
+                        state: 'edit',
+                      ),
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ),

@@ -12,11 +12,9 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BillHistory extends StatefulWidget {
-  final PageController controller;
-  final AppState appState;
-  final SharedPreferences preferences;
+  AppState appState;
 
-  BillHistory(this.controller, this.appState, this.preferences);
+  BillHistory({this.appState});
 
   @override
   _BillHistoryState createState() => _BillHistoryState();
@@ -145,13 +143,7 @@ class _BillHistoryState extends State<BillHistory> {
                             ),
                             size: 26,
                           ),
-                          onPressed: () {
-                            widget.controller.animateToPage(
-                              1,
-                              duration: Duration(milliseconds: 1000),
-                              curve: Curves.fastLinearToSlowEaseIn,
-                            );
-                          },
+                          onPressed: () {},
                         ),
                       ],
                     )

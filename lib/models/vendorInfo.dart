@@ -15,6 +15,7 @@ class VendorInfo {
   GeoPoint coords;
   List<Vegetable> vegetables;
   HashMap<String, double> vegMap;
+  HashMap<String, String> dispPriceMap;
   double distance, eta, rating;
 
   VendorInfo({
@@ -30,6 +31,7 @@ class VendorInfo {
     this.token,
     @required this.id,
     @required this.vegMap,
+    @required this.dispPriceMap,
   });
 
   Map toJson() {

@@ -115,15 +115,15 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
     return Stack(
       children: <Widget>[
         Scaffold(
-          backgroundColor: Color(0xffE0E5EC),
+          backgroundColor: Colors.white,
           appBar: AppBar(
-            backgroundColor: Color(0xffE0E5EC),
+            backgroundColor: Colors.white,
             title: invalidState
                 ? Text(
                     'Invalid OTP',
                     style: TextStyle(
                       color: Colors.red,
-                      fontSize: (14 / 678) * height,
+                      fontSize: 14,
                       fontWeight: FontWeight.w400,
                       fontFamily: 'Ubuntu',
                     ),
@@ -131,7 +131,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
                 : Text(
                     'Enter OTP',
                     style: TextStyle(
-                      fontSize: (14 / 678) * height,
+                      fontSize: 14,
                       fontFamily: 'Ubuntu',
                       fontWeight: FontWeight.w400,
                     ),
@@ -152,7 +152,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
                   pinTheme: PinTheme(
                     shape: PinCodeFieldShape.underline,
                     fieldHeight: (50 / 678) * height,
-                    fieldWidth: (40 / 678) * height,
+                    fieldWidth: 40,
                     inactiveColor: Colors.black,
                     activeColor: Colors.black,
                     selectedColor: Colors.grey[400],
@@ -206,11 +206,11 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
                 style: TextStyle(
                   fontFamily: 'Ubuntu',
                   fontWeight: FontWeight.w400,
-                  fontSize: (14 / 678) * height,
+                  fontSize: 14,
                 ),
               ),
               SizedBox(
-                height: (15 / 678) * height,
+                height: 15,
               ),
               GestureDetector(
                 child: Text(
@@ -219,7 +219,7 @@ class _OTPPageState extends State<OTPPage> with SingleTickerProviderStateMixin {
                     color: Colors.grey[400],
                     fontFamily: 'Ubuntu',
                     fontWeight: FontWeight.w400,
-                    fontSize: (14 / 678) * height,
+                    fontSize: 14,
                   ),
                 ),
                 onTap: () {

@@ -9,6 +9,7 @@ import 'package:frute/homepage/offer_banner_view.dart';
 import 'package:frute/utils/searcher.dart';
 import 'package:frute/config/borderRadius.dart';
 import 'package:frute/config/colors.dart';
+import 'package:frute/widgets/MinimalPageHeading.dart';
 
 class HomePage2 extends StatefulWidget {
   final AppState appState;
@@ -70,152 +71,203 @@ class HomePage2State extends State<HomePage2> {
     );
   }
 
+  Widget searchBox(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: GestureDetector(
+        onTap: () async {
+          await showSearch(
+            context: context,
+            delegate: SearchItems(
+              avlVegs: widget.appState.avlVegs,
+            ),
+          );
+        },
+        child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: UdusBorderRadius.small,
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.search),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Text("Search for fruits and vegetables"),
+                )
+              ],
+            )),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         elevation: 0,
         title: buildSearchLocation(),
-      ),
-      body: ListView(
-        shrinkWrap: true,
-        primary: false,
-        // physics: NeverScrollableScrollPhysics(),
+      ),*/
+      /*appBar: AppBar(
+        elevation: 0,
+        title: searchBox(context),
+      ),*/
+      body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.all(15),
-            child: OfferBannerView(),
+          SizedBox(
+            height: 40,
           ),
-          Padding(
-            padding: EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
+          searchBox(context),
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              primary: false,
+              // physics: NeverScrollableScrollPhysics(),
               children: [
-                InkWell(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: UdusBorderRadius.medium,
-                        color: UdusColors.darkColor),
-                    height: 160.0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
+                //MinimalPageHeading(heading: "Search"),
+                /*SizedBox(
+                  height: 80,
+                ),*/
+                //searchBox(context),
+                Padding(
+                  padding: EdgeInsets.all(15),
+                  child: OfferBannerView(),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      /*InkWell(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: UdusBorderRadius.medium,
+                              color: UdusColors.darkColor),
+                          height: 160.0,
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
-                              Text(
-                                'Fruits and Vegetables',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline5
-                                    .copyWith(color: Colors.white),
+                              Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      'Fruits and Vegetables',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5
+                                          .copyWith(color: Colors.white),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      'No-contact delivery available',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2
+                                          .copyWith(color: Colors.white),
+                                    )
+                                  ],
+                                ),
                               ),
-                              SizedBox(height: 5),
-                              Text(
-                                'No-contact delivery available',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    .copyWith(color: Colors.white),
+                              Spacer(),
+                              Container(
+                                height: 45.0,
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text(
+                                      'View all',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .copyWith(
+                                              color: Colors.white, fontSize: 16.0),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                      size: 18.0,
+                                    ),
+                                  ],
+                                ),
                               )
                             ],
                           ),
                         ),
-                        Spacer(),
-                        Container(
-                          height: 45.0,
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                'View all',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1
-                                    .copyWith(
-                                        color: Colors.white, fontSize: 16.0),
-                              ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: Colors.white,
-                                size: 18.0,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                        onTap: () {},
+                      ),
+                      SizedBox(height: 20),*/
+                      topPicks.length == 0
+                          ? SizedBox()
+                          : PanelView(
+                              onPressed: (vegetable) {
+                                print('in HomePage2() ${vegetable.name}');
+                                setState(() {
+                                  widget.appState.order.add(vegetable);
+                                });
+                                widget.onAddedToCart();
+                              },
+                              appState: widget.appState,
+                              heading: 'Top Picks',
+                              iconData: Icons.thumb_up_outlined,
+                              foods: topPicks,
+                            ),
+                      necessitites.length == 0
+                          ? SizedBox()
+                          : PanelView(
+                              onPressed: (vegetable) {
+                                print('in HomePage2() ${vegetable.name}');
+                                setState(() {
+                                  widget.appState.order.add(vegetable);
+                                });
+                                widget.onAddedToCart();
+                              },
+                              appState: widget.appState,
+                              heading: 'Necessities',
+                              iconData: Icons.all_inclusive_outlined,
+                              foods: necessitites,
+                            ),
+                      seasonal.length == 0
+                          ? SizedBox()
+                          : PanelView(
+                              onPressed: (vegetable) {
+                                print('in HomePage2() ${vegetable.name}');
+                                setState(() {
+                                  widget.appState.order.add(vegetable);
+                                });
+                                widget.onAddedToCart();
+                              },
+                              appState: widget.appState,
+                              heading: 'Seasonals',
+                              iconData: Icons.ac_unit_outlined,
+                              foods: seasonal,
+                              circularTabs: true,
+                            ),
+                      other.length == 0
+                          ? SizedBox()
+                          : PanelView(
+                              onPressed: (vegetable) {
+                                print('in HomePage2() ${vegetable.name}');
+                                setState(() {
+                                  widget.appState.order.add(vegetable);
+                                });
+                                widget.onAddedToCart();
+                              },
+                              appState: widget.appState,
+                              heading: 'Others',
+                              iconData: Icons.assignment_turned_in_outlined,
+                              foods: other,
+                              circularTabs: true,
+                            ),
+                    ],
                   ),
-                  onTap: () {},
                 ),
-                SizedBox(height: 20),
-                topPicks.length == 0
-                    ? SizedBox()
-                    : PanelView(
-                        onPressed: (vegetable) {
-                          print('in HomePage2() ${vegetable.name}');
-                          setState(() {
-                            widget.appState.order.add(vegetable);
-                          });
-                          widget.onAddedToCart();
-                        },
-                        appState: widget.appState,
-                        heading: 'Top Picks',
-                        iconData: Icons.thumb_up_outlined,
-                        foods: topPicks,
-                      ),
-                necessitites.length == 0
-                    ? SizedBox()
-                    : PanelView(
-                        onPressed: (vegetable) {
-                          print('in HomePage2() ${vegetable.name}');
-                          setState(() {
-                            widget.appState.order.add(vegetable);
-                          });
-                          widget.onAddedToCart();
-                        },
-                        appState: widget.appState,
-                        heading: 'Necessities',
-                        iconData: Icons.all_inclusive_outlined,
-                        foods: necessitites,
-                      ),
-                seasonal.length == 0
-                    ? SizedBox()
-                    : PanelView(
-                        onPressed: (vegetable) {
-                          print('in HomePage2() ${vegetable.name}');
-                          setState(() {
-                            widget.appState.order.add(vegetable);
-                          });
-                          widget.onAddedToCart();
-                        },
-                        appState: widget.appState,
-                        heading: 'Seasonals',
-                        iconData: Icons.ac_unit_outlined,
-                        foods: seasonal,
-                        circularTabs: true,
-                      ),
-                other.length == 0
-                    ? SizedBox()
-                    : PanelView(
-                        onPressed: (vegetable) {
-                          print('in HomePage2() ${vegetable.name}');
-                          setState(() {
-                            widget.appState.order.add(vegetable);
-                          });
-                          widget.onAddedToCart();
-                        },
-                        appState: widget.appState,
-                        heading: 'Others',
-                        iconData: Icons.assignment_turned_in_outlined,
-                        foods: other,
-                        circularTabs: true,
-                      ),
               ],
             ),
           ),

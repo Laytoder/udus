@@ -381,11 +381,11 @@ class _MapState extends State<Map> with SingleTickerProviderStateMixin {
             ),
           ),
         ),
-        BillHistory(
+        /*BillHistory(
           globalController,
           widget.appState,
           widget.appState.preferences,
-        ),
+        ),*/
       ],
     );
   }

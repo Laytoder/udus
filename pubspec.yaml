@@ -65,6 +65,7 @@ dependencies:
   numberpicker: ^1.2.1
   bi_counter_field: ^1.0.4
   font_awesome_flutter: ^8.10.0
+  badges: ^1.1.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

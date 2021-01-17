@@ -77,22 +77,22 @@ class OptimalPriceHelper {
     //print('length of _vendors ${_vendors.length}');
     for (Vegetable order in orders) {
       String orderVegName = order.name;
-      if (breaking) print('Breaking point: orderVegName:- $orderVegName');
+      //if (breaking) print('Breaking point: orderVegName:- $orderVegName');
       double leastPrice;
       VendorInfo leastPriceVendor;
       int leastPriceVendorIndex;
       for (int vendorIndex = 0; vendorIndex < _vendors.length; vendorIndex++) {
         HashMap<String, double> vegMap = _vendors[vendorIndex].vegMap;
-        if (breaking) {
+        /*if (breaking) {
           print('Breaking point: vendorIndex:- $vendorIndex');
           print('Breaking point: vegMap:- $vegMap');
-        }
+        }*/
         double price = vegMap[orderVegName];
         //if does not contain order
         if (price == null) continue;
         if (leastPrice == null) {
-          if (breaking)
-            print('Breaking point: no initialization problem for least price');
+          //if (breaking)
+          //  print('Breaking point: no initialization problem for least price');
           leastPrice = price;
           leastPriceVendor = _vendors[vendorIndex];
           leastPriceVendorIndex = vendorIndex;
@@ -104,13 +104,27 @@ class OptimalPriceHelper {
       }
       //if order is not with any vendor
       if (leastPriceVendor == null) {
-        if (breaking)
-          print('Breaking: yes the leastPriceVendor is null somehow');
+        //if (breaking)
+        //  print('Breaking: yes the leastPriceVendor is null somehow');
         return null;
       }
       selections[leastPriceVendorIndex] = true;
       tripPrice = tripPrice + (leastPrice * order.quantity);
+      //print('here ${leastPrice * order.quantity}');
+      //using a computedOrder because in more iteration of algo
+      //order data can change owing to the same reference everywhere
+      Vegetable computedOrder = Vegetable(
+        order.name,
+        imageUrl: order.imageUrl,
+        price: leastPrice * order.quantity,
+        quantity: order.quantity,
+        dispPrice: leastPriceVendor.dispPriceMap[order.name],
+        commonNames: order.commonNames,
+      );
+      computedOrder.dispQuantity = order.dispQuantity;
+      tripRoute.orderList.add(computedOrder);
       if (tripRoute.orders.containsKey(leastPriceVendor.id)) {
+        //order might be required to be changed as per vendor's format
         tripRoute.orders[leastPriceVendor.id].add(order);
       } else {
         tripRoute.orders[leastPriceVendor.id] = [];
@@ -119,12 +133,12 @@ class OptimalPriceHelper {
     }
     tripRoute.price = tripPrice;
 
-    if (breaking) print('Breaking point: Calculated Price = $tripPrice');
+    //if (breaking) print('Breaking point: Calculated Price = $tripPrice');
 
     for (bool selection in selections) {
       if (!selection) {
-        if (breaking)
-          print('Breaking point: it is the selections problem somehow');
+        //if (breaking)
+        //  print('Breaking point: it is the selections problem somehow');
         return null;
       }
     }

@@ -34,17 +34,17 @@ class GettingStarted extends StatelessWidget {
       titleTextStyle: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       descriptionPadding: EdgeInsets.fromLTRB(18.0, 0.0, 18.0, 18.0),
-      pageColor: Color(0xffE0E5EC),
+      pageColor: Colors.white,
       imagePadding: EdgeInsets.zero,
     );
 
     return IntroductionScreen(
       key: introKey,
-      globalBackgroundColor: Color(0xffE0E5EC),
+      globalBackgroundColor: Colors.white,
       pages: [
         PageViewModel(
-          title: "Call Vendors",
-          body: "Just a swipe away!",
+          title: "udus AI",
+          body: "Finds you the cheapest seller combo!",
           image: _buildImage('slide1'),
           decoration: pageDecoration,
         ),

@@ -190,11 +190,11 @@ class HoldPage extends StatelessWidget {
             ),
           ),
         ),
-        BillHistory(
-          globalController,
+        /*BillHistory(
+          //globalController,
           appState,
           preferences,
-        ),
+        ),*/
       ],
     );
   }

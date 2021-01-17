@@ -10,6 +10,7 @@ import 'package:google_directions_api/google_directions_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'AppState.dart';
 import 'tokens/googleMapsApiKey.dart';
+import 'package:frute/Pages/splashNav.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -131,10 +132,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         fontFamily: 'Ubuntu',
       ),
       navigatorKey: messagingHelper.navigatorkey,
-      home: HomeBuilder(appState),
-      /*home: SplashNav(
+      //home: HomeBuilder(appState),
+      home: SplashNav(
         appState: appState,
-      ),*/
+      ),
       /*home: HoldPage(
         appState: appState,
         eta: '10 mins',
