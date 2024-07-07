@@ -1,16 +1,17 @@
-# frute
+# Udus
 
-A new Flutter project.
+Udus is a vegetable delivery platform that streamlines navigating Indian Farmers Markets. The price of every vegetable fluctuates every single day in the Indian Markets. Using sophisticated algorithms, Udus ensures customers get the best deals daily, delivering fresh produce within 30 minutes.
 
-## Getting Started
+Archived Landing Page: [https://web.archive.org/web/20231115195350/https://www.udus.in/](https://web.archive.org/web/20231115195350/https://www.udus.in/)
 
-This project is a starting point for a Flutter application.
+## Screenshots
 
-A few resources to get you started if this is your first Flutter project:
+![udus7](https://github.com/Laytoder/udus/assets/49199047/793a5cf2-28af-475b-a283-ae61cf673d4a)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+![udus9](https://github.com/Laytoder/udus/assets/49199047/8241d9cb-1ec7-46ee-a908-17d7e419efe1)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![udus6](https://github.com/Laytoder/udus/assets/49199047/34aa8896-a70c-492a-928e-88b1162e9c3f)
+
+![udus8](https://github.com/Laytoder/udus/assets/49199047/3a11b0ba-46ad-4534-9bad-916047fd8f34)
+
+![udus10](https://github.com/Laytoder/udus/assets/49199047/95feb3b0-f977-4d21-861d-091d85f5c556)
